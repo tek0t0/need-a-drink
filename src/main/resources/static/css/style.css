@@ -1,0 +1,77 @@
+.carousel-item {
+    height: 80vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.background-image-1{
+    background-image:url("../images/ab2e2d6ffdff449d9299c8d30833bc02.jpg");
+}
+
+.background-image-2{
+    background-image:url("../images/3460d04abaf34027bb81a5e30f98c197.jpg");
+}
+.background-image-3{
+    background-image:url("../images/11062b_c1e1904e78c74a0fa2a35d1e3315274c_mv2.jpg");
+}
+.background-image-4{
+    background-image:url("../images/36cba4097d3f46949621d475eaa493e3.jpg");
+}
+.background-image-5{
+    background-image:url("../images/11062b_836c2da5aa164a168a700e9ecaf2902a_mv2.jpg");
+}
+.background-image-6{
+    background-image:url("../images/e474bf0eaa264cfe8e8aabd0908ce52d.jpg");
+}
+
+.absolute-box-center{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.title-box{
+    top: 200px;
+}
+
+.title-box h1{
+    font-size: 100px;
+    color: white;
+    font-family: 'Lora', serif;
+}
+
+.search-box{
+    max-width: 300px;
+    top: 430px;
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+
+}
+
+.articles-title{
+    font-family: 'Lora', serif;
+}
+
+.card-title{
+    font-family: 'Lora', serif;
+}
