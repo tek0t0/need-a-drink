@@ -2,29 +2,37 @@ package bg.softuni.needadrink.domain.entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
 public class UserEntity extends BaseEntity{
 
 
-  private String name;
+  private String email;
+  private String fullName;
   private String password;
-  private List<UserRoleEntity> roles = new ArrayList<>();
-  private List<Cocktail> favoriteCocktails = new ArrayList<>();
+  private Set<UserRoleEntity> roles = new HashSet<>();
   private List<Cocktail> myCocktails = new ArrayList<>();
-  private Barshelf barShelf;
 
 
-
-  public String getName() {
-    return name;
+  public String getEmail() {
+    return email;
   }
 
-  @Column(nullable = false)
-  public UserEntity setName(String name) {
-    this.name = name;
+  public UserEntity setEmail(String email) {
+    this.email = email;
+    return this;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public UserEntity setFullName(String fullName) {
+    this.fullName = fullName;
     return this;
   }
 
@@ -39,32 +47,12 @@ public class UserEntity extends BaseEntity{
   }
 
   @ManyToMany(fetch = FetchType.EAGER)
-  public List<UserRoleEntity> getRoles() {
+  public Set<UserRoleEntity> getRoles() {
     return roles;
   }
 
-  public UserEntity setRoles(List<UserRoleEntity> roles) {
+  public UserEntity setRoles(Set<UserRoleEntity> roles) {
     this.roles = roles;
-    return this;
-  }
-
-  @ManyToMany
-  public List<Cocktail> getFavoriteCocktails() {
-    return favoriteCocktails;
-  }
-
-  public UserEntity setFavoriteCocktails(List<Cocktail> favoriteCocktails) {
-    this.favoriteCocktails = favoriteCocktails;
-    return this;
-  }
-
-  @OneToOne
-  public Barshelf getBarShelf() {
-    return barShelf;
-  }
-
-  public UserEntity setBarShelf(Barshelf barshelf) {
-    this.barShelf = barshelf;
     return this;
   }
 

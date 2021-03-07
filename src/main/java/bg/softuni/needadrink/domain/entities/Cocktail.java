@@ -3,7 +3,6 @@ package bg.softuni.needadrink.domain.entities;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +14,7 @@ public class Cocktail extends BaseEntity {
     private String videoUrl;
     private int likes;
     private List<Ingredient> ingredients;
-    private List<UserEntity> likers;
+    private List<UserEntity> likedBy;
 
     public Cocktail() {
     }
@@ -76,12 +75,12 @@ public class Cocktail extends BaseEntity {
     }
 
     @ManyToMany
-    public List<UserEntity> getLikers() {
-        return likers;
+    public List<UserEntity> getLikedBy() {
+        return likedBy;
     }
 
-    public Cocktail setLikers(List<UserEntity> likers) {
-        this.likers = likers;
+    public Cocktail setLikedBy(List<UserEntity> likers) {
+        this.likedBy = likers;
         return this;
     }
 }

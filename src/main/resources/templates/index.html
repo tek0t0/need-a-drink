@@ -10,68 +10,72 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/demo.css">
-    <link rel="stylesheet" href="../static/css/reset-css.css">
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/demo.css">
+    <link rel="stylesheet" href="/css/reset-css.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/fonts/fontawesome-free-5.14.0-web/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap" rel="stylesheet">
 
 
 </head>
 <body>
-<div class="bg-dark sticky-top">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
-        <a class="navbar-brand" href="#">Need A Drink?</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Articles</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Cocktails</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Bar Shelf</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add Article</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add Cocktail</a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Log-In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</div>
 <header>
+    <div class="bg-dark fixed-top">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
+            <a class="navbar-brand" href="#">Need A Drink?</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cocktails</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bar Shelf</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Add Article</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Add Cocktail</a>
+                    </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Log-In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</header>
+
+<main>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-pause="false"
          data-interval="3000">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
-        </ol>
+<!--        <ol class="carousel-indicators">-->
+<!--            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>-->
+<!--            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
+<!--            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
+<!--            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>-->
+<!--            <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>-->
+<!--            <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>-->
+<!--        </ol>-->
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active background-image-1">
             </div>
@@ -88,56 +92,14 @@
         </div>
     </div>
     <div class="title-box absolute-box-center">
-        <h1>Need A Drink</h1>
+        <h1>Need A Drink?</h1>
     </div>
-    <div class="search-box absolute-box-center">
-        <div class="form-group has-search">
-            <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control" placeholder="Search">
-        </div>
-    </div>
-</header>
-
-<main>
-    <div class="container">
-        <h2 class="articles-title mt-5 mb-5">
-            Articles
-        </h2>
-        <div class="card-deck">
-            <div class="card">
-                <img class="card-img-top" src="../static/images/article_pic1.webp" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="../static/images/article_pic1.webp" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="../static/images/article_pic1.webp" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-        </div>
-        <div class="text-center">
-            <button class="btn btn-secondary mt-2 mb-2">See All Articles</button>
-        </div>
+    <div class="absolute-box-center desc-box">
+        <h1>Welcome to Need A Drink?</h1>
+        <h3><a class="text-primary" th:href="@{/users/login}">Login</a> if you have an
+            account.</h3>
+        <h3><a class="text-primary" th:href="@{/users/register}">Register</a> if you
+            don't.</h3>
     </div>
 </main>
 

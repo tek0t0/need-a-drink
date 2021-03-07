@@ -1,5 +1,7 @@
+
+
 .carousel-item {
-    height: 80vh;
+    height: 95vh;
     min-height: 350px;
     background: no-repeat center center scroll;
     -webkit-background-size: cover;
@@ -35,10 +37,11 @@
     left: 0;
     right: 0;
     text-align: center;
+
 }
 
 .title-box{
-    top: 200px;
+    top: 20vh;
 }
 
 .title-box h1{
@@ -47,31 +50,28 @@
     font-family: 'Lora', serif;
 }
 
-.search-box{
-    max-width: 300px;
-    top: 430px;
+.desc-box {
+    top: 60vh;
+    color: white;
 }
 
-.has-search .form-control {
-    padding-left: 2.375rem;
+.text-blue{
+    color: #005cbf;
 }
 
-.has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
+.text-primary{
+    color:#0275d8!important;
+    cursor: pointer;
+
+}
+a.text-primary:focus,a.text-primary:hover{
+    color:#025aa5;
+    text-decoration: underline;
+    cursor: pointer;
 
 }
 
-.articles-title{
-    font-family: 'Lora', serif;
-}
 
-.card-title{
-    font-family: 'Lora', serif;
-}
+
+
+
