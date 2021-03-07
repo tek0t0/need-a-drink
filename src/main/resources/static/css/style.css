@@ -1,11 +1,26 @@
+.body_wrapper{
+    display: grid;
+    grid-auto-rows: auto 1fr auto;
+    height: 100vh;
+}
+
+
 .carousel-item {
     height: 95vh;
     min-height: 350px;
     background: no-repeat center center scroll;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+    /*-webkit-background-size: cover;*/
+    /*-moz-background-size: cover;*/
+    /*-o-background-size: cover;*/
     background-size: cover;
+}
+
+.hero-image {
+    background-color: black; /* Used if the image is unavailable */
+    height: 100%; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
 }
 
 .background-image-1{
@@ -71,6 +86,10 @@ a.text-primary:focus,a.text-primary:hover{
 
 .footer-box{
     height: 5vh;
+}
+
+.register-form-wrapper{
+    max-width: 300px;
 }
 
 
