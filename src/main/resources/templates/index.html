@@ -1,81 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeedADrink?</title>
-    <link rel="icon" th:href="${favicon}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/demo.css">
-    <link rel="stylesheet" href="/css/reset-css.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/fonts/fontawesome-free-5.14.0-web/css/all.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap" rel="stylesheet">
-
-
+<head th:include="fragments/fragment::head">
 </head>
 <body>
 
-<header>
-    <div class="bg-dark fixed-top">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
-            <a class="navbar-brand" href="#">Need A Drink?</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cocktails</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Bar Shelf</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Add Article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Add Cocktail</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Log-In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-
-</header>
+<header th:include="fragments/fragment::nav-bar"></header>
 
 <main>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-pause="false"
          data-interval="3000">
-<!--        <ol class="carousel-indicators">-->
-<!--            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>-->
-<!--            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
-<!--            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
-<!--            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>-->
-<!--            <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>-->
-<!--            <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>-->
-<!--        </ol>-->
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active background-image-1">
             </div>
@@ -102,13 +35,6 @@
             don't.</h3>
     </div>
 </main>
-
-<footer>
-    <div class="text-white bg-dark text-hero p-2 text-center">© CopyRight Need A Drink. All rights
-        reserved.
-    </div>
-</footer>
-
-
+<footer th:include="fragments/fragment::footer"></footer>
 </body>
 </html>
