@@ -1,5 +1,6 @@
 package bg.softuni.needadrink.domain.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,7 +11,6 @@ import java.time.LocalDateTime;
 public class Article extends BaseEntity{
     private String title;
     private UserEntity author;
-    private int liked;
     private String coverImgUrl;
     private LocalDateTime addedOn;
     private String description;
@@ -19,6 +19,7 @@ public class Article extends BaseEntity{
     public Article() {
     }
 
+    @Column(name = "title", nullable = false, unique = true)
     public String getTitle() {
         return title;
     }
@@ -38,15 +39,7 @@ public class Article extends BaseEntity{
         return this;
     }
 
-    public int getLiked() {
-        return liked;
-    }
-
-    public Article setLiked(int liked) {
-        this.liked = liked;
-        return this;
-    }
-
+    @Column(name = "img_url")
     public String getCoverImgUrl() {
         return coverImgUrl;
     }
@@ -56,6 +49,8 @@ public class Article extends BaseEntity{
         return this;
     }
 
+
+    @Column(name = "added_on")
     public LocalDateTime getAddedOn() {
         return addedOn;
     }
@@ -65,6 +60,7 @@ public class Article extends BaseEntity{
         return this;
     }
 
+    @Column(name = "description", nullable = false)
     public String getDescription() {
         return description;
     }
@@ -74,6 +70,7 @@ public class Article extends BaseEntity{
         return this;
     }
 
+    @Column(name = "content",columnDefinition = "TEXT")
     public String getContent() {
         return content;
     }

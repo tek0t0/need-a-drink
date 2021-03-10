@@ -47,10 +47,10 @@
                         <a class="nav-link" th:href="@{/articles/all}">Articles</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <a class="nav-link" th:href="@{/cocktail/all}">All Cocktails</a>
+                        <a class="nav-link" th:href="@{/cocktails/all}">All Cocktails</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <a class="nav-link" th:href="@{/cocktail/my}">My Cocktails</a>
+                        <a class="nav-link" th:href="@{/cocktails/my}">My Cocktails</a>
                     </li>
 
                     <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">

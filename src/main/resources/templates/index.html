@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="fragments/fragment::head">
-</head>
-<body>
+<head th:include="fragments/fragment::head"></head>
+
+<body class="body_wrapper">
 
 <header th:include="fragments/fragment::nav-bar"></header>
 
 <main>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-pause="false"
+    <div id="carouselExampleIndicators" class="carousel h-100 slide" data-ride="carousel" data-pause="false"
          data-interval="3000">
-        <div class="carousel-inner" role="listbox">
+        <div class="carousel-inner h-100" role="listbox">
             <div class="carousel-item active background-image-1">
             </div>
             <div class="carousel-item background-image-2">
@@ -29,9 +29,9 @@
     </div>
     <div class="absolute-box-center desc-box">
         <h1>Welcome to Need A Drink?</h1>
-        <h3><a class="text-primary" th:href="@{/users/login}">Login</a> if you have an
+        <h3><a class="text-primary" th:href="@{/user/login}">Login</a> if you have an
             account.</h3>
-        <h3><a class="text-primary" th:href="@{/users/register}">Register</a> if you
+        <h3><a class="text-primary" th:href="@{/user/register}">Register</a> if you
             don't.</h3>
     </div>
 </main>

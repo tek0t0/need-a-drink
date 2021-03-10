@@ -1,7 +1,6 @@
 package bg.softuni.needadrink.domain.entities;
 
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

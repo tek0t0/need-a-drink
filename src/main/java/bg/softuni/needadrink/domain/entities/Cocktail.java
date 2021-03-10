@@ -11,14 +11,13 @@ public class Cocktail extends BaseEntity {
     private String name;
     private String description;
     private String imgUrl;
-    private String videoUrl;
     private int likes;
     private List<Ingredient> ingredients;
-    private List<UserEntity> likedBy;
 
     public Cocktail() {
     }
 
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -28,6 +27,7 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
+    @Column(name = "description", nullable = false)
     public String getDescription() {
         return description;
     }
@@ -37,6 +37,7 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
+    @Column(name = "img_url")
     public String getImgUrl() {
         return imgUrl;
     }
@@ -46,15 +47,7 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public Cocktail setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-        return this;
-    }
-
+    @Column(name = "likes", nullable = false)
     public int getLikes() {
         return likes;
     }
@@ -71,16 +64,6 @@ public class Cocktail extends BaseEntity {
 
     public Cocktail setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-        return this;
-    }
-
-    @ManyToMany
-    public List<UserEntity> getLikedBy() {
-        return likedBy;
-    }
-
-    public Cocktail setLikedBy(List<UserEntity> likers) {
-        this.likedBy = likers;
         return this;
     }
 }
