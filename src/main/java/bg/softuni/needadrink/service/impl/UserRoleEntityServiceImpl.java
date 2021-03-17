@@ -17,9 +17,11 @@ public class UserRoleEntityServiceImpl implements UserRoleEntityService {
 
     @Override
     public void initRoles() {
-        UserRoleEnum[] rolesNames = UserRoleEnum.values();
-        for (UserRoleEnum role : rolesNames) {
-            userRoleRepository.save(new UserRoleEntity(role));
+        if(userRoleRepository.count() == 0) {
+            UserRoleEnum[] rolesNames = UserRoleEnum.values();
+            for (UserRoleEnum role : rolesNames) {
+                userRoleRepository.save(new UserRoleEntity(role));
+            }
         }
     }
 }

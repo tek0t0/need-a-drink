@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/demo.css">
     <link rel="stylesheet" href="/css/reset-css.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/fonts/fontawesome-free-5.14.0-web/css/all.css">
+    <link rel="stylesheet" href="/fonts/fontawesome-free-5.14.0-web/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -68,9 +68,7 @@
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <form th:action="@{/logout}" method="POST">
-                            <button type="submit" class="nav-link">
-                                Logout
-                            </button>
+                            <button type="submit" class="nav-link">Logout</button>
                         </form>
                     </li>
                 </ul>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DBInit implements CommandLineRunner {
 
-    private final UserRoleEntityService userRoleEntityService;
+  private final UserRoleEntityService userRoleEntityService;
 
     public DBInit(UserRoleEntityService userRoleEntityService) {
         this.userRoleEntityService = userRoleEntityService;
