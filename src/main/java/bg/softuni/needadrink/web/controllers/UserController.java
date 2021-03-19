@@ -67,13 +67,10 @@ public class UserController {
         return "/home";
     }
 
-
-
     @PostMapping("/login-error")
     public String failedLogin(@ModelAttribute("email")
                                       String email,
                               RedirectAttributes attributes) {
-
         attributes.addFlashAttribute("bad_credentials", true);
         attributes.addFlashAttribute("email", email);
 

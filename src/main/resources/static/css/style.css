@@ -96,6 +96,16 @@ a.text-primary:focus,a.text-primary:hover{
     border: none;
 }
 
+.search-box_wrapper{
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#search-addon{
+    background: none;
+    font-size: larger;
+    color: white;
+}
 
 
 

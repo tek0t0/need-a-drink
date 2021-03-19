@@ -4,12 +4,18 @@
 <body class="body_wrapper">
 <header th:include="fragments/fragment::nav-bar"></header>
 <main class="background-image-6 hero-image">
-    <div >
-        <h2>
-            My Cocktails
-        </h2>
+    <div class="search-box_wrapper">
+        <div>
+            <h2 class="search-box_wrapper_text">
+                What do you need to drink?
+            </h2>
+        </div>
         <div >
-
+            <div class="input-group rounded">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                       aria-describedby="search-addon"/>
+                <span class="input-group-text border-1" id="search-addon"><i class="fas fa-search"></i></span>
+            </div>
         </div>
     </div>
 </main>
