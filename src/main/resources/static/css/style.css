@@ -91,6 +91,11 @@ a.text-primary:focus,a.text-primary:hover{
     max-width: 300px;
 }
 
+.logout-btn{
+    background: transparent;
+    border: none;
+}
+
 
 
 

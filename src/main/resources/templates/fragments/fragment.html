@@ -14,14 +14,13 @@
     <link rel="stylesheet" href="/css/demo.css">
     <link rel="stylesheet" href="/css/reset-css.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/fonts/fontawesome-free-5.14.0-web/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 <header th:fragment="nav-bar">
     <div class="bg-dark">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark container">
-            <a class="navbar-brand" href="/">Need A Drink?</a>
+            <a class="navbar-brand" th:href="@{/home}">Need A Drink?</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -60,15 +59,15 @@
                         <a class="nav-link" th:href="@{cocktails/add}">Add Cocktail</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/users/login}">Log-In</a>
+                    <li sec:authorize="!isAuthenticated()" class="nav-item">
+                        <a class="nav-link" th:href="@{/users/login}">Log-In</a>
                     </li>
-                    <li class="nav-item">
-                        <a sec:authorize="!isAuthenticated()" class="nav-link" th:href="@{/users/register}">Register</a>
+                    <li sec:authorize="!isAuthenticated()" class="nav-item">
+                        <a class="nav-link" th:href="@{/users/register}">Register</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <form th:action="@{/logout}" method="POST">
-                            <button type="submit" class="nav-link">Logout</button>
+                            <button type="submit" class="nav-link logout-btn">Logout</button>
                         </form>
                     </li>
                 </ul>

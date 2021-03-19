@@ -6,4 +6,6 @@ public interface UserService {
     boolean emailExists(String email);
 
     void registerAndLoginUser(UserRegisterServiceModel registerServiceModel);
+
+    void initAdminUser();
 }

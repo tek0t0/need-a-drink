@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragment::head"></head>
+<body>
+<div class="container-fluid">
+    <header th:replace="fragments/fragment::nav-bar">
+
+    </header>
+    <main class="mt-5">
+        <div>
+            <hr class="bg-hero hr-2"/>
+            <h1 style="font-size: 50px" class="text-center font-weight-bold text-black">Something`s wrong!!!</h1>
+<!--            <div class="text-center">-->
+<!--                <h3 th:utext="${message}" style="font-size: 25px; color: red;"></h3>-->
+<!--            </div>-->
+        </div>
+    </main>
+    <footer th:replace="fragments/fragment::footer"></footer>
+</div>
+</body>
+</html>

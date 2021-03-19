@@ -15,21 +15,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
-    private final NeedADrinkDBUserService needADrinkDBUserService;
+    private final NeedADrinkUserService needADrinkUserService;
 
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkDBUserService needADrinkDBUserService) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
-        this.needADrinkDBUserService = needADrinkDBUserService;
+        this.needADrinkUserService = needADrinkUserService;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         newUser = userRepository.save(newUser);
 
-        UserDetails principal = needADrinkDBUserService.loadUserByUsername(newUser.getEmail());
+        UserDetails principal = needADrinkUserService.loadUserByUsername(newUser.getEmail());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 principal,
@@ -58,5 +60,22 @@ public class UserServiceImpl implements UserService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    @Override
+    public void initAdminUser() {
+        //TODO handle exceptions
+        UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow();
+        UserRoleEntity adminRole = userRoleRepository.findByName(UserRoleEnum.ADMIN).orElseThrow();
+
+        UserEntity adminUser = new UserEntity();
+        adminUser
+                .addRole(userRole)
+                .addRole(adminRole)
+                .setEmail("admin@abv.bg")
+                .setFullName("admin adminov")
+                .setPassword(passwordEncoder.encode("12345"))
+                .setMyCocktails(new ArrayList<>());
+        this.userRepository.saveAndFlush(adminUser);
     }
 }

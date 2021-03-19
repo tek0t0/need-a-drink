@@ -14,18 +14,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class NeedADrinkDBUserService implements UserDetailsService {
+public class NeedADrinkUserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public NeedADrinkDBUserService(UserRepository userRepository) {
+    public NeedADrinkUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        bg.softuni.needadrink.domain.entities.UserEntity userEntity = (UserEntity) userRepository.
-                findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " was not found!"));
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " was not found!"));
+
 
         return mapToUserDetails(userEntity);
     }
