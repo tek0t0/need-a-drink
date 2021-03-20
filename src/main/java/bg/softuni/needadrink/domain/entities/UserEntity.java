@@ -3,6 +3,7 @@ package bg.softuni.needadrink.domain.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,6 +17,7 @@ public class UserEntity extends BaseEntity{
   private String email;
   private String fullName;
   private String password;
+  private LocalDate birthDate;
   private String imgUrl;
   private Set<UserRoleEntity> roles = new HashSet<>();
   private List<Cocktail> myCocktails = new ArrayList<>();
@@ -50,6 +52,16 @@ public class UserEntity extends BaseEntity{
 
   public UserEntity setPassword(String password) {
     this.password = password;
+    return this;
+  }
+
+  @Column(name = "birth_date", nullable = false)
+  public LocalDate getBirthDate() {
+    return birthDate;
+  }
+
+  public UserEntity setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
     return this;
   }
 

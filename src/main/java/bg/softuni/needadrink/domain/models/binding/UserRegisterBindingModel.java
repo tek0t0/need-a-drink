@@ -1,10 +1,13 @@
 package bg.softuni.needadrink.domain.models.binding;
 
 import bg.softuni.needadrink.domain.validators.FieldMatch;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 
 @FieldMatch(first = "password", second = "confirmPassword")
@@ -12,6 +15,7 @@ public class UserRegisterBindingModel {
     private String email;
     private String fullName;
     private String password;
+    private LocalDate birthDate;
     private String confirmPassword;
 
     @NotBlank
@@ -33,6 +37,18 @@ public class UserRegisterBindingModel {
 
     public UserRegisterBindingModel setFullName(String fullName) {
         this.fullName = fullName;
+        return this;
+    }
+
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Past
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public UserRegisterBindingModel setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
         return this;
     }
 

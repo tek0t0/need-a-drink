@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Service
@@ -75,6 +76,8 @@ public class UserServiceImpl implements UserService {
                 .setEmail("admin@abv.bg")
                 .setFullName("admin adminov")
                 .setPassword(passwordEncoder.encode("12345"))
+                .setBirthDate(LocalDate.of(1983,11,5))
+                .setImgUrl("/static/images/default-user-img.jpg")
                 .setMyCocktails(new ArrayList<>());
         this.userRepository.saveAndFlush(adminUser);
     }

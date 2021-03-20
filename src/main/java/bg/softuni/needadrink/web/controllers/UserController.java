@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Controller
 @RequestMapping("/users")
@@ -38,6 +40,7 @@ public class UserController {
         if(!model.containsAttribute("userRegisterBindingModel")){
             model.addAttribute("userRegisterBindingModel", new UserRegisterBindingModel());
             model.addAttribute("emailExistsError", false);
+            model.addAttribute("invalidBirthDate", false);
         }
         return "user/register";
     }
@@ -47,6 +50,15 @@ public class UserController {
             @Valid UserRegisterBindingModel userRegisterBindingModel,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes){
+
+        LocalDate today = LocalDate.now();
+        LocalDate birthDate = userRegisterBindingModel.getBirthDate();
+
+        if(Period.between(birthDate, today).getYears() < 18){
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute("invalidBirthDate", true);
+            return "redirect:/users/register";
+        }
 
         if(bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
