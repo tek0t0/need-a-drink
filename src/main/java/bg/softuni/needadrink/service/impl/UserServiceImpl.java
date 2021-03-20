@@ -1,5 +1,4 @@
 package bg.softuni.needadrink.service.impl;
-
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
@@ -49,6 +48,7 @@ public class UserServiceImpl implements UserService {
                 () -> new IllegalStateException("USER role not found. Please seed the roles."));
 
         newUser.addRole(userRole);
+        newUser.setImgUrl("static/images/default-user-img.jpg");
 
         newUser = userRepository.save(newUser);
 

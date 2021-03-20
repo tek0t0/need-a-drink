@@ -1,71 +1,66 @@
-package bg.softuni.needadrink.domain.entities;
+package bg.softuni.needadrink.domain.models.service;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "articles")
-public class Article extends BaseEntity{
+public class ArticleServiceModel {
+    private String id;
     private String title;
     private String coverImgUrl;
     private LocalDate addedOn;
     private String description;
     private String content;
 
-    public Article() {
+    public String getId() {
+        return id;
     }
 
-    @Column(name = "title", nullable = false, unique = true)
+    public ArticleServiceModel setId(String id) {
+        this.id = id;
+        return this;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public Article setTitle(String name) {
-        this.title = name;
+    public ArticleServiceModel setTitle(String title) {
+        this.title = title;
         return this;
     }
 
-    @Column(name = "img_url")
     public String getCoverImgUrl() {
         return coverImgUrl;
     }
 
-    public Article setCoverImgUrl(String coverImgUrl) {
+    public ArticleServiceModel setCoverImgUrl(String coverImgUrl) {
         this.coverImgUrl = coverImgUrl;
         return this;
     }
 
-
-    @Column(name = "added_on")
     public LocalDate getAddedOn() {
         return addedOn;
     }
 
-    public Article setAddedOn(LocalDate addedOn) {
+    public ArticleServiceModel setAddedOn(LocalDate addedOn) {
         this.addedOn = addedOn;
         return this;
     }
 
-    @Column(name = "description", nullable = false)
     public String getDescription() {
         return description;
     }
 
-    public Article setDescription(String description) {
+    public ArticleServiceModel setDescription(String description) {
         this.description = description;
         return this;
     }
 
-    @Column(name = "content",columnDefinition = "TEXT")
     public String getContent() {
         return content;
     }
 
-    public Article setContent(String content) {
+    public ArticleServiceModel setContent(String content) {
         this.content = content;
         return this;
     }
