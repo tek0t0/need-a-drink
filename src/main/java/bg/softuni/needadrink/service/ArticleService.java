@@ -8,4 +8,6 @@ public interface ArticleService {
     void initArticles();
 
     List<ArticleServiceModel> findLatestArticles();
+
+    List<ArticleServiceModel> getAllArticles();
 }

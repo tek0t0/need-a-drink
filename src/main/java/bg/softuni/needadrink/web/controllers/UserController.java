@@ -76,7 +76,7 @@ public class UserController {
         userService.registerAndLoginUser(registerServiceModel);
 
 
-        return "/home";
+        return "redirect:/home";
     }
 
     @PostMapping("/login-error")

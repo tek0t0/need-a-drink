@@ -69,4 +69,13 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(a->modelMapper.map(a, ArticleServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ArticleServiceModel> getAllArticles() {
+        return articleRepository
+                .findAll()
+                .stream()
+                .map(a->modelMapper.map(a, ArticleServiceModel.class))
+                .collect(Collectors.toList());
+    }
 }
