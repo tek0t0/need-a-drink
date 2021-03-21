@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,9 +72,27 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleServiceModel> getAllArticles() {
         return articleRepository
-                .findAll()
+                .findAllOrderByDate()
                 .stream()
                 .map(a->modelMapper.map(a, ArticleServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean titleExists(String title) {
+        return articleRepository.findByTitle(title).isPresent();
+    }
+
+    @Override
+    public void addArticle(ArticleServiceModel articleServiceModel) {
+        Article article = modelMapper.map(articleServiceModel, Article.class);
+        article.setAddedOn(LocalDate.now());
+        if(article.getCoverImgUrl() == null){
+            article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
+        }
+
+        articleRepository.saveAndFlush(article);
+    }
+
+
 }

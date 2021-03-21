@@ -10,4 +10,8 @@ public interface ArticleService {
     List<ArticleServiceModel> findLatestArticles();
 
     List<ArticleServiceModel> getAllArticles();
+
+    boolean titleExists(String title);
+
+    void addArticle(ArticleServiceModel articleServiceModel);
 }

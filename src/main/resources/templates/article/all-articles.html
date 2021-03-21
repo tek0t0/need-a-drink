@@ -6,8 +6,8 @@
 <header th:replace="fragments/fragment::nav-bar"></header>
 <main class="background-image-2 hero-image">
     <h2 class="text-center text-white m-5">All Articles</h2>
-    <div sec:authorize="isAuthenticated()" class="card-group container d-flex flex-wrap" id="article_container">
-        <div class="card m-3 rounded" th:each="a: ${allArticles}" th:object="${a}">
+    <div sec:authorize="isAuthenticated()" class="card-group container d-flex flex-wrap justify-content-around" id="article_container">
+        <div class="card m-3 rounded" th:each="a: ${allArticles}" th:object="${a}" id="card">
             <div>
                 <img th:src="*{coverImgUrl}" class="card-img-top" alt="cocktail">
                 <div class="card-body">
@@ -17,7 +17,7 @@
                         <div><p th:text="*{addedOn}" class="card-text"><small class="text-muted"></small></p></div>
                         <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/edit/{id} (id=*{id})}"  >Edit</a></div>
                         <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/delete/{id} (id=*{id})}" >Delete</a></div>
-                        <div class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/details/{id}}">More info</a></div>
+                        <div class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/details/{id}}" class="font-weight-bolder text-dark">Learn More</a></div>
                     </div>
                 </div>
             </div>

@@ -114,6 +114,11 @@ a.text-primary:focus,a.text-primary:hover{
     }
 }
 
+#card{
+    min-width: 330px;!important;
+    max-width: 350px;
+}
+
 
 
 

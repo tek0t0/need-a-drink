@@ -40,7 +40,7 @@ public class Article extends BaseEntity{
     }
 
 
-    @Column(name = "added_on")
+    @Column(name = "added_on", nullable = false)
     public LocalDate getAddedOn() {
         return addedOn;
     }
@@ -60,7 +60,7 @@ public class Article extends BaseEntity{
         return this;
     }
 
-    @Column(name = "content",columnDefinition = "TEXT")
+    @Column(name = "content",columnDefinition = "TEXT", nullable = false)
     public String getContent() {
         return content;
     }

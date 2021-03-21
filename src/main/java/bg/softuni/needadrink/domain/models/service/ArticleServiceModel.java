@@ -1,7 +1,6 @@
 package bg.softuni.needadrink.domain.models.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ArticleServiceModel {
     private String id;
