@@ -14,4 +14,7 @@ public interface ArticleService {
     boolean titleExists(String title);
 
     void addArticle(ArticleServiceModel articleServiceModel);
+
+
+    ArticleServiceModel findArticleById(String id);
 }

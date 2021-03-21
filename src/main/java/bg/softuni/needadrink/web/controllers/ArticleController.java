@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -65,5 +66,11 @@ public class ArticleController {
         articleService.addArticle(articleServiceModel);
 
         return "redirect:/articles/all";
+    }
+
+    @GetMapping("/details/{id}")
+    public String articleDetails(@PathVariable String id, Model model){
+        model.addAttribute("article", this.articleService.findArticleById(id));
+        return "article/details-article";
     }
 }

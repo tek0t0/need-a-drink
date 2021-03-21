@@ -2,6 +2,8 @@ package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.Article;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
+import bg.softuni.needadrink.error.ArticleNotFoundException;
+import bg.softuni.needadrink.error.Constants;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
 import bg.softuni.needadrink.service.ArticleService;
 import org.modelmapper.ModelMapper;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,6 +95,15 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         articleRepository.saveAndFlush(article);
+    }
+
+    @Override
+    public ArticleServiceModel findArticleById(String id) {
+        return this.articleRepository.findById(id)
+                .map(a->modelMapper.map(a,ArticleServiceModel.class))
+                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+
+
     }
 
 

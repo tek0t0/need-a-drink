@@ -33,7 +33,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/statistics">Statistics</a>
-                    <a class="dropdown-item" href="/articles/add">Add article</a>
+                    <a class="dropdown-item" th:href="@{/articles/add}">Add article</a>
                     <a class="dropdown-item" href="/ingredients/add">Add ingredient</a>
                 </div>
             </div>
@@ -53,9 +53,6 @@
                         <a class="nav-link" th:href="@{/cocktails/my}">My Cocktails</a>
                     </li>
 
-                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-                        <a class="nav-link" th:href="@{/articles/add}">Add Article</a>
-                    </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
                         <a class="nav-link" th:href="@{cocktails/add}">Add Cocktail</a>
                     </li>

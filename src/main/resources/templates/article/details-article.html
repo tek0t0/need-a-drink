@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragment::head"></head>
+<body class="body_wrapper">
+<header th:replace="fragments/fragment::nav-bar"></header>
+<main class="" th:object="${article}">
+    <div class="container">
+        <h2 th:text="*{title}" class="text-dark text-center m-5"></h2>
+        <div ><img th:src="*{coverImgUrl}" class="img-fluid rounded w-50 mx-auto d-block"></div>
+        <h3 th:text="*{description}" class="mt-5 mb-5"></h3>
+        <p th:text="*{content}" class="container p-0"></p>
+       <div class="d-flex justify-content-between">
+           <div><p th:text="*{addedOn}" class="card-text"><small class="text-muted"></small></p></div>
+           <div class="d-flex">
+               <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/edit/{id} (id=*{id})}"  >Edit</a></div>
+               <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/delete/{id} (id=*{id})}" >Delete</a></div>
+           </div>
+       </div>
+    </div>
+</main>
+<footer th:replace="fragments/fragment::footer"></footer>
+</body>
+</html>
