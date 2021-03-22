@@ -56,7 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
                         "officia vero quidem, natus consequatur quae quia dolorem! Natus, accusantium.")
                 .setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
 
-        if(articleRepository.count() == 0) {
+        if (articleRepository.count() == 0) {
             articleRepository.saveAndFlush(article1);
             articleRepository.saveAndFlush(article2);
             articleRepository.saveAndFlush(article3);
@@ -68,7 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository
                 .findLatestArticles()
                 .stream()
-                .map(a->modelMapper.map(a, ArticleServiceModel.class))
+                .map(a -> modelMapper.map(a, ArticleServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -77,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository
                 .findAllOrderByDate()
                 .stream()
-                .map(a->modelMapper.map(a, ArticleServiceModel.class))
+                .map(a -> modelMapper.map(a, ArticleServiceModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +90,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void addArticle(ArticleServiceModel articleServiceModel) {
         Article article = modelMapper.map(articleServiceModel, Article.class);
         article.setAddedOn(LocalDate.now());
-        if(article.getCoverImgUrl() == null){
+        if (article.getCoverImgUrl() == null) {
             article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
         }
 
@@ -100,11 +100,34 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleServiceModel findArticleById(String id) {
         return this.articleRepository.findById(id)
-                .map(a->modelMapper.map(a,ArticleServiceModel.class))
+                .map(a -> modelMapper.map(a, ArticleServiceModel.class))
                 .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
 
 
     }
+
+    @Override
+    public ArticleServiceModel editArticle(String id, ArticleServiceModel articleServiceModel) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+        article
+                .setTitle(articleServiceModel.getTitle())
+                .setDescription(articleServiceModel.getDescription())
+                .setContent(articleServiceModel.getContent());
+
+        if(articleServiceModel.getCoverImgUrl() == null){
+            article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
+        }
+
+        return this.modelMapper.map(this.articleRepository.saveAndFlush(article), ArticleServiceModel.class);
+    }
+
+
+
+
+
+
+    //TODO: Logger
 
 
 }

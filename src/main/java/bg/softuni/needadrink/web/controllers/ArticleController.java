@@ -7,10 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -73,4 +70,21 @@ public class ArticleController {
         model.addAttribute("article", this.articleService.findArticleById(id));
         return "article/details-article";
     }
+
+    @GetMapping("/edit/{id}")
+    public String articleEdit(@PathVariable String id, Model model){
+        model.addAttribute("article", this.articleService.findArticleById(id));
+        model.addAttribute("articleId", id);
+        return "article/edit-article";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String articleEditConfirm(@PathVariable String id, @ModelAttribute ArticleAddBindingModel model){
+        ArticleServiceModel serviceModel = modelMapper.map(model, ArticleServiceModel.class);
+        this.articleService.editArticle(id, serviceModel);
+
+        return  "redirect:/articles/details/"+ id;
+    }
+
+
 }
