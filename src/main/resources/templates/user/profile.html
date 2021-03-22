@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/fragment::head"></head>
+
+<body class="body_wrapper">
+<header th:include="fragments/fragment::nav-bar"></header>
+<main>
+    <div class="background-image-6 hero-image">
+        <h2 class="text-center text-white">Profile</h2>
+        <div class="mx-auto pt-3 pb-3 rounded" th:object="${userProfileViewModel}" id="profile-box">
+
+            <div class="mx-auto w-50">
+                <img th:src="*{imgUrl}" class="img-thumbnail">
+            </div>
+            <div class="d-flex justify-content-center flex-column mt-5">
+                <p class="text-white text-center">Email:</p>
+                <p th:text="*{email}" class="text-white text-center" ></p>
+            </div>
+            <div class="d-flex justify-content-center flex-column mt-2">
+                <p class="text-white text-center">Full Name</p>
+                <p th:text="*{fullName}" class="text-white text-center"></p>
+            </div>
+            <div class="button-holder d-flex justify-content-center">
+                <a th:href="@{/users/edit}" class="btn btn-dark">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:include="fragments/fragment::footer">
+
+</footer>
+
+</body>
+</html>

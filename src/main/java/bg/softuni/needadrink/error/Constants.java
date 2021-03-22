@@ -2,7 +2,7 @@ package bg.softuni.needadrink.error;
 
 public class Constants {
 
-    public final static String USERNAME_NOT_FOUND = "Username is not found";
+    public final static String EMAIL_NOT_FOUND = "Email is not found";
 
     public final static String USER_ID_NOT_FOUND = "User with this id does not exists";
 
@@ -15,5 +15,7 @@ public class Constants {
     public final static String QUOTE_NOT_FOUND = "Quote not found";
 
     public final static String ARTICLE_ID_NOT_FOUND = "Article with this id does not exists";
+
+    public final static String DEFAULT_USER_IMG_URL = "https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png";
 }
 

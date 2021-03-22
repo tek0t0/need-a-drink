@@ -2,9 +2,9 @@ package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.binding.UserRegisterBindingModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
+import bg.softuni.needadrink.domain.models.views.UserProfileViewModel;
 import bg.softuni.needadrink.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -88,4 +89,14 @@ public class UserController {
 
         return "redirect:/users/login";
     }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model){
+        model
+                .addAttribute("userProfileViewModel", this.modelMapper
+                        .map(this.userService.findUserByEmail(principal.getName()), UserProfileViewModel.class));
+        return "user/profile";
+    }
+
+
 }

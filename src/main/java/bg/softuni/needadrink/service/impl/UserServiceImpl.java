@@ -3,6 +3,8 @@ import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
+import bg.softuni.needadrink.domain.models.service.UserServiceModel;
+import bg.softuni.needadrink.error.Constants;
 import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.repositiry.UserRoleRepository;
 import bg.softuni.needadrink.service.UserService;
@@ -11,11 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -77,8 +81,14 @@ public class UserServiceImpl implements UserService {
                 .setFullName("admin adminov")
                 .setPassword(passwordEncoder.encode("12345"))
                 .setBirthDate(LocalDate.of(1983,11,5))
-                .setImgUrl("/static/images/default-user-img.jpg")
+                .setImgUrl(Constants.DEFAULT_USER_IMG_URL)
                 .setMyCocktails(new ArrayList<>());
         this.userRepository.saveAndFlush(adminUser);
+    }
+
+    @Override
+    public UserServiceModel findUserByEmail(String email) {
+        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
+        return modelMapper.map(user, UserServiceModel.class);
     }
 }

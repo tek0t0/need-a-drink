@@ -123,6 +123,11 @@ a.text-primary:focus,a.text-primary:hover{
     max-width: 350px;
 }
 
+#profile-box{
+    background-color: rgba(129, 131, 108, 0.6);
+    max-width: 300px;
+}
+
 
 
 
