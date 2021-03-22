@@ -19,4 +19,6 @@ public interface ArticleService {
     ArticleServiceModel findArticleById(String id);
 
     ArticleServiceModel editArticle(String id, ArticleServiceModel map);
+
+    void deleteById(String id);
 }

@@ -122,12 +122,15 @@ public class ArticleServiceImpl implements ArticleService {
         return this.modelMapper.map(this.articleRepository.saveAndFlush(article), ArticleServiceModel.class);
     }
 
+    @Override
+    public void deleteById(String id) {
+        Article article = this.articleRepository.findById(id).orElseThrow(()->new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+
+        this.articleRepository.delete(article);
+    }
 
 
-
-
-
-    //TODO: Logger
+    //TODO: Logger for all the methods
 
 
 }
