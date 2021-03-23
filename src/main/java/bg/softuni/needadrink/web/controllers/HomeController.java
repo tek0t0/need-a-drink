@@ -33,7 +33,7 @@ public class HomeController {
     @GetMapping("/home")
     public String home(Principal principal, Model model){
         String email = principal.getName();
-//        userService.getUser(email);
+// TODO: greet with Full Name       userService.getUser(email);
         List<ArticleServiceModel> articles = this.articleService
                 .findLatestArticles();
 

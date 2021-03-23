@@ -128,6 +128,10 @@ a.text-primary:focus,a.text-primary:hover{
     max-width: 300px;
 }
 
+.all-users-box{
+    background-color: rgba(229, 233, 202, 0.6);
+}
+
 
 
 

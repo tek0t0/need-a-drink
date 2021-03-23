@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragment::head"></head>
+<body class="body_wrapper">
+<header th:replace="fragments/fragment::nav-bar"></header>
+<main class="background-image-2 hero-image">
+    <div class="all-users-box container">
+        <h1 class="text-center text-white">All Users</h1>
+        <table class="table table-sm table-hover mx-auto" th:object="${users}">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-sm-0 text-center">#</th>
+                <th class="col-sm-2 text-center">Email</th>
+                <th class="col-sm-2 text-center">Full Name</th>
+                <th class="col-sm-1 text-center">Birth Date</th>
+                <th class="col-sm-1 text-center">Roles</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="u, iter: ${users}" th:object="${u}">
+                <tr class="row mx-auto">
+                    <th class="col-sm-0 text-center" th:utext="${iter.index + 1}"></th>
+                    <td class="col-sm-2 text-center" th:utext="*{email}"></td>
+                    <td class="col-sm-2 text-center" th:utext="*{fullName}"></td>
+                    <td class="col-sm-1 text-center" th:utext="*{birthDate}"></td>
+                    <th:block th:each="role : *{roles}">
+                        <td class="col-sm-1 text-center"
+                            th:utext="${role.getName()}">
+                        </td>
+                    </th:block>
+
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <th:block th:if="${#lists.size(u.roles) == 2}">
+                            <td class="col-md-3 text-center">
+                                <form th:action="@{/users/set-user/{id}(id=${u.id})}" method="post">
+                                    <button class="btn btn-dark btn-width">USER</button>
+                                </form>
+                            </td>
+                        </th:block>
+                    </th:block>
+
+                    <th:block th:if="${#lists.size(u.roles) == 1}">
+                        <td class="col-md-3 text-center">
+                            <form th:action="@{/users/set-admin/{id}(id=${u.id})}" method="post">
+                                <button class="btn btn-dark btn-width">ADMIN</button>
+                            </form>
+                        </td>
+                    </th:block>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="fragments/fragment::footer"></footer>
+</body>
+</html>

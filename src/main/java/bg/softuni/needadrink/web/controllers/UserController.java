@@ -2,6 +2,7 @@ package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.binding.UserEditBindingModel;
 import bg.softuni.needadrink.domain.models.binding.UserRegisterBindingModel;
+import bg.softuni.needadrink.domain.models.service.RoleServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.domain.models.views.UserProfileViewModel;
@@ -18,6 +19,11 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -127,6 +133,26 @@ public class UserController {
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
 
         return "redirect:/users/profile";
+    }
+
+    @GetMapping("/all")
+    public String allUsers(Model model){
+        List<UserServiceModel> users = this.userService.findAllUsers()
+                .stream()
+                .map(u -> {
+                    UserServiceModel serviceModel = this.modelMapper.map(u, UserServiceModel.class);
+                    List<RoleServiceModel> roles = u.getRoles();
+                    serviceModel.setRoles(roles.stream().map(r->modelMapper.map(r, RoleServiceModel.class)).collect(Collectors.toList()));
+                    return serviceModel;
+                })
+                .collect(Collectors.toList());
+
+        Map<String, List<RoleServiceModel>> userAndRoles = new HashMap<>();
+        users.forEach(u -> userAndRoles.put(u.getId(), u.getRoles()));
+
+        model.addAttribute("users", users);
+        model.addAttribute("userAndRoles", userAndRoles);
+        return "user/all-users";
     }
 
 

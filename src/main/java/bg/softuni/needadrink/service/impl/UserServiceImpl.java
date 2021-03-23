@@ -1,4 +1,5 @@
 package bg.softuni.needadrink.service.impl;
+
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
         UserEntity newUser = modelMapper.map(registerServiceModel, UserEntity.class);
         newUser.setPassword(passwordEncoder.encode(registerServiceModel.getPassword()));
 
-        UserRoleEntity userRole =  userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(
+        UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(
                 () -> new IllegalStateException("USER role not found. Please seed the roles."));
 
         newUser.addRole(userRole);
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
                 .setEmail("admin@abv.bg")
                 .setFullName("admin adminov")
                 .setPassword(passwordEncoder.encode("12345"))
-                .setBirthDate(LocalDate.of(1983,11,5))
+                .setBirthDate(LocalDate.of(1983, 11, 5))
                 .setImgUrl(Constants.DEFAULT_USER_IMG_URL)
                 .setMyCocktails(new ArrayList<>());
         this.userRepository.saveAndFlush(adminUser);
@@ -89,26 +92,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel findUserByEmail(String email) {
-        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
+        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
         return modelMapper.map(user, UserServiceModel.class);
     }
 
     @Override
     public UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword) {
         UserEntity user = this.userRepository.findByEmail(serviceModel.getEmail())
-                .orElseThrow(()-> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         if (!this.passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new IllegalArgumentException(Constants.PASSWORD_IS_INCORRECT);
         }
 
 
-        user.setPassword(!"".equals(serviceModel.getPassword()) ?
-                this.passwordEncoder.encode(serviceModel.getPassword()) :
-                user.getPassword());
-        user.setFullName(serviceModel.getFullName());
-        user.setImgUrl(serviceModel.getImgUrl());
-        user.setBirthDate(serviceModel.getBirthDate());
+        user
+                .setPassword(serviceModel.getPassword())
+                .setFullName(serviceModel.getFullName())
+                .setImgUrl(serviceModel.getImgUrl())
+                .setBirthDate(serviceModel.getBirthDate());
 
 
         //TODO:logger
@@ -120,5 +122,13 @@ public class UserServiceImpl implements UserService {
 //        this.logService.seedLogInDB(logServiceModel);
 
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+    }
+
+    @Override
+    public List<UserServiceModel> findAllUsers() {
+        return this.userRepository.findAll()
+                .stream()
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
     }
 }
