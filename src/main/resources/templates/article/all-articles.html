@@ -9,7 +9,7 @@
     <div sec:authorize="isAuthenticated()" class="card-group container d-flex flex-wrap justify-content-around" id="article_container">
         <div class="card m-3 rounded" th:each="a: ${allArticles}" th:object="${a}" id="card">
             <div>
-                <img th:src="*{coverImgUrl}" class="card-img-top" alt="cocktail">
+                <img th:src="*{coverImgUrl}" class="card-img-top p-2" alt="cocktail">
                 <div class="card-body">
                     <h4 th:text="*{title}" class="card-title">Card title</h4>
                     <p th:text="*{description}" class="card-text"></p>
