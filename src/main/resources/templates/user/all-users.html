@@ -14,7 +14,9 @@
                 <th class="col-sm-2 text-center">Email</th>
                 <th class="col-sm-2 text-center">Full Name</th>
                 <th class="col-sm-1 text-center">Birth Date</th>
-                <th class="col-sm-1 text-center">Roles</th>
+                <th class="col-sm-2 text-center">Roles</th>
+                <th class="col-sm-1 text-center">Action</th>
+                <th class="col-sm-1 text-center">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -25,28 +27,38 @@
                     <td class="col-sm-2 text-center" th:utext="*{fullName}"></td>
                     <td class="col-sm-1 text-center" th:utext="*{birthDate}"></td>
                     <th:block th:each="role : *{roles}">
-                        <td class="col-sm-1 text-center"
+                        <td th:if="${#lists.size(u.roles) == 2}" class="col-sm-1 text-center"
+                            th:utext="${role.getName()}">
+                        </td>
+                        <td th:if="${#lists.size(u.roles) == 1}" class="col-sm-2 text-center"
                             th:utext="${role.getName()}">
                         </td>
                     </th:block>
 
                     <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                         <th:block th:if="${#lists.size(u.roles) == 2}">
-                            <td class="col-md-3 text-center">
-                                <form th:action="@{/users/set-user/{id}(id=${u.id})}" method="post">
+                            <td class="col-md-1 text-center">
+                                <form th:action="@{/users/set-user/{id}(id=${u.id})}" method="POST">
                                     <button class="btn btn-dark btn-width">USER</button>
                                 </form>
                             </td>
                         </th:block>
                     </th:block>
 
+
                     <th:block th:if="${#lists.size(u.roles) == 1}">
-                        <td class="col-md-3 text-center">
-                            <form th:action="@{/users/set-admin/{id}(id=${u.id})}" method="post">
+                        <td class="col-md-1 text-center">
+                            <form th:action="@{/users/set-admin/{id}(id=${u.id})}" method="POST">
                                 <button class="btn btn-dark btn-width">ADMIN</button>
                             </form>
                         </td>
                     </th:block>
+                    <td class="col-sm-0 text-center">
+                        <form th:action="@{/users/delete/{id}(id=${u.id})}" method="POST">
+                            <button class="btn btn-dark btn-width">DELETE</button>
+                        </form>
+                    </td>
+
                 </tr>
             </th:block>
             </tbody>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -154,6 +155,29 @@ public class UserController {
         model.addAttribute("userAndRoles", userAndRoles);
         return "user/all-users";
     }
+
+
+    @PostMapping("/set-admin/{id}")
+    public String setAdminRole(@PathVariable String id) {
+        this.userService.setAsAdmin(id);
+
+        return "redirect:/users/all";
+    }
+
+    @PostMapping("/set-user/{id}")
+    public String setUserRole(@PathVariable String id) {
+        this.userService.setAsUser(id);
+
+        return "redirect:/users/all";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable String id) {
+
+        return "redirect:/users/all";
+    }
+
+
 
 
 }

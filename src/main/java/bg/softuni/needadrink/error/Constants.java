@@ -12,7 +12,7 @@ public class Constants {
 
     public final static String VIDEO_ID_NOT_FOUND = "Video with this id does not exists";
 
-    public final static String QUOTE_NOT_FOUND = "Quote not found";
+    public final static String ROLE_NOT_FOUND = "Role not found";
 
     public final static String ARTICLE_ID_NOT_FOUND = "Article with this id does not exists";
 

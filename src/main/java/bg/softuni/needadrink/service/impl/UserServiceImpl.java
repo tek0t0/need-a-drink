@@ -6,6 +6,7 @@ import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.error.Constants;
+import bg.softuni.needadrink.error.RoleNotFoundException;
 import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.repositiry.UserRoleRepository;
 import bg.softuni.needadrink.service.UserService;
@@ -19,10 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,10 +52,10 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(registerServiceModel.getPassword()));
 
         UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(
-                () -> new IllegalStateException("USER role not found. Please seed the roles."));
+                () -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND));
 
         newUser.addRole(userRole);
-        newUser.setImgUrl("static/images/default-user-img.jpg");
+        newUser.setImgUrl("/static/images/default-user-img.jpg");
 
         newUser = userRepository.save(newUser);
 
@@ -73,9 +72,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void initAdminUser() {
-        //TODO handle exceptions
-        UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow();
-        UserRoleEntity adminRole = userRoleRepository.findByName(UserRoleEnum.ADMIN).orElseThrow();
+        UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER)
+                .orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND));
+        UserRoleEntity adminRole = userRoleRepository.findByName(UserRoleEnum.ADMIN)
+                .orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND));
 
         UserEntity adminUser = new UserEntity();
         adminUser
@@ -130,5 +130,33 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setAsAdmin(String id) {
+        UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+        userEntity.getRoles().clear();
+        userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
+        userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.ADMIN).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
+
+        //TODO: Logger
+        this.userRepository.saveAndFlush(userEntity);
+
+    }
+
+    @Override
+    public void setAsUser(String id) {
+        UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+        userEntity.getRoles().clear();
+        userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
+
+        //TODO: Logger
+        this.userRepository.saveAndFlush(userEntity);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+        this.userRepository.delete(userEntity);
     }
 }

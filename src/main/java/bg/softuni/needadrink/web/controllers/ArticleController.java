@@ -103,7 +103,7 @@ public class ArticleController {
 
 
     @ExceptionHandler({ArticleNotFoundException.class})
-    public ModelAndView handleQuoteNotFound(ArticleNotFoundException e) {
+    public ModelAndView handleArticleNotFound(ArticleNotFoundException e) {
         ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("message", e.getMessage());
         modelAndView.addObject("statusCode", e.getStatus());

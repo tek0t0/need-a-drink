@@ -17,4 +17,10 @@ public interface UserService {
     UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword);
 
     List<UserServiceModel> findAllUsers();
+
+    void setAsAdmin(String id);
+
+    void setAsUser(String id);
+
+    void deleteUser(String id);
 }
