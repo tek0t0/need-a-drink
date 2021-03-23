@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -90,5 +91,34 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel findUserByEmail(String email) {
         UserEntity user = this.userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
         return modelMapper.map(user, UserServiceModel.class);
+    }
+
+    @Override
+    public UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword) {
+        UserEntity user = this.userRepository.findByEmail(serviceModel.getEmail())
+                .orElseThrow(()-> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+
+        if (!this.passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new IllegalArgumentException(Constants.PASSWORD_IS_INCORRECT);
+        }
+
+
+        user.setPassword(!"".equals(serviceModel.getPassword()) ?
+                this.passwordEncoder.encode(serviceModel.getPassword()) :
+                user.getPassword());
+        user.setFullName(serviceModel.getFullName());
+        user.setImgUrl(serviceModel.getImgUrl());
+        user.setBirthDate(serviceModel.getBirthDate());
+
+
+        //TODO:logger
+//        LogServiceModel logServiceModel = new LogServiceModel();
+//        logServiceModel.setUsername(user.getUsername());
+//        logServiceModel.setDescription("User profile edited");
+//        logServiceModel.setTime(LocalDateTime.now());
+//
+//        this.logService.seedLogInDB(logServiceModel);
+
+        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
 }

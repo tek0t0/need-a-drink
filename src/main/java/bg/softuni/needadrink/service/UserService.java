@@ -11,4 +11,6 @@ public interface UserService {
     void initAdminUser();
 
     UserServiceModel findUserByEmail(String email);
+
+    UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword);
 }

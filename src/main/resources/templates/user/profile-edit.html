@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/fragment::head"></head>
+
+<body class="body_wrapper">
+<header th:include="fragments/fragment::nav-bar"></header>
+<main>
+    <div class="background-image-6 hero-image">
+        <h2 class="text-center text-white">Edit Profile</h2>
+        <div class="mx-auto pt-3 pb-3 rounded" th:object="${userEditBindingModel}" id="profile-box">
+
+            <form class="form p-3 mx-auto" th:action="@{/users/edit}" th:method="POST">
+
+                <div class="form-group ">
+                    <label for="email" class="mb-1">Email</label>
+                    <input type="text" th:value="*{email}" class="form-control" name="email" id="email"
+                           readonly>
+                </div>
+                <div class="form-group">
+                    <label for="fullName" class="mb-1">Full Name</label>
+                    <input th:field="*{fullName}" th:errorclass="bg-danger" type="text" th:value="*{fullName}" class="form-control" id="fullName" placeholder="Full Name"
+                           name="fullName">
+                    <small th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" id="fullNAmeError"
+                           class="text-light form-text bg-danger rounded"></small>
+                </div>
+                <div class="form-group">
+                    <label for="birthDate" class="mb-1">Birth Date</label>
+                    <input th:field="*{birthDate}"
+                           th:errorclass="bg-danger"
+                           th:value="*{birthDate}"
+                           type="date" required min="1900-01-01" max="2022-01-01"
+                           class="form-control" id="birthDate"
+                           placeholder="Birth Date"
+                           name="birthDate">
+                    <small th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" id="birthDateError"
+                           class="text-light form-text bg-danger rounded"></small>
+                </div>
+                <div class="form-group">
+                    <label for="oldPassword" class="mb-1">Old Password</label>
+                    <input th:field="*{oldPassword}"
+                           th:errorclass="bg-danger"
+                           type="password"
+                           class="form-control"
+                           id="oldPassword"
+                           placeholder="Old Password"
+                           name="oldPassword"
+                           required>
+                    <small th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" id="oldPasswordError"
+                           class="text-light form-text bg-danger rounded"></small>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="mb-1">New Password</label>
+                    <input th:field="*{password}"
+                           th:errorclass="bg-danger"
+                           type="password"
+                           class="form-control"
+                           id="password"
+                           placeholder="New Password"
+                           name="password">
+                    <small th:if="${#fields.hasErrors('password')}"  th:errors="*{password}" id="passwordError"
+                           class="text-light form-text bg-danger rounded"></small>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="mb-1">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirmPassword"
+                           placeholder="Confirm New Password"
+                           name="confirmPassword">
+                    <small th:if="${confirmPassMissMatch}"
+                           class="text-light form-text bg-danger rounded">Confirm password dont match!</small>
+                </div>
+                <div class="form-group">
+                    <label for="imgUrl" class="mb-1">Image URL</label>
+                    <input type="text" th:value="*{imgUrl}" class="form-control" id="imgUrl" placeholder="Image URL..."
+                           name="imgUrl">
+                </div>
+                <div class="button-holder d-flex justify-content-center">
+                    <button type="submit" class="btn btn-dark">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<footer th:include="fragments/fragment::footer">
+
+</footer>
+
+</body>
+</html>

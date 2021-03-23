@@ -18,8 +18,12 @@
                 <p th:text="*{email}" class="text-white text-center" ></p>
             </div>
             <div class="d-flex justify-content-center flex-column mt-2">
-                <p class="text-white text-center">Full Name</p>
+                <p class="text-white text-center">Full Name:</p>
                 <p th:text="*{fullName}" class="text-white text-center"></p>
+            </div>
+            <div class="d-flex justify-content-center flex-column mt-2">
+                <p class="text-white text-center">Birth Date:</p>
+                <p th:text="*{birthDate}" class="text-white text-center"></p>
             </div>
             <div class="button-holder d-flex justify-content-center">
                 <a th:href="@{/users/edit}" class="btn btn-dark">Edit Profile</a>
