@@ -159,4 +159,10 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
         this.userRepository.delete(userEntity);
     }
+
+    @Override
+    public UserServiceModel findUserById(String id) {
+        UserEntity userEntity = this.userRepository.findById(id).orElseThrow((() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND)));
+        return modelMapper.map(userEntity, UserServiceModel.class);
+    }
 }

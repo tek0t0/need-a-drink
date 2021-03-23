@@ -8,12 +8,10 @@ import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.domain.models.views.UserProfileViewModel;
 import bg.softuni.needadrink.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -23,7 +21,6 @@ import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -172,10 +169,19 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable String id) {
+    public String deleteUser(@PathVariable String id, Model model) {
+        UserServiceModel userById = this.userService.findUserById(id);
+        model.addAttribute("userProfileViewModel", modelMapper.map(userById, UserProfileViewModel.class));
+        return "user/delete-user";
+    }
 
+    @PostMapping("/delete/{id}")
+    public String deleteUserConfirm(@PathVariable String id) {
+        this.userService.deleteUser(id);
         return "redirect:/users/all";
     }
+
+
 
 
 

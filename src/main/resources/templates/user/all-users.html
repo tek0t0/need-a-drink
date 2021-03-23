@@ -54,11 +54,8 @@
                         </td>
                     </th:block>
                     <td class="col-sm-0 text-center">
-                        <form th:action="@{/users/delete/{id}(id=${u.id})}" method="POST">
-                            <button class="btn btn-dark btn-width">DELETE</button>
-                        </form>
+                        <a th:href="@{/users/delete/{id}(id=${u.id})}" class="btn btn-dark">Delete User</a>
                     </td>
-
                 </tr>
             </th:block>
             </tbody>

@@ -23,4 +23,7 @@ public interface UserService {
     void setAsUser(String id);
 
     void deleteUser(String id);
+
+    UserServiceModel findUserById(String id);
 }
+
