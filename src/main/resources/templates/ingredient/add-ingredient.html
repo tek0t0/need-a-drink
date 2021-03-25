@@ -9,10 +9,33 @@
         <h1 class="text-center text-white py-3">Ingredients</h1>
 
         <div class="my-3 d-flex justify-content-center">
-            <form>
-                <input type="text" placeholder="Ingredient Name">
-                <input type="text" placeholder="Ingredient Image">
-                <button type="submit" class="btn btn-dark">Add Ingredient</button>
+            <form th:method="POST"
+                  th:action="@{/ingredients/add}"
+                  th:object="${ingredientBindingModel}"
+                  class="flex-column ">
+                <div class="form-group">
+                    <label for="name" class="text-white mb-1"></label>
+                    <input th:field="*{name}" th:errorclass="bg-danger" type="text" placeholder="Ingredient Name"
+                           id="name"
+                    class="form-control">
+                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="nameError"
+                           class="text-light form-text bg-danger rounded"></small>
+                    <small th:if="${nameExists}" class="text-light form-text bg-danger rounded">
+                        Product already exists!
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="imgUrl" class="text-white mb-1"></label>
+                    <input th:field="*{imgUrl}" th:errorclass="bg-danger" type="text" placeholder="Ingredient Image URL"
+                           id="imgUrl"
+                    class="form-control">
+
+                    <small th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}" id="imgUrlError"
+                           class="text-light form-text bg-danger rounded"></small>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-dark">Add Ingredient</button>
+                </div>
             </form>
         </div>
 

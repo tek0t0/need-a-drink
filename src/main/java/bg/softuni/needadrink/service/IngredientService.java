@@ -8,4 +8,8 @@ public interface IngredientService {
     void seedIngredients();
 
     List<IngredientServiceModel> getAllIngredients();
+
+    boolean nameExists(String name);
+
+    void addIngredient(IngredientServiceModel ingredientServiceModel);
 }

@@ -57,4 +57,14 @@ public class IngredientServiceImpl implements IngredientService {
                 .map(i-> this.modelMapper.map(i, IngredientServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean nameExists(String name) {
+        return ingredientRepository.getByName(name).isPresent();
+    }
+
+    @Override
+    public void addIngredient(IngredientServiceModel ingredientServiceModel) {
+        this.ingredientRepository.saveAndFlush(modelMapper.map(ingredientServiceModel, Ingredient.class));
+    }
 }

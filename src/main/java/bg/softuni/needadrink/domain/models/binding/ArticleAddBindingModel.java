@@ -1,5 +1,7 @@
 package bg.softuni.needadrink.domain.models.binding;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -12,7 +14,7 @@ public class ArticleAddBindingModel {
 
 
     @NotBlank
-    @Size(min = 3, max = 50, message = "Title must be between 3 and 50 symbols!")
+    @Length(min = 3, max = 50, message = "Title must be between 3 and 50 symbols!")
     public String getTitle() {
         return title;
     }
@@ -32,7 +34,7 @@ public class ArticleAddBindingModel {
     }
 
     @NotBlank
-    @Size(min = 5,  message = "Description must be more than 5 symbols!")
+    @Length(min = 5,  message = "Description must be more than 5 symbols!")
     public String getDescription() {
         return description;
     }
@@ -43,7 +45,7 @@ public class ArticleAddBindingModel {
     }
 
     @NotBlank
-    @Size(min = 10, message = "Content must be more than 10 symbols!")
+    @Length(min = 10, message = "Content must be more than 10 symbols!")
     public String getContent() {
         return content;
     }
