@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragment::head"></head>
+<body class="body_wrapper">
+<header th:replace="fragments/fragment::nav-bar"></header>
+<main class="background-image-2 hero-image">
+    <div class="all-users-box container">
+        <h1 class="text-center text-white py-3">Ingredients</h1>
+
+        <div class="my-3 d-flex justify-content-center">
+            <a th:href="@{/ingredients/add}" class="btn btn-dark ">Add Ingredient</a>
+        </div>
+
+        <table class="table table-sm table-hover mx-auto" th:object="${ingredients}">
+            <tbody>
+            <th:block th:each="i, iter: ${ingredients}" th:object="${i}">
+                <tr class="row mx-auto">
+                    <th class="col-sm-1 d-flex justify-content-center align-items-center">
+                        <span class="font-weight-bold" th:utext="${iter.index + 1}"></span>
+                    </th>
+                    <td class="col-sm-2 text-center">
+                        <img class="img-thumbnail" th:src="*{imgUrl}">
+                    </td>
+                    <td class="col-sm-5 d-flex justify-content-center align-items-center">
+                        <span class="font-weight-bold h3" th:utext="*{name}"></span>
+                    </td>
+                    <td class="col-sm-2 d-flex justify-content-center align-items-center">
+                        <a th:href="@{/ingredients/edit/{id}(id=${i.id})}" class="btn btn-dark">Edit</a>
+                    </td>
+                    <td class="col-sm-2 d-flex justify-content-center align-items-center">
+                        <a th:href="@{/ingredients/delete/{id}(id=${i.id})}" class="btn btn-dark">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="fragments/fragment::footer"></footer>
+</body>
+</html>
