@@ -8,10 +8,10 @@
     <div class="search-box_wrapper">
         <div>
             <h2 class="search-box_wrapper_text text-white text-center">
-               Need A Drink?
+                Need A Drink?
             </h2>
         </div>
-        <div >
+        <div>
             <div class="input-group rounded">
                 <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                        aria-describedby="search-addon"/>
@@ -23,15 +23,20 @@
     <div sec:authorize="isAuthenticated()" class="card-group container" id="article_container">
         <div class="card m-3 rounded" th:each="a: ${latestArticles}" th:object="${a}">
             <div>
-                <img th:src="*{coverImgUrl}" class="card-img-top p-2"  alt="cocktail">
+                <a th:href="@{/articles/details/{id} (id=${a.id})}">
+                    <img th:src="*{coverImgUrl}" class="card-img-top p-2" alt="cocktail">
+                </a>
                 <div class="card-body">
                     <h4 th:text="*{title}" class="card-title">Card title</h4>
                     <p th:text="*{description}" class="card-text"></p>
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <div><p th:text="*{addedOn}" class="card-text"><small class="text-muted"></small></p></div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/edit/{id} (id=*{id})}"  >Edit</a></div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/delete/{id} (id=*{id})}" >Delete</a></div>
-                        <div class="p-1 m-1 border border-dark rounded"><a th:href="@{/articles/details/{id}(id=${a.id})}">More info</a></div>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a
+                                th:href="@{/articles/edit/{id} (id=*{id})}">Edit</a></div>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a
+                                th:href="@{/articles/delete/{id} (id=*{id})}">Delete</a></div>
+                        <div class="p-1 m-1 border border-dark rounded"><a
+                                th:href="@{/articles/details/{id}(id=${a.id})}">More info</a></div>
                     </div>
                 </div>
             </div>

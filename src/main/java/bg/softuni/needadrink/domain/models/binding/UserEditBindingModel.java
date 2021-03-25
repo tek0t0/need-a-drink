@@ -1,6 +1,7 @@
 package bg.softuni.needadrink.domain.models.binding;
 
 
+import bg.softuni.needadrink.domain.validators.FieldMatch;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,8 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+
+@FieldMatch(first = "password", second = "confirmPassword")
 public class UserEditBindingModel {
 
     private String email;
@@ -73,7 +76,6 @@ public class UserEditBindingModel {
     }
 
     @NotBlank
-    @Size(min = 5, message = "Password must be 5 or more symbols!")
     public String getConfirmPassword() {
         return confirmPassword;
     }
