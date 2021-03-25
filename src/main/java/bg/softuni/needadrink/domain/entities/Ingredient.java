@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,7 +12,7 @@ import java.util.List;
 public class Ingredient extends BaseEntity{
     private String name;
     private String imgUrl;
-    private List<Cocktail> usedIn;
+    private List<Cocktail> usedIn = new ArrayList<>();
 
     public Ingredient() {
     }
