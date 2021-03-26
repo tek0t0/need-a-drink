@@ -12,4 +12,8 @@ public interface IngredientService {
     boolean nameExists(String name);
 
     void addIngredient(IngredientServiceModel ingredientServiceModel);
+
+    IngredientServiceModel findIngredientById(String id);
+
+    void editIngredient(IngredientServiceModel ingredientServiceModel);
 }

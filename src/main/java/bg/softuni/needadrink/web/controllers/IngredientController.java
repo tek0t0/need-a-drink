@@ -8,9 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -38,9 +36,9 @@ public class IngredientController {
     }
 
     @GetMapping("/add")
-    public String add(Model model){
+    public String add(Model model) {
         List<IngredientServiceModel> allIngredients = ingredientService.getAllIngredients();
-        if(!model.containsAttribute("ingredientBindingModel")){
+        if (!model.containsAttribute("ingredientBindingModel")) {
             model.addAttribute("ingredientBindingModel", new IngredientBindingModel());
             model.addAttribute("nameExists", false);
 
@@ -55,21 +53,21 @@ public class IngredientController {
     @PostMapping("/add")
     public String addConfirm(@Valid IngredientBindingModel ingredientBindingModel,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes){
+                             RedirectAttributes redirectAttributes) {
 
         List<IngredientServiceModel> allIngredients = ingredientService.getAllIngredients();
-        redirectAttributes.addFlashAttribute("allIngredients",allIngredients);
+        redirectAttributes.addFlashAttribute("allIngredients", allIngredients);
 
-        if(bindingResult.hasErrors()){
-            redirectAttributes.addFlashAttribute("ingredientBindingModel",ingredientBindingModel);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("ingredientBindingModel", ingredientBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.ingredientBindingModel", bindingResult);
 
             return "redirect:/ingredients/add";
         }
 
-        if(ingredientService.nameExists(ingredientBindingModel.getName())){
-            redirectAttributes.addFlashAttribute("ingredientBindingModel",ingredientBindingModel);
-            redirectAttributes.addFlashAttribute("nameExists",true);
+        if (ingredientService.nameExists(ingredientBindingModel.getName())) {
+            redirectAttributes.addFlashAttribute("ingredientBindingModel", ingredientBindingModel);
+            redirectAttributes.addFlashAttribute("nameExists", true);
 
             return "redirect:/ingredients/add";
         }
@@ -77,5 +75,43 @@ public class IngredientController {
         IngredientServiceModel ingredientServiceModel = modelMapper.map(ingredientBindingModel, IngredientServiceModel.class);
         ingredientService.addIngredient(ingredientServiceModel);
         return "redirect:/ingredients/all";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String ingredientEdit(@PathVariable String id, Model model) {
+        model.addAttribute("ingredientBindingModel", this.ingredientService.findIngredientById(id));
+        model.addAttribute("ingredientId", id);
+        model.addAttribute("nameExists", false);
+
+        return "ingredient/edit-ingredient";
+    }
+
+
+    //TODO: fix bug when editing img Url!
+    @PostMapping("/edit")
+    public String ingredientEditConfirm(
+            @Valid IngredientBindingModel ingredientBindingModel,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("ingredientBindingModel", ingredientBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.ingredientBindingModel", bindingResult);
+
+            return "ingredient/edit-ingredient";
+        }
+
+        if (ingredientService.nameExists(ingredientBindingModel.getName())) {
+            redirectAttributes.addFlashAttribute("ingredientBindingModel", ingredientBindingModel);
+            redirectAttributes.addFlashAttribute("nameExists", true);
+
+            return "ingredient/edit-ingredient";
+        }
+
+        IngredientServiceModel ingredientServiceModel = modelMapper.map(ingredientBindingModel, IngredientServiceModel.class);
+        this.ingredientService.editIngredient(ingredientServiceModel);
+        return "redirect:/ingredients/all";
+
+
     }
 }

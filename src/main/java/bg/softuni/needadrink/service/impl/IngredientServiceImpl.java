@@ -4,6 +4,7 @@ import bg.softuni.needadrink.domain.entities.Ingredient;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.error.Constants;
+import bg.softuni.needadrink.error.IngredientNotFoundException;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
 import bg.softuni.needadrink.service.IngredientService;
 import com.google.gson.Gson;
@@ -66,5 +67,22 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public void addIngredient(IngredientServiceModel ingredientServiceModel) {
         this.ingredientRepository.saveAndFlush(modelMapper.map(ingredientServiceModel, Ingredient.class));
+    }
+
+    @Override
+    public IngredientServiceModel findIngredientById(String id) {
+        Ingredient ingredient = this.ingredientRepository.findById(id)
+                .orElseThrow(()->new IngredientNotFoundException(Constants.INGREDIENT_NOT_FOUND));
+        return modelMapper.map(ingredient, IngredientServiceModel.class);
+    }
+
+    @Override
+    public void editIngredient(IngredientServiceModel ingredientServiceModel) {
+        Ingredient ingredient = this.ingredientRepository.findById(ingredientServiceModel.getId())
+                .orElseThrow(()->new IngredientNotFoundException(Constants.INGREDIENT_ID_NOT_FOUND));
+        ingredient
+                .setName(ingredientServiceModel.getName())
+                .setImgUrl(ingredientServiceModel.getImgUrl());
+        this.ingredientRepository.saveAndFlush(ingredient);
     }
 }

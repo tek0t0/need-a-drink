@@ -81,8 +81,9 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/{id}")
-    public String articleEditConfirm(@PathVariable String id, @ModelAttribute ArticleAddBindingModel model) {
-        ArticleServiceModel serviceModel = modelMapper.map(model, ArticleServiceModel.class);
+    public String articleEditConfirm(@PathVariable String id, @ModelAttribute ArticleAddBindingModel articleAddBindingModel) {
+        //TODO:Add validation
+        ArticleServiceModel serviceModel = modelMapper.map(articleAddBindingModel, ArticleServiceModel.class);
         this.articleService.editArticle(id, serviceModel);
 
         return "redirect:/articles/details/" + id;

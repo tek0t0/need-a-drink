@@ -121,13 +121,6 @@ public class UserController {
             return "user/profile-edit";
         }
 
-        if (!model.getPassword().equals(model.getConfirmPassword())) {
-//            redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
-//            redirectAttributes.addFlashAttribute("confirmPassMissMatch", true);
-            //TODO:check why cant set redirect attributes to model?
-            return "user/profile-edit";
-        }
-
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
 
         return "redirect:/users/profile";

@@ -8,11 +8,22 @@ import javax.validation.constraints.Pattern;
 
 public class IngredientBindingModel {
 
+    private String id;
+
     @Expose
     private String name;
 
     @Expose
     private String imgUrl;
+
+    public String getId() {
+        return id;
+    }
+
+    public IngredientBindingModel setId(String id) {
+        this.id = id;
+        return this;
+    }
 
     @NotBlank
     @Length(min = 3, max = 30, message = "Name length must be between 3 and 30 symbols!")
@@ -26,7 +37,7 @@ public class IngredientBindingModel {
         return this;
     }
 
-    @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "Add valid image URL!")
+    @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|svg))$)", message = "Add valid image URL!")
     public String getImgUrl() {
         return imgUrl;
     }

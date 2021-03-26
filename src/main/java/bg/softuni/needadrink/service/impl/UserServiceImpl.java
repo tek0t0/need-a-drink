@@ -115,12 +115,7 @@ public class UserServiceImpl implements UserService {
 
 
         //TODO:logger
-//        LogServiceModel logServiceModel = new LogServiceModel();
-//        logServiceModel.setUsername(user.getUsername());
-//        logServiceModel.setDescription("User profile edited");
-//        logServiceModel.setTime(LocalDateTime.now());
-//
-//        this.logService.seedLogInDB(logServiceModel);
+
 
         return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
     }
