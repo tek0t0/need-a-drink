@@ -3,6 +3,7 @@ package bg.softuni.needadrink.web.controllers;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.service.UserService;
+import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +26,15 @@ public class HomeController {
         this.modelMapper = modelMapper;
     }
 
+
     @GetMapping("/")
+
     public String index(){
         return "index";
     }
 
     @GetMapping("/home")
+    @PageTitle("Home")
     public String home(Principal principal, Model model){
         String email = principal.getName();
 // TODO: greet with Full Name       userService.getUser(email);

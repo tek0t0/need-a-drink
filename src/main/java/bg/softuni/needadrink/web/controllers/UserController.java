@@ -7,6 +7,7 @@ import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.domain.models.views.UserProfileViewModel;
 import bg.softuni.needadrink.service.UserService;
+import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
+    @PageTitle("Log-In")
     public String login() {
         return "user/login";
     }
@@ -95,6 +97,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
+    @PageTitle("Profile")
     public String profile(Principal principal, Model model) {
         model
                 .addAttribute("userProfileViewModel", this.modelMapper
@@ -103,6 +106,7 @@ public class UserController {
     }
 
     @GetMapping("/edit")
+    @PageTitle("Edit Profile")
     public String editProfile(Principal principal, Model model) {
         model.addAttribute("userEditBindingModel", this.modelMapper
                         .map(this.userService.findUserByEmail(principal.getName()), UserEditBindingModel.class));
@@ -127,6 +131,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @PageTitle("All Users")
     public String allUsers(Model model){
         List<UserServiceModel> users = this.userService.findAllUsers()
                 .stream()

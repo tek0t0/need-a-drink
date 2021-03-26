@@ -4,6 +4,7 @@ import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.error.ArticleNotFoundException;
 import bg.softuni.needadrink.service.ArticleService;
+import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ public class ArticleController {
     }
 
     @GetMapping("/all")
+    @PageTitle("All Articles")
     public String getAll(Model model) {
         List<ArticleServiceModel> allArticles = this.articleService.getAllArticles();
         model.addAttribute("allArticles", allArticles);
@@ -34,6 +36,7 @@ public class ArticleController {
     }
 
     @GetMapping("/add")
+    @PageTitle("Add Article")
     public String add(Model model) {
         if (!model.containsAttribute("articleAddBindingModel")) {
             model.addAttribute("articleAddBindingModel", new ArticleAddBindingModel());
@@ -68,12 +71,14 @@ public class ArticleController {
     }
 
     @GetMapping("/details/{id}")
+    @PageTitle("Article")
     public String articleDetails(@PathVariable String id, Model model) {
         model.addAttribute("article", this.articleService.findArticleById(id));
         return "article/details-article";
     }
 
     @GetMapping("/edit/{id}")
+    @PageTitle("Edit Article")
     public String articleEdit(@PathVariable String id, Model model) {
         model.addAttribute("article", this.articleService.findArticleById(id));
         model.addAttribute("articleId", id);
@@ -90,6 +95,7 @@ public class ArticleController {
     }
 
     @GetMapping("/delete/{id}")
+    @PageTitle("Delete Article")
     public String articleDelete(@PathVariable String id, Model model) {
         model.addAttribute("article", this.articleService.findArticleById(id));
         model.addAttribute("articleId", id);

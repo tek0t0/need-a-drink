@@ -1,6 +1,5 @@
 package bg.softuni.needadrink.error;
 
-import java.net.URI;
 
 public class Constants {
 

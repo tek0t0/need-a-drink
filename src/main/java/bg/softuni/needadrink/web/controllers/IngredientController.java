@@ -4,6 +4,7 @@ package bg.softuni.needadrink.web.controllers;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.service.IngredientService;
+import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ public class IngredientController {
     }
 
     @GetMapping("/all")
+    @PageTitle("All Ingredients")
     public String getAllIngredients(Model model) {
         List<IngredientServiceModel> allIngredients = ingredientService.getAllIngredients();
         model.addAttribute("ingredients", allIngredients);
@@ -36,6 +38,7 @@ public class IngredientController {
     }
 
     @GetMapping("/add")
+    @PageTitle("Add Ingredient")
     public String add(Model model) {
         List<IngredientServiceModel> allIngredients = ingredientService.getAllIngredients();
         if (!model.containsAttribute("ingredientBindingModel")) {
@@ -78,6 +81,7 @@ public class IngredientController {
     }
 
     @GetMapping("/edit/{id}")
+    @PageTitle("Edit Ingredient")
     public String ingredientEdit(@PathVariable String id, Model model) {
         model.addAttribute("ingredientBindingModel", this.ingredientService.findIngredientById(id));
         model.addAttribute("ingredientId", id);
