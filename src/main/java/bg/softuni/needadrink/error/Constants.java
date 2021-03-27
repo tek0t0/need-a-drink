@@ -17,6 +17,8 @@ public class Constants {
 
     public final static String INGREDIENT_ID_NOT_FOUND = "Ingredient with this id not found!";
 
+    public final static String INGREDIENT_NAME_NOT_FOUND = "Ingredient with this name not found!";
+
     public final static String DEFAULT_USER_IMG_URL = "https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png";
 
 }

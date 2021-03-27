@@ -28,7 +28,7 @@ public class HomeController {
 
 
     @GetMapping("/")
-
+    @PageTitle("Welcome")
     public String index(){
         return "index";
     }

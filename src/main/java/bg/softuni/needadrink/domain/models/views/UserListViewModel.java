@@ -7,21 +7,13 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public class UserListViewModel {
-    private String id;
+
     private String email;
     private String fullName;
     private LocalDate birthDate;
     private Set<RoleServiceModel> roles;
 
 
-    public String getId() {
-        return id;
-    }
-
-    public UserListViewModel setId(String id) {
-        this.id = id;
-        return this;
-    }
 
     public String getEmail() {
         return email;

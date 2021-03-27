@@ -133,15 +133,7 @@ public class UserController {
     @GetMapping("/all")
     @PageTitle("All Users")
     public String allUsers(Model model){
-        List<UserServiceModel> users = this.userService.findAllUsers()
-                .stream()
-                .map(u -> {
-                    UserServiceModel serviceModel = this.modelMapper.map(u, UserServiceModel.class);
-                    List<RoleServiceModel> roles = u.getRoles();
-                    serviceModel.setRoles(roles.stream().map(r->modelMapper.map(r, RoleServiceModel.class)).collect(Collectors.toList()));
-                    return serviceModel;
-                })
-                .collect(Collectors.toList());
+        List<UserServiceModel> users = this.userService.findAllUsers();
 
         Map<String, List<RoleServiceModel>> userAndRoles = new HashMap<>();
         users.forEach(u -> userAndRoles.put(u.getId(), u.getRoles()));

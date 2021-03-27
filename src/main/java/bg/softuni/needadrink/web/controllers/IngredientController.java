@@ -90,10 +90,9 @@ public class IngredientController {
         return "ingredient/edit-ingredient";
     }
 
-
-    //TODO: fix bug when editing img Url!
-    @PostMapping("/edit")
+    @PostMapping("/edit/{id}")
     public String ingredientEditConfirm(
+            @PathVariable String id,
             @Valid IngredientBindingModel ingredientBindingModel,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
@@ -105,7 +104,7 @@ public class IngredientController {
             return "ingredient/edit-ingredient";
         }
 
-        if (ingredientService.nameExists(ingredientBindingModel.getName())) {
+        if (ingredientService.newNameExists(modelMapper.map(ingredientBindingModel, IngredientServiceModel.class))) {
             redirectAttributes.addFlashAttribute("ingredientBindingModel", ingredientBindingModel);
             redirectAttributes.addFlashAttribute("nameExists", true);
 
@@ -115,7 +114,18 @@ public class IngredientController {
         IngredientServiceModel ingredientServiceModel = modelMapper.map(ingredientBindingModel, IngredientServiceModel.class);
         this.ingredientService.editIngredient(ingredientServiceModel);
         return "redirect:/ingredients/all";
+    }
 
+    @GetMapping("/delete/{id}")
+    @PageTitle("Delete Ingredient")
+    public String deleteIngredient(@PathVariable String id, Model model) {
+        model.addAttribute("ingredient", this.ingredientService.findIngredientById(id));
+        return "ingredient/delete-ingredient";
+    }
 
+    @PostMapping("/delete/{id}")
+    public String deleteIngredientConfirm(@PathVariable String id) {
+        this.ingredientService.deleteIngredient(id);
+          return "redirect:/ingredients/all";
     }
 }

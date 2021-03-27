@@ -16,4 +16,8 @@ public interface IngredientService {
     IngredientServiceModel findIngredientById(String id);
 
     void editIngredient(IngredientServiceModel ingredientServiceModel);
+
+    boolean newNameExists(IngredientServiceModel ingredientServiceModel);
+
+    void deleteIngredient(String id);
 }

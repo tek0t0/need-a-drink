@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,5 +85,20 @@ public class IngredientServiceImpl implements IngredientService {
                 .setName(ingredientServiceModel.getName())
                 .setImgUrl(ingredientServiceModel.getImgUrl());
         this.ingredientRepository.saveAndFlush(ingredient);
+    }
+
+    @Override
+    public boolean newNameExists(IngredientServiceModel ingredientServiceModel) {
+        if(ingredientRepository.getByName(ingredientServiceModel.getName()).isEmpty()){
+            return false;
+        }
+        Ingredient ingredient = ingredientRepository.getByName(ingredientServiceModel.getName())
+                .orElseThrow(()->new IngredientNotFoundException(Constants.INGREDIENT_NAME_NOT_FOUND));
+        return !ingredient.getId().equals(ingredientServiceModel.getId());
+    }
+
+    @Override
+    public void deleteIngredient(String id) {
+        this.ingredientRepository.deleteById(id);
     }
 }

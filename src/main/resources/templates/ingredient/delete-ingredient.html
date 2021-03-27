@@ -5,8 +5,8 @@
 <body class="body_wrapper">
 <header th:replace="fragments/fragment::nav-bar"></header>
 <main class="background-image-2 hero-image">
-    <div th:object="${ingredientBindingModel}" class="container">
-        <h2 class="text-center text-white m-5">Edit Ingredient</h2>
+    <div th:object="${ingredient}" class="container">
+        <h2 class="text-center text-white m-5">Delete Ingredient</h2>
         <div>
             <div class="mx-auto w-25">
                 <img class="img-thumbnail" th:src="*{imgUrl}">
@@ -14,31 +14,29 @@
         </div>
         <form class="mx-auto w-75 register-form-wrapper"
               th:method="POST"
-              th:action="@{/ingredients/edit/{id} (id=${ingredientId})}">
+              th:action="@{/ingredients/delete/{id} (id=*{id})}">
 
             <div hidden>
                 <label for="id"></label>
-                <input th:field="*{id}" type="text" id="id" name="name" th:value="*{id}">
+                <input disabled th:field="*{id}" type="text" id="id" name="name" th:value="*{id}">
             </div>
 
             <div class="form-group">
                 <label for="name" class="text-white mb-1">Name</label>
-                <input th:field="*{name}" type="text" class="form-control" id="name" name="name"
+                <input disabled th:field="*{name}" type="text" class="form-control" id="name" name="name"
                        th:value="*{name}">
                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="titleError"
                        class="text-light form-text bg-danger rounded"></small>
-                <small th:if="${nameExists}" id="nameExistsError" class="text-light form-text bg-danger rounded">Ingredient
-                    already exists!</small>
+
             </div>
             <div class="form-group">
                 <label for="imgUrl" class="text-white mb-1">Image Url</label>
                 <input th:field="*{imgUrl}" type="text" class="form-control" id="imgUrl" name="imgUrl"
                        th:value="*{imgUrl}">
-                <small th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}" id="imgUrlError"
-                       class="text-light form-text bg-danger rounded"></small>
+
             </div>
             <div class="mt-3 d-flex justify-content-center">
-                <button type="submit" class="btn text-white border-1 border-light bg-dark">Edit Ingredient</button>
+                <button type="submit" class="btn text-white border-1 border-light bg-dark">Delete Confirm</button>
             </div>
         </form>
     </div>
