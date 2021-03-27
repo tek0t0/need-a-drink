@@ -91,11 +91,10 @@ public class IngredientController {
     }
 
     @PostMapping("/edit/{id}")
-    public String ingredientEditConfirm(
-            @PathVariable String id,
-            @Valid IngredientBindingModel ingredientBindingModel,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
+    public String ingredientEditConfirm(@PathVariable String id,
+                                        @Valid IngredientBindingModel ingredientBindingModel,
+                                        BindingResult bindingResult,
+                                        RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("ingredientBindingModel", ingredientBindingModel);
@@ -126,6 +125,6 @@ public class IngredientController {
     @PostMapping("/delete/{id}")
     public String deleteIngredientConfirm(@PathVariable String id) {
         this.ingredientService.deleteIngredient(id);
-          return "redirect:/ingredients/all";
+        return "redirect:/ingredients/all";
     }
 }

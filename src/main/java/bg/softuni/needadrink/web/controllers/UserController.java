@@ -22,7 +22,6 @@ import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -53,10 +52,9 @@ public class UserController {
     }
 
     @PostMapping("register")
-    private String registerConfirm(
-            @Valid UserRegisterBindingModel userRegisterBindingModel,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
+    private String registerConfirm(@Valid UserRegisterBindingModel userRegisterBindingModel,
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes) {
 
         LocalDate today = LocalDate.now();
         LocalDate birthDate = userRegisterBindingModel.getBirthDate();
@@ -87,11 +85,9 @@ public class UserController {
     }
 
     @PostMapping("/login-error")
-    public String failedLogin(@ModelAttribute("email")
-                                      String email,
-                              RedirectAttributes attributes) {
-        attributes.addFlashAttribute("bad_credentials", true);
-        attributes.addFlashAttribute("email", email);
+    public String failedLogin(@ModelAttribute("email") String email, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("bad_credentials", true);
+        redirectAttributes.addFlashAttribute("email", email);
 
         return "redirect:/users/login";
     }
@@ -109,14 +105,13 @@ public class UserController {
     @PageTitle("Edit Profile")
     public String editProfile(Principal principal, Model model) {
         model.addAttribute("userEditBindingModel", this.modelMapper
-                        .map(this.userService.findUserByEmail(principal.getName()), UserEditBindingModel.class));
+                .map(this.userService.findUserByEmail(principal.getName()), UserEditBindingModel.class));
         model.addAttribute("confirmPassMissMatch", false);
         return "user/profile-edit";
     }
 
     @PostMapping("/edit")
-    public String editProfileConfirm(@ModelAttribute UserEditBindingModel model,
-                                     @Valid UserEditBindingModel userEditBindingModel,
+    public String editProfileConfirm(@Valid UserEditBindingModel userEditBindingModel,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -125,14 +120,14 @@ public class UserController {
             return "user/profile-edit";
         }
 
-        this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
+        this.userService.editUserProfile(this.modelMapper.map(userEditBindingModel, UserServiceModel.class), userEditBindingModel.getOldPassword());
 
         return "redirect:/users/profile";
     }
 
     @GetMapping("/all")
     @PageTitle("All Users")
-    public String allUsers(Model model){
+    public String allUsers(Model model) {
         List<UserServiceModel> users = this.userService.findAllUsers();
 
         Map<String, List<RoleServiceModel>> userAndRoles = new HashMap<>();
@@ -170,10 +165,6 @@ public class UserController {
         this.userService.deleteUser(id);
         return "redirect:/users/all";
     }
-
-
-
-
 
 
 }

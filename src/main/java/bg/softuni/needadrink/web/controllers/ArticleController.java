@@ -2,7 +2,6 @@ package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
-import bg.softuni.needadrink.error.ArticleNotFoundException;
 import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -46,10 +44,9 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
-    public String addConfirm(
-            @Valid ArticleAddBindingModel articleAddBindingModel,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
+    public String addConfirm(@Valid ArticleAddBindingModel articleAddBindingModel,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("articleAddBindingModel", articleAddBindingModel);
@@ -86,7 +83,8 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/{id}")
-    public String articleEditConfirm(@PathVariable String id, @ModelAttribute ArticleAddBindingModel articleAddBindingModel) {
+    public String articleEditConfirm(@PathVariable String id,
+                                     ArticleAddBindingModel articleAddBindingModel) {
         //TODO:Add validation
         ArticleServiceModel serviceModel = modelMapper.map(articleAddBindingModel, ArticleServiceModel.class);
         this.articleService.editArticle(id, serviceModel);
@@ -107,15 +105,4 @@ public class ArticleController {
         this.articleService.deleteById(id);
         return "redirect:/articles/all";
     }
-
-
-    @ExceptionHandler({ArticleNotFoundException.class})
-    public ModelAndView handleArticleNotFound(ArticleNotFoundException e) {
-        ModelAndView modelAndView = new ModelAndView("error");
-        modelAndView.addObject("message", e.getMessage());
-        modelAndView.addObject("statusCode", e.getStatus());
-
-        return modelAndView;
-    }
-
 }
