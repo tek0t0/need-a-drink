@@ -133,5 +133,13 @@ a.text-primary:focus,a.text-primary:hover{
 }
 
 
+@media (max-width: 900px) {
+    #cocktail-box {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
 
 

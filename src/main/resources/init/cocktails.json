@@ -1,7 +1,8 @@
 [
   {
     "name": "Aperol Spritz",
-    "description": "asdfsdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+    "description": "asdfsdfa sdfasdfasdfasd fasdfasdf asdfasdfasdf",
+    "preparation": "fghfghf ghghfhhhh hhhhh fghfgh hhhhhhh hhhhh hhhhhhhh hhhh hhhhf",
     "imgUrl": "",
     "ingredients": [
       {
@@ -16,8 +17,9 @@
     ]
   },
   {
-    "name": "Vodka/Cola",
-    "description": "asdfsdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+    "name": "Vodka Cola",
+    "description": "asd fsdf asdfasdfas dfas dfasdf asdfa sd fas dfasdf",
+    "preparation": "fghfg hfghghf hhhhhhhhhf ghfgh hhh  hhhh hhhhhh hhhh hhhhh hhhhhhf",
     "imgUrl": "",
     "ingredients": [
       {
@@ -29,8 +31,9 @@
     ]
   },
   {
-    "name": "Vodka/Tonic",
-    "description": "asdfsdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+    "name": "Vodka Tonic",
+    "description": "asdfsd fasdf asdfa sdfasdfasdf asdfas dfa dfasdf",
+    "preparation": "fghfghhh hhhh hhh hhhfhfhfg hghjghk gkhj khjt 78676 7676767676 7676767 67676 767 676767",
     "imgUrl": "",
     "ingredients": [
       {

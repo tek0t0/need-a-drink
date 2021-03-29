@@ -18,6 +18,9 @@ public class CocktailInitBindingModel {
     private String description;
 
     @Expose
+    private String preparation;
+
+    @Expose
     private String imgUrl;
 
     @Expose
@@ -55,6 +58,16 @@ public class CocktailInitBindingModel {
         return this;
     }
 
+    @NotBlank
+    @Length(min = 10, message = "Description length must be between 3 and 30 symbols!")
+    public String getPreparation() {
+        return preparation;
+    }
+
+    public CocktailInitBindingModel setPreparation(String preparation) {
+        this.preparation = preparation;
+        return this;
+    }
 
     @Pattern(regexp = "^$|([^\\s]+(\\.(?i)(jpg|png|gif|bmp|svg))$)", message = "Add valid image URL!")
     public String getImgUrl() {

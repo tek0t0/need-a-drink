@@ -3,8 +3,12 @@ package bg.softuni.needadrink.service.impl;
 import bg.softuni.needadrink.domain.entities.Cocktail;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
+import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
+import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
+import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
+import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.error.Constants;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
@@ -24,6 +28,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CocktailServiceImpl implements CocktailService {
@@ -88,5 +94,22 @@ public class CocktailServiceImpl implements CocktailService {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<CocktailServiceModel> getAllCocktails() {
+
+        return this.cocktailRepository
+                .findAll()
+                .stream()
+                .map(c->modelMapper.map(c, CocktailServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CocktailServiceModel getCocktailById(String id) {
+        Cocktail byId = this.cocktailRepository.findById(id)
+                .orElseThrow(()-> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+        return modelMapper.map(byId, CocktailServiceModel.class);
     }
 }

@@ -11,6 +11,7 @@ import java.util.Set;
 public class Cocktail extends BaseEntity {
     private String name;
     private String description;
+    private String preparation;
     private String imgUrl;
     private Set<Ingredient> ingredients;
 
@@ -34,6 +35,16 @@ public class Cocktail extends BaseEntity {
 
     public Cocktail setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    @Column(name = "preparation",columnDefinition = "TEXT")
+    public String getPreparation() {
+        return preparation;
+    }
+
+    public Cocktail setPreparation(String preparation) {
+        this.preparation = preparation;
         return this;
     }
 

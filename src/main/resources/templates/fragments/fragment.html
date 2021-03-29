@@ -15,7 +15,9 @@
     <link rel="stylesheet" th:href="@{/css/demo.css}">
     <link rel="stylesheet" th:href="@{/css/reset-css.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
 </head>
 <body>
 <header th:fragment="nav-bar">
@@ -58,7 +60,7 @@
                         <a class="nav-link" th:href="@{/cocktails/all}">All Cocktails</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <a class="nav-link" th:href="@{/cocktails/my}">My Cocktails</a>
+                        <a class="nav-link" th:href="@{/cocktails/myCocktails}">My Cocktails</a>
                     </li>
                     <li sec:authorize="!isAuthenticated()" class="nav-item">
                         <a class="nav-link" th:href="@{/users/login}">Log-In</a>

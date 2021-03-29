@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/fragment::head"></head>
+<body class="body_wrapper">
+<header th:replace="fragments/fragment::nav-bar"></header>
+<main class="background-image-2 hero-image">
+    <div class="all-users-box container">
+        <h1 class="text-center text-white py-3">All Cocktails</h1>
+
+
+
+        <table class="table table-sm table-hover mx-auto" th:object="${allCocktails}">
+            <tbody>
+            <th:block th:each="c, iter: ${allCocktails}" th:object="${c}">
+                <tr class="row mx-auto">
+                    <th class="col-sm-1 d-flex justify-content-center align-items-center">
+                        <span class="font-weight-bold" th:utext="${iter.index + 1}"></span>
+                    </th>
+                    <td class="col-sm-2 text-center">
+                        <a th:href="@{/cocktails/details/{id} (id=${c.id})}">
+                        <img class="img-thumbnail" th:src="*{imgUrl}">
+                        </a>
+                    </td>
+                    <td class="col-sm-2 d-flex justify-content-center align-items-center">
+                        <span class="font-weight-bold h5" th:utext="*{name}"></span>
+                    </td>
+                    <td class="col-sm-6">
+                        <p class="font-weight-bold" th:utext="*{description}"></p>
+                    </td>
+                    <td class="col-sm-1 d-flex justify-content-center align-items-center">
+                        <a th:href="@{/cocktails/details/{id}(id=${c.id})}" class="btn btn-dark">Details</a>
+                    </td>
+
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="fragments/fragment::footer"></footer>
+</body>
+</html>

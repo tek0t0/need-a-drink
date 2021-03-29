@@ -2,7 +2,9 @@ package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.Ingredient;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
+import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
+import bg.softuni.needadrink.domain.models.views.IngredientViewModel;
 import bg.softuni.needadrink.error.Constants;
 import bg.softuni.needadrink.error.IngredientNotFoundException;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
@@ -130,4 +132,14 @@ public class IngredientServiceImpl implements IngredientService {
     public Ingredient findByName(String name) {
         return this.ingredientRepository.getByName(name).orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NOT_FOUND));
     }
+
+    @Override
+    public List<IngredientViewModel> findAllByCocktailId(String id) {
+        return  this.ingredientRepository.findAllByCocktailId(id)
+                .stream()
+                .map(i->modelMapper.map(i, IngredientViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+
 }
