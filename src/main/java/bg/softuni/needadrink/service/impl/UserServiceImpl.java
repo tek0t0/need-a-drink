@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
                 .setPassword(passwordEncoder.encode("12345"))
                 .setBirthDate(LocalDate.of(1983, 11, 5))
                 .setImgUrl(Constants.DEFAULT_USER_IMG_URL)
-                .setMyCocktails(new ArrayList<>());
+                .setFavoriteCocktails(new ArrayList<>());
         this.userRepository.saveAndFlush(adminUser);
     }
 

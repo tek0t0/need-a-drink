@@ -1,9 +1,6 @@
 package bg.softuni.needadrink.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +9,10 @@ import java.util.List;
 public class Ingredient extends BaseEntity{
     private String name;
     private String imgUrl;
-    private List<Cocktail> usedIn = new ArrayList<>();
+    private List<Cocktail> usedIn;
 
     public Ingredient() {
+        this.usedIn = new ArrayList<>();
     }
 
     @Column(name = "name", nullable = false, unique = true)
@@ -37,7 +35,7 @@ public class Ingredient extends BaseEntity{
         return this;
     }
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
     public List<Cocktail> getUsedIn() {
         return usedIn;
     }

@@ -1,5 +1,7 @@
 package bg.softuni.needadrink.config;
 
+import bg.softuni.needadrink.util.ValidatorUtil;
+import bg.softuni.needadrink.util.ValidatorUtilImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.modelmapper.ModelMapper;
@@ -8,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDateTime;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 @Configuration
 public class ApplicationBeanConfiguration {
@@ -29,5 +32,15 @@ public class ApplicationBeanConfiguration {
                 .excludeFieldsWithoutExposeAnnotation()
                 .setPrettyPrinting()
                 .create();
+    }
+
+    @Bean
+    public Validator validator() {
+        return Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+    @Bean
+    public ValidatorUtil validationUtil() {
+        return new ValidatorUtilImpl(validator());
     }
 }

@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Aperol Spritz",
+    "description": "asdfsdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+    "imgUrl": "",
+    "ingredients": [
+      {
+        "name": "Aperol"
+      },
+      {
+        "name": "Soda"
+      },
+      {
+        "name": "Sparkling wine"
+      }
+    ]
+  },
+  {
+    "name": "Vodka/Cola",
+    "description": "asdfsdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+    "imgUrl": "",
+    "ingredients": [
+      {
+        "name": "Cola"
+      },
+      {
+        "name": "Vodka"
+      }
+    ]
+  },
+  {
+    "name": "Vodka/Tonic",
+    "description": "asdfsdfasdfasdfasdfasdfasdfasdfasdfasdfasdf",
+    "imgUrl": "",
+    "ingredients": [
+      {
+        "name": "Tonic"
+      },
+      {
+        "name": "Vodka"
+      }
+    ]
+  }
+
+]

@@ -1,8 +1,6 @@
 package bg.softuni.needadrink.domain.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,9 +17,13 @@ public class UserEntity extends BaseEntity{
   private String password;
   private LocalDate birthDate;
   private String imgUrl;
-  private Set<UserRoleEntity> roles = new HashSet<>();
-  private List<Cocktail> myCocktails = new ArrayList<>();
+  private Set<UserRoleEntity> roles;
+  private List<Cocktail> favoriteCocktails;
 
+  public UserEntity() {
+    this.roles = new HashSet<>();
+    this.favoriteCocktails = new ArrayList<>();
+  }
 
   @Column(name = "email", nullable = false, unique = true, updatable = false)
   public String getEmail() {
@@ -86,12 +88,12 @@ public class UserEntity extends BaseEntity{
   }
 
   @OneToMany
-  public List<Cocktail> getMyCocktails() {
-    return myCocktails;
+  public List<Cocktail> getFavoriteCocktails() {
+    return favoriteCocktails;
   }
 
-  public UserEntity setMyCocktails(List<Cocktail> myCocktails) {
-    this.myCocktails = myCocktails;
+  public UserEntity setFavoriteCocktails(List<Cocktail> myCocktails) {
+    this.favoriteCocktails = myCocktails;
     return this;
   }
 
@@ -99,4 +101,6 @@ public class UserEntity extends BaseEntity{
     this.roles.add(roleEntity);
     return this;
   }
+
+
 }

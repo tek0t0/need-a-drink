@@ -4,6 +4,7 @@ package bg.softuni.needadrink.domain.entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "cocktails")
@@ -11,13 +12,12 @@ public class Cocktail extends BaseEntity {
     private String name;
     private String description;
     private String imgUrl;
-    private int likes;
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
 
     public Cocktail() {
     }
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;
     }
@@ -27,7 +27,7 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false,columnDefinition = "TEXT" )
     public String getDescription() {
         return description;
     }
@@ -47,23 +47,17 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
-    @Column(name = "likes", nullable = false)
-    public int getLikes() {
-        return likes;
-    }
-
-    public Cocktail setLikes(int likes) {
-        this.likes = likes;
-        return this;
-    }
-
-    @ManyToMany
-    public List<Ingredient> getIngredients() {
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public Cocktail setIngredients(List<Ingredient> ingredients) {
+    public Cocktail setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
         return this;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
     }
 }
