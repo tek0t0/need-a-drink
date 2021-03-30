@@ -6,9 +6,11 @@ import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
+import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
+import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,9 +46,10 @@ public class CocktailServiceImpl implements CocktailService {
     private final IngredientService ingredientService;
     private final ValidatorUtil validatorUtil;
     private final UserRepository userRepository;
+    private final LogService logService;
 
     @Autowired
-    public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil, UserRepository userRepository) {
+    public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil, UserRepository userRepository, LogService logService) {
         this.gson = gson;
         this.modelMapper = modelMapper;
         this.ingredientRepository = ingredientRepository;
@@ -53,13 +57,14 @@ public class CocktailServiceImpl implements CocktailService {
         this.ingredientService = ingredientService;
         this.validatorUtil = validatorUtil;
         this.userRepository = userRepository;
+        this.logService = logService;
     }
 
 
     @Override
     @Transactional
     public void seedCocktails() {
-        String content = null;
+        String content;
         try {
             content = String.join("", Files.readAllLines(Path.of(cocktailsFile.getURI())));
             CocktailInitBindingModel[] cocktailModels = this.gson.fromJson(content, CocktailInitBindingModel[].class);
@@ -125,6 +130,14 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public void addCocktail(CocktailInitBindingModel cocktailInitBindingModel) {
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Cocktail added.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.cocktailRepository.saveAndFlush(modelMapper.map(cocktailInitBindingModel, Cocktail.class));
     }
 
@@ -141,6 +154,15 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public void deleteById(String id) {
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Cocktail deleted.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.cocktailRepository.deleteById(id);
     }
+
 }

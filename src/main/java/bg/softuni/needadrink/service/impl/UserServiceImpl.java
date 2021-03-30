@@ -4,8 +4,10 @@ import bg.softuni.needadrink.domain.entities.Cocktail;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
+import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
+import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.error.RoleNotFoundException;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
@@ -23,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,15 +38,17 @@ public class UserServiceImpl implements UserService {
     private final UserRoleRepository userRoleRepository;
     private final NeedADrinkUserService needADrinkUserService;
     private final CocktailRepository cocktailRepository;
+    private final LogService logService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
         this.needADrinkUserService = needADrinkUserService;
         this.cocktailRepository = cocktailRepository;
+        this.logService = logService;
     }
 
     @Override
@@ -53,23 +58,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerAndLoginUser(UserRegisterServiceModel registerServiceModel) {
-        UserEntity newUser = modelMapper.map(registerServiceModel, UserEntity.class);
-        newUser.setPassword(passwordEncoder.encode(registerServiceModel.getPassword()));
+        UserEntity userEntity = modelMapper.map(registerServiceModel, UserEntity.class);
+        userEntity.setPassword(passwordEncoder.encode(registerServiceModel.getPassword()));
 
         UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(
                 () -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND));
 
-        newUser.addRole(userRole);
+        userEntity.addRole(userRole);
         //TODO: upload default img in cloud
-        newUser.setImgUrl("/images/default-user-img.jpg");
+        userEntity.setImgUrl("/images/default-user-img.jpg");
 
-        newUser = userRepository.save(newUser);
+        userEntity = userRepository.save(userEntity);
 
-        UserDetails principal = needADrinkUserService.loadUserByUsername(newUser.getEmail());
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(userEntity.getEmail());
+        logServiceModel.setDescription("User registered");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
+        UserDetails principal = needADrinkUserService.loadUserByUsername(userEntity.getEmail());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 principal,
-                newUser.getPassword(),
+                userEntity.getPassword(),
                 principal.getAuthorities()
         );
 
@@ -104,25 +116,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword) {
-        UserEntity user = this.userRepository.findByEmail(serviceModel.getEmail())
+        UserEntity userEntity = this.userRepository.findByEmail(serviceModel.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        if (!this.passwordEncoder.matches(oldPassword, user.getPassword())) {
+        if (!this.passwordEncoder.matches(oldPassword, userEntity.getPassword())) {
             throw new IllegalArgumentException(Constants.PASSWORD_IS_INCORRECT);
         }
 
 
-        user
+        userEntity
                 .setPassword(serviceModel.getPassword())
                 .setFullName(serviceModel.getFullName())
                 .setImgUrl(serviceModel.getImgUrl())
                 .setBirthDate(serviceModel.getBirthDate());
 
 
-        //TODO:logger
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(userEntity.getEmail());
+        logServiceModel.setDescription("User profile edited.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
 
 
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        return this.modelMapper.map(this.userRepository.saveAndFlush(userEntity), UserServiceModel.class);
     }
 
     @Override
@@ -140,7 +157,13 @@ public class UserServiceImpl implements UserService {
         userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
         userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.ADMIN).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
 
-        //TODO: Logger
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(userEntity.getEmail());
+        logServiceModel.setDescription("Admin role added.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.userRepository.saveAndFlush(userEntity);
 
     }
@@ -151,13 +174,27 @@ public class UserServiceImpl implements UserService {
         userEntity.getRoles().clear();
         userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
 
-        //TODO: Logger
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(userEntity.getEmail());
+        logServiceModel.setDescription("User role added.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.userRepository.saveAndFlush(userEntity);
     }
 
     @Override
     public void deleteUser(String id) {
         UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername(userEntity.getEmail());
+        logServiceModel.setDescription("User deleted..");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.userRepository.delete(userEntity);
     }
 

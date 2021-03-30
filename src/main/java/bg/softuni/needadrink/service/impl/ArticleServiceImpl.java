@@ -1,11 +1,11 @@
 package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.Article;
-import bg.softuni.needadrink.domain.entities.Ingredient;
 import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
-import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
+import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.error.ArticleNotFoundException;
+import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
 import bg.softuni.needadrink.service.ArticleService;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,18 +32,20 @@ public class ArticleServiceImpl implements ArticleService {
     private final ModelMapper modelMapper;
     private final Gson gson;
     private final ValidatorUtil validatorUtil;
+    private final LogService logService;
 
-    public ArticleServiceImpl(ArticleRepository articleRepository, ModelMapper modelMapper, Gson gson, ValidatorUtil validatorUtil) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, ModelMapper modelMapper, Gson gson, ValidatorUtil validatorUtil, LogService logService) {
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
         this.gson = gson;
         this.validatorUtil = validatorUtil;
+        this.logService = logService;
     }
 
     @Override
     public void initArticles() {
 
-        String content = null;
+        String content;
         try {
             content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
             ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
@@ -93,6 +96,13 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
         }
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Article added");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         articleRepository.saveAndFlush(article);
     }
 
@@ -118,6 +128,13 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
         }
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Article edited");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         return this.modelMapper.map(this.articleRepository.saveAndFlush(article), ArticleServiceModel.class);
     }
 
@@ -125,11 +142,18 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteById(String id) {
         Article article = this.articleRepository.findById(id).orElseThrow(()->new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Article deleted");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.articleRepository.delete(article);
     }
 
 
-    //TODO: Logger for all the methods
+
 
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.Random;
 
 @Configuration
 public class ApplicationBeanConfiguration {
@@ -42,5 +43,10 @@ public class ApplicationBeanConfiguration {
     @Bean
     public ValidatorUtil validationUtil() {
         return new ValidatorUtilImpl(validator());
+    }
+
+    @Bean
+    public Random random(){
+        return new Random();
     }
 }

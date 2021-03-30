@@ -4,7 +4,9 @@ import bg.softuni.needadrink.domain.entities.Ingredient;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
+import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.views.IngredientViewModel;
+import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.error.IngredientNotFoundException;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,14 +37,16 @@ public class IngredientServiceImpl implements IngredientService {
     private final Gson gson;
     private final ModelMapper modelMapper;
     private final ValidatorUtil validatorUtil;
+    private final LogService logService;
 
 
     @Autowired
-    public IngredientServiceImpl(IngredientRepository ingredientRepository, Gson gson, ModelMapper modelMapper, ValidatorUtil validatorUtil) {
+    public IngredientServiceImpl(IngredientRepository ingredientRepository, Gson gson, ModelMapper modelMapper, ValidatorUtil validatorUtil, LogService logService) {
         this.ingredientRepository = ingredientRepository;
         this.gson = gson;
         this.modelMapper = modelMapper;
         this.validatorUtil = validatorUtil;
+        this.logService = logService;
     }
 
     @Override
@@ -94,6 +99,13 @@ public class IngredientServiceImpl implements IngredientService {
             ingredientServiceModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
         }
 
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Ingredient added.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.ingredientRepository.saveAndFlush(modelMapper.map(ingredientServiceModel, Ingredient.class));
     }
 
@@ -111,6 +123,14 @@ public class IngredientServiceImpl implements IngredientService {
         ingredient
                 .setName(ingredientServiceModel.getName())
                 .setImgUrl(ingredientServiceModel.getImgUrl());
+
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Ingredient edited.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
         this.ingredientRepository.saveAndFlush(ingredient);
     }
 
@@ -126,6 +146,14 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void deleteIngredient(String id) {
+
+        LogServiceModel logServiceModel = new LogServiceModel();
+        logServiceModel.setUsername("ADMIN");
+        logServiceModel.setDescription("Ingredient deleted.");
+        logServiceModel.setTime(LocalDateTime.now());
+
+        this.logService.seedLogInDB(logServiceModel);
+
         this.ingredientRepository.deleteById(id);
     }
 
