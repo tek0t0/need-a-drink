@@ -24,21 +24,21 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CocktailServiceImpl implements CocktailService {
-    @Value("classpath:init/cocktails.json") Resource cocktailsFile;
+    @Value("classpath:init/cocktails.json")
+    Resource cocktailsFile;
     private final Gson gson;
     private final ModelMapper modelMapper;
     private final IngredientRepository ingredientRepository;
@@ -69,17 +69,17 @@ public class CocktailServiceImpl implements CocktailService {
             content = String.join("", Files.readAllLines(Path.of(cocktailsFile.getURI())));
             CocktailInitBindingModel[] cocktailModels = this.gson.fromJson(content, CocktailInitBindingModel[].class);
             for (CocktailInitBindingModel cocktailModel : cocktailModels) {
-                if(this.cocktailRepository.getByName(cocktailModel.getName()).isPresent()){
+                if (this.cocktailRepository.getByName(cocktailModel.getName()).isPresent()) {
                     throw new CocktailNameAlreadyExists(Constants.COCKTAIL_ALREADY_EXISTS);
                 }
                 List<IngredientBindingModel> ingredientModels = cocktailModel.getIngredients();
                 for (IngredientBindingModel ingredient : ingredientModels) {
-                    if(ingredientRepository.getByName(ingredient.getName()).isEmpty()){
+                    if (ingredientRepository.getByName(ingredient.getName()).isEmpty()) {
                         ingredientService.addIngredient(modelMapper.map(ingredient, IngredientServiceModel.class));
                     }
                 }
 
-                if(this.validatorUtil.isValid(cocktailModel)){
+                if (this.validatorUtil.isValid(cocktailModel)) {
                     Cocktail cocktail = this.modelMapper.map(cocktailModel, Cocktail.class);
 
                     cocktail.getIngredients().clear();
@@ -87,7 +87,7 @@ public class CocktailServiceImpl implements CocktailService {
                         cocktail.addIngredient((ingredientService.findByName(ingredientModel.getName())));
                     }
 
-                    if(cocktailModel.getImgUrl().isEmpty()){
+                    if (cocktailModel.getImgUrl().isEmpty()) {
                         cocktail.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
                     }
 
@@ -98,9 +98,9 @@ public class CocktailServiceImpl implements CocktailService {
 
 
             }
-        } catch (IOException | CocktailNameAlreadyExists e) {
+        } catch (IOException e) {
             //TODO add custom exception
-            e.printStackTrace();
+            throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
         }
 
     }
@@ -111,14 +111,14 @@ public class CocktailServiceImpl implements CocktailService {
         return this.cocktailRepository
                 .findAll()
                 .stream()
-                .map(c->modelMapper.map(c, CocktailServiceModel.class))
+                .map(c -> modelMapper.map(c, CocktailServiceModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public CocktailServiceModel getCocktailById(String id) {
         Cocktail byId = this.cocktailRepository.findById(id)
-                .orElseThrow(()-> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+                .orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
         return modelMapper.map(byId, CocktailServiceModel.class);
     }
 
@@ -142,18 +142,23 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public List<AllCocktailsViewModel> getFavoriteCocktails(String principalName) throws UserPrincipalNotFoundException {
-        Optional<UserEntity> userEntity = this.userRepository.findByEmail(principalName);
-        if(userEntity.isPresent()){
-            List<Cocktail> favoriteCocktails = userEntity.get().getFavoriteCocktails();
-            return favoriteCocktails.stream().map(c->modelMapper.map(c, AllCocktailsViewModel.class)).collect(Collectors.toList());
-        } else {
-            throw new UserPrincipalNotFoundException(Constants.USER_ID_NOT_FOUND);
-        }
+    public List<AllCocktailsViewModel> getFavoriteCocktails(String principalName) {
+        UserEntity userEntity = this.userRepository.findByEmail(principalName)
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+
+        List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
+        return favoriteCocktails
+                .stream()
+                .map(c -> modelMapper.map(c, AllCocktailsViewModel.class))
+                .collect(Collectors.toList());
+
     }
 
     @Override
     public void deleteById(String id) {
+
+        Cocktail cocktail = this.cocktailRepository.findById(id)
+                .orElseThrow(()->new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -162,7 +167,7 @@ public class CocktailServiceImpl implements CocktailService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-        this.cocktailRepository.deleteById(id);
+        this.cocktailRepository.delete(cocktail);
     }
 
 }

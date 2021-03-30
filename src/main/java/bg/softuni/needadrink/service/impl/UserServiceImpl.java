@@ -7,6 +7,7 @@ import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
+import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.error.RoleNotFoundException;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
         userEntity.addRole(userRole);
         //TODO: upload default img in cloud
-        userEntity.setImgUrl("/images/default-user-img.jpg");
+        userEntity.setImgUrl(Constants.DEFAULT_USER_IMG_PATH);
 
         userEntity = userRepository.save(userEntity);
 
@@ -190,7 +191,7 @@ public class UserServiceImpl implements UserService {
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
-        logServiceModel.setDescription("User deleted..");
+        logServiceModel.setDescription("User deleted.");
         logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
@@ -206,9 +207,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addCocktailToUserFavorites(String name, String id) {
-        UserEntity userEntity = this.userRepository.findByEmail(name).get();
+        UserEntity userEntity = this.userRepository.findByEmail(name).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        Cocktail cocktail = this.cocktailRepository.findById(id).get();
+        Cocktail cocktail = this.cocktailRepository.findById(id).orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
         List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
         favoriteCocktails.add(cocktail);
         userEntity.setFavoriteCocktails(favoriteCocktails);
@@ -218,9 +219,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeCocktailToUserFavorites(String name, String id) {
-        UserEntity userEntity = this.userRepository.findByEmail(name).get();
+        UserEntity userEntity = this.userRepository.findByEmail(name).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        Cocktail cocktail = this.cocktailRepository.findById(id).get();
+        Cocktail cocktail = this.cocktailRepository.findById(id).orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
         List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
         favoriteCocktails.remove(cocktail);
         userEntity.setFavoriteCocktails(favoriteCocktails);
@@ -230,8 +231,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean cocktailIsInFavorites(String id, String email) {
 
-        UserEntity userEntity = userRepository.findByEmail(email).get();
-        return userEntity.getFavoriteCocktails().contains(this.cocktailRepository.findById(id).get());
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(Constants.USER_EMAIL_NOT_FOUND));
+        return userEntity
+                .getFavoriteCocktails()
+                .contains(this.cocktailRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND)));
 
     }
 }

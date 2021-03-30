@@ -34,7 +34,11 @@ public class ArticleServiceImpl implements ArticleService {
     private final ValidatorUtil validatorUtil;
     private final LogService logService;
 
-    public ArticleServiceImpl(ArticleRepository articleRepository, ModelMapper modelMapper, Gson gson, ValidatorUtil validatorUtil, LogService logService) {
+    public ArticleServiceImpl(ArticleRepository articleRepository,
+                              ModelMapper modelMapper,
+                              Gson gson,
+                              ValidatorUtil validatorUtil,
+                              LogService logService) {
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
         this.gson = gson;
@@ -93,7 +97,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = modelMapper.map(articleServiceModel, Article.class);
         article.setAddedOn(LocalDate.now());
         if (article.getCoverImgUrl() == null) {
-            article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
+            article.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
         }
 
         LogServiceModel logServiceModel = new LogServiceModel();
@@ -125,7 +129,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .setContent(articleServiceModel.getContent());
 
         if(articleServiceModel.getCoverImgUrl() == null){
-            article.setCoverImgUrl("https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg");
+            article.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
         }
 
         LogServiceModel logServiceModel = new LogServiceModel();
@@ -140,7 +144,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteById(String id) {
-        Article article = this.articleRepository.findById(id).orElseThrow(()->new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+        Article article = this.articleRepository.findById(id)
+                .orElseThrow(()->new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");

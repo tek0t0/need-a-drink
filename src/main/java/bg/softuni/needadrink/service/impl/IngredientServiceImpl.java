@@ -51,7 +51,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void seedIngredients() {
-        String content = null;
+        String content;
         try {
             content = String.join("", Files.readAllLines(Path.of(ingredientsFile.getURI())));
             IngredientBindingModel[] ingredientBindingModels = this.gson.fromJson(content, IngredientBindingModel[].class);
@@ -68,7 +68,7 @@ public class IngredientServiceImpl implements IngredientService {
             }
         } catch (IOException e) {
             //TODO add custom exception
-            e.printStackTrace();
+            throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
         }
 
     }
@@ -139,6 +139,7 @@ public class IngredientServiceImpl implements IngredientService {
         if (ingredientRepository.getByName(ingredientServiceModel.getName()).isEmpty()) {
             return false;
         }
+
         Ingredient ingredient = ingredientRepository.getByName(ingredientServiceModel.getName())
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NAME_NOT_FOUND));
         return !ingredient.getId().equals(ingredientServiceModel.getId());
@@ -159,7 +160,8 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Ingredient findByName(String name) {
-        return this.ingredientRepository.getByName(name).orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NOT_FOUND));
+        return this.ingredientRepository.getByName(name)
+                .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NOT_FOUND));
     }
 
     @Override
