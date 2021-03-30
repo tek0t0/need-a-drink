@@ -3,6 +3,7 @@ package bg.softuni.needadrink.service;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 public interface UserService {
@@ -25,5 +26,11 @@ public interface UserService {
     void deleteUser(String id);
 
     UserServiceModel findUserById(String id);
+
+    void addCocktailToUserFavorites(String name, String id) throws UserPrincipalNotFoundException;
+
+    void removeCocktailToUserFavorites(String email, String id);
+
+    boolean cocktailIsInFavorites(String id, String email);
 }
 

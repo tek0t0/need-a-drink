@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface CocktailRepository extends JpaRepository<Cocktail, String> {
 
     Optional <Cocktail> getByName(String name);
+
 }

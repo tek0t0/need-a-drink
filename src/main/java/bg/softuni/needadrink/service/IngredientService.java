@@ -1,6 +1,8 @@
 package bg.softuni.needadrink.service;
 
 import bg.softuni.needadrink.domain.entities.Ingredient;
+import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
+import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.views.IngredientViewModel;
@@ -28,4 +30,6 @@ public interface IngredientService {
     Ingredient findByName(String name);
 
     List<IngredientViewModel> findAllByCocktailId(String id);
+
+    List<IngredientBindingModel> getAllWithoutAdded(CocktailInitBindingModel cocktailInitBindingModel);
 }

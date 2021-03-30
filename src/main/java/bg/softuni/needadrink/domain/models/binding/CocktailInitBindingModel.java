@@ -5,11 +5,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CocktailInitBindingModel {
 
-    private String id;
+
 
     @Expose
     private String name;
@@ -26,14 +27,8 @@ public class CocktailInitBindingModel {
     @Expose
     private List<IngredientBindingModel> ingredients;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public CocktailInitBindingModel setId(String id) {
-        this.id = id;
-        return this;
+    public CocktailInitBindingModel() {
+        this.ingredients = new ArrayList<>();
     }
 
     @NotBlank

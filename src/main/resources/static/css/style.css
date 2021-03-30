@@ -134,10 +134,14 @@ a.text-primary:focus,a.text-primary:hover{
 
 
 @media (max-width: 900px) {
-    #cocktail-box {
+    #cocktail-box, #add-cocktail-box {
         flex-direction: column;
         align-items: center;
     }
+}
+
+#cocktail_details_img{
+    max-width: 40vh;
 }
 
 

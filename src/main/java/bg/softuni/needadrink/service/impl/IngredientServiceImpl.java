@@ -1,6 +1,7 @@
 package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.Ingredient;
+import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,6 +140,16 @@ public class IngredientServiceImpl implements IngredientService {
         return  this.ingredientRepository.findAllByCocktailId(id)
                 .stream()
                 .map(i->modelMapper.map(i, IngredientViewModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<IngredientBindingModel> getAllWithoutAdded(CocktailInitBindingModel cocktailInitBindingModel) {
+        List<String> ingredientsNames = new ArrayList<>();
+        cocktailInitBindingModel.getIngredients().forEach(i->ingredientsNames.add(i.getName()));
+        return   this.ingredientRepository
+                .finadAllExeptAdded(ingredientsNames)
+                .stream().map(i->modelMapper.map(i, IngredientBindingModel.class))
                 .collect(Collectors.toList());
     }
 

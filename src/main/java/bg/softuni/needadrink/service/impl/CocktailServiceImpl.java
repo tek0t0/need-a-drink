@@ -1,17 +1,18 @@
 package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.Cocktail;
+import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
-import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.error.Constants;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
+import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.service.CocktailService;
 import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.util.ValidatorUtil;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,15 +42,17 @@ public class CocktailServiceImpl implements CocktailService {
     private final CocktailRepository cocktailRepository;
     private final IngredientService ingredientService;
     private final ValidatorUtil validatorUtil;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil) {
+    public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil, UserRepository userRepository) {
         this.gson = gson;
         this.modelMapper = modelMapper;
         this.ingredientRepository = ingredientRepository;
         this.cocktailRepository = cocktailRepository;
         this.ingredientService = ingredientService;
         this.validatorUtil = validatorUtil;
+        this.userRepository = userRepository;
     }
 
 
@@ -111,5 +115,27 @@ public class CocktailServiceImpl implements CocktailService {
         Cocktail byId = this.cocktailRepository.findById(id)
                 .orElseThrow(()-> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
         return modelMapper.map(byId, CocktailServiceModel.class);
+    }
+
+    @Override
+    public boolean nameExists(CocktailInitBindingModel cocktailInitBindingModel) {
+        return this.cocktailRepository.getByName(cocktailInitBindingModel.getName()).isPresent();
+
+    }
+
+    @Override
+    public void addCocktail(CocktailInitBindingModel cocktailInitBindingModel) {
+        this.cocktailRepository.saveAndFlush(modelMapper.map(cocktailInitBindingModel, Cocktail.class));
+    }
+
+    @Override
+    public List<AllCocktailsViewModel> getFavoriteCocktails(String principalName) throws UserPrincipalNotFoundException {
+        Optional<UserEntity> userEntity = this.userRepository.findByEmail(principalName);
+        if(userEntity.isPresent()){
+            List<Cocktail> favoriteCocktails = userEntity.get().getFavoriteCocktails();
+            return favoriteCocktails.stream().map(c->modelMapper.map(c, AllCocktailsViewModel.class)).collect(Collectors.toList());
+        } else {
+            throw new UserPrincipalNotFoundException(Constants.USER_ID_NOT_FOUND);
+        }
     }
 }

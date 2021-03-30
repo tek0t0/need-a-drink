@@ -9,18 +9,28 @@
         <h1 class="text-center text-white py-3">Cocktail Details</h1>
         <div class="d-flex" id="cocktail-box">
 
-            <img class="w-50" th:src="*{imgUrl}">
+            <img class="h-25" th:src="*{imgUrl}" id="cocktail_details_img">
 
-            <div>
-                <h3 th:text="*{name}"></h3>
-                <p th:text="*{description}"></p>
+            <div class="flex-column">
+                <div><h3 th:text="*{name}" class=""></h3></div>
+                <div><p th:text="*{description}"></p></div>
+                <div><p th:text="*{preparation}"></p></div>
                 <div>
                     <ul>
                         <li th:each="i: ${ingredients}" th:object="${i}" th:text="*{name}"
                         style="list-style: circle inside;" ></li>
                     </ul>
                 </div>
-                <p th:text="*{preparation}"></p>
+
+                <div class="d-flex justify-content-around my-3">
+                    <div th:if="${!alreadyInFavorite}">
+                        <form th:action="@{/cocktails/addToFavorites/{id}(id=${cocktailViewModel.id})}" method="POST">
+                            <button class="btn btn-dark btn-width">Add to Favorites</button>
+                        </form>
+                    </div>
+                    <div  sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/cocktails/edit/{id}(id=${cocktailViewModel.id})}" class="btn btn-dark">Edit</a></div>
+                    <div  sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/cocktails/delete/{id}(id=${cocktailViewModel.id})}" class="btn btn-dark">Delete</a></div>
+                </div>
             </div>
         </div>
     </div>

@@ -60,7 +60,7 @@
                         <a class="nav-link" th:href="@{/cocktails/all}">All Cocktails</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="nav-item">
-                        <a class="nav-link" th:href="@{/cocktails/myCocktails}">My Cocktails</a>
+                        <a class="nav-link" th:href="@{/cocktails/myCocktails}">Favorite Cocktails</a>
                     </li>
                     <li sec:authorize="!isAuthenticated()" class="nav-item">
                         <a class="nav-link" th:href="@{/users/login}">Log-In</a>
