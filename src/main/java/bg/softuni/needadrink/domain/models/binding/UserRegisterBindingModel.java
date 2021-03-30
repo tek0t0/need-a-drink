@@ -12,10 +12,15 @@ import java.time.LocalDate;
 
 @FieldMatch(first = "password", second = "confirmPassword")
 public class UserRegisterBindingModel {
+
     private String email;
+
     private String fullName;
+
     private String password;
+
     private LocalDate birthDate;
+
     private String confirmPassword;
 
     @NotBlank
@@ -39,7 +44,6 @@ public class UserRegisterBindingModel {
         this.fullName = fullName;
         return this;
     }
-
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past

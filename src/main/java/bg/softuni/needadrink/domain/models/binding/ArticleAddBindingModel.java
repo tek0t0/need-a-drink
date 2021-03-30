@@ -1,5 +1,6 @@
 package bg.softuni.needadrink.domain.models.binding;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -7,9 +8,17 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class ArticleAddBindingModel {
+
+    @Expose
     private String title;
+
+    @Expose
     private String coverImgUrl;
+
+    @Expose
     private String description;
+
+    @Expose
     private String content;
 
 

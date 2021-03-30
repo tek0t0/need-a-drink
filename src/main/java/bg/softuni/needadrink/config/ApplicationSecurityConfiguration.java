@@ -4,6 +4,7 @@ import bg.softuni.needadrink.service.impl.NeedADrinkUserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final NeedADrinkUserService nadUserService;
@@ -41,7 +43,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")
-                .failureForwardUrl("/users/login-error") //TODO login-error page
+                .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
                 .logoutUrl("/logout")

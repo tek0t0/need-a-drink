@@ -1,9 +1,13 @@
 package bg.softuni.needadrink.domain.models.views;
 
 public class AllCocktailsViewModel {
+
     private String id;
+
     private String name;
+
     private String description;
+
     private String imgUrl;
 
     public String getId() {
@@ -32,7 +36,6 @@ public class AllCocktailsViewModel {
         this.description = description;
         return this;
     }
-
 
     public String getImgUrl() {
         return imgUrl;

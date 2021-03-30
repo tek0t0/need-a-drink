@@ -4,12 +4,19 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class UserServiceModel {
+
     private String id;
+
     private String email;
+
     private String fullName;
+
     private String imgUrl;
+
     private LocalDate birthDate;
+
     private String password;
+
     private List<RoleServiceModel> roles;
 
 

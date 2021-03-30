@@ -3,11 +3,17 @@ package bg.softuni.needadrink.domain.models.service;
 import java.time.LocalDate;
 
 public class ArticleServiceModel {
+
     private String id;
+
     private String title;
+
     private String coverImgUrl;
+
     private LocalDate addedOn;
+
     private String description;
+
     private String content;
 
     public String getId() {

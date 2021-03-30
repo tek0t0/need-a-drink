@@ -7,8 +7,11 @@ import java.util.List;
 @Entity
 @Table(name = "ingredients")
 public class Ingredient extends BaseEntity{
+
     private String name;
+
     private String imgUrl;
+
     private List<Cocktail> usedIn;
 
     public Ingredient() {

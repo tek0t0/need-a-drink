@@ -1,10 +1,15 @@
 package bg.softuni.needadrink.domain.models.views;
 
 public class CocktailDetailsViewModel {
+
     private String id;
+
     private String name;
+
     private String description;
+
     private String preparation;
+
     private String imgUrl;
 
     public String getId() {

@@ -24,7 +24,6 @@ public class IngredientBindingModel {
         return this;
     }
 
-
     @Length(min = 3, max = 30, message = "Name length must be between 3 and 30 symbols!")
     public String getName() {
         return name;

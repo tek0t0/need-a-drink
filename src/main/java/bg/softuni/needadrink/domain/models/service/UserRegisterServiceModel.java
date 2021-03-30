@@ -3,9 +3,13 @@ package bg.softuni.needadrink.domain.models.service;
 import java.time.LocalDate;
 
 public class UserRegisterServiceModel {
+
     private String email;
+
     private String fullName;
+
     private LocalDate birthDate;
+
     private String password;
 
     public String getEmail() {

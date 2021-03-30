@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, String> {
+
     Optional<Ingredient> getByName(String name);
 
     @Query("select i from Ingredient i join i.usedIn c where c.id = :id")

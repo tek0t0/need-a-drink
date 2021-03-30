@@ -9,11 +9,12 @@ import java.util.Set;
 public class UserListViewModel {
 
     private String email;
+
     private String fullName;
+
     private LocalDate birthDate;
+
     private Set<RoleServiceModel> roles;
-
-
 
     public String getEmail() {
         return email;

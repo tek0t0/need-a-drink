@@ -11,13 +11,18 @@ import java.util.Set;
 @Table(name="users")
 public class UserEntity extends BaseEntity{
 
-
   private String email;
+
   private String fullName;
+
   private String password;
+
   private LocalDate birthDate;
+
   private String imgUrl;
+
   private Set<UserRoleEntity> roles;
+
   private List<Cocktail> favoriteCocktails;
 
   public UserEntity() {
@@ -35,7 +40,6 @@ public class UserEntity extends BaseEntity{
     return this;
   }
 
-
   @Column(name = "full_name", nullable = false)
   public String getFullName() {
     return fullName;
@@ -45,7 +49,6 @@ public class UserEntity extends BaseEntity{
     this.fullName = fullName;
     return this;
   }
-
 
   @Column(name = "password", nullable = false)
   public String getPassword() {

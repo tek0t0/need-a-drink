@@ -1,8 +1,9 @@
 package bg.softuni.needadrink.domain.models.service;
 
-public class RoleServiceModel{
+public class RoleServiceModel {
 
     private String id;
+
     private String name;
 
     public RoleServiceModel() {

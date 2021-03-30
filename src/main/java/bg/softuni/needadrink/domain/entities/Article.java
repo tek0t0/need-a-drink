@@ -9,11 +9,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "articles")
-public class Article extends BaseEntity{
+public class Article extends BaseEntity {
+
     private String title;
+
     private String coverImgUrl;
+
     private LocalDate addedOn;
+
     private String description;
+
     private String content;
 
     public Article() {
@@ -39,7 +44,6 @@ public class Article extends BaseEntity{
         return this;
     }
 
-
     @Column(name = "added_on", nullable = false)
     public LocalDate getAddedOn() {
         return addedOn;
@@ -60,7 +64,7 @@ public class Article extends BaseEntity{
         return this;
     }
 
-    @Column(name = "content",columnDefinition = "TEXT", nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     public String getContent() {
         return content;
     }

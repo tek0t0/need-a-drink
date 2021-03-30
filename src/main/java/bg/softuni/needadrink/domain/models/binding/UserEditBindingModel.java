@@ -14,11 +14,17 @@ import java.time.LocalDate;
 public class UserEditBindingModel {
 
     private String email;
+
     private String fullName;
+
     private LocalDate birthDate;
+
     private String oldPassword;
+
     private String password;
+
     private String confirmPassword;
+
     private String imgUrl;
 
 

@@ -1,4 +1,4 @@
-package bg.softuni.needadrink.error;
+package bg.softuni.needadrink.util;
 
 
 public class Constants {

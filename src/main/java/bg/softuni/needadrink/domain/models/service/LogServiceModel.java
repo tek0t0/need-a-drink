@@ -1,23 +1,29 @@
-package bg.softuni.needadrink.domain.entities;
+package bg.softuni.needadrink.domain.models.service;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "logs")
-public class Log extends BaseEntity{
+public class LogServiceModel {
+
+    private String id;
 
     private String username;
+
     private String description;
+
     private LocalDateTime time;
 
-    public Log() {
+    public LogServiceModel() {
     }
 
-    @Column(name = "username", nullable = false)
+    public String getId() {
+        return id;
+    }
+
+    public LogServiceModel setId(String id) {
+        this.id = id;
+        return this;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -26,7 +32,6 @@ public class Log extends BaseEntity{
         this.username = username;
     }
 
-    @Column(name = "description", nullable = false)
     public String getDescription() {
         return description;
     }
@@ -35,7 +40,6 @@ public class Log extends BaseEntity{
         this.description = description;
     }
 
-    @Column(name = "time", nullable = false)
     public LocalDateTime getTime() {
         return time;
     }

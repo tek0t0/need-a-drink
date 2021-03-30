@@ -31,7 +31,6 @@ public class DBInit implements CommandLineRunner {
         this.cocktailService = cocktailService;
     }
 
-
     @Override
     public void run(String... args) throws Exception {
 
@@ -43,11 +42,11 @@ public class DBInit implements CommandLineRunner {
 
         articleService.initArticles();
 
-        if (ingredientRepository.count() == 0){
+        if (ingredientRepository.count() == 0) {
             ingredientService.seedIngredients();
         }
 
-        if(cocktailRepository.count() == 0){
+        if (cocktailRepository.count() == 0) {
             cocktailService.seedCocktails();
         }
 

@@ -7,8 +7,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+
     private String firstField;
+
     private String secondField;
+
     private String message;
 
     @Override

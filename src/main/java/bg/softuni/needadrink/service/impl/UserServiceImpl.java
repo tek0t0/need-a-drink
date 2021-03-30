@@ -6,7 +6,7 @@ import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
-import bg.softuni.needadrink.error.Constants;
+import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.error.RoleNotFoundException;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.UserRepository;
@@ -22,12 +22,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

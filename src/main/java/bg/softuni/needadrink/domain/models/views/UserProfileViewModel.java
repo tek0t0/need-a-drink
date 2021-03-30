@@ -3,9 +3,14 @@ package bg.softuni.needadrink.domain.models.views;
 import java.time.LocalDate;
 
 public class UserProfileViewModel {
+
+
     private String email;
+
     private String fullName;
+
     private LocalDate birthDate;
+
     private String imgUrl;
 
     public String getEmail() {

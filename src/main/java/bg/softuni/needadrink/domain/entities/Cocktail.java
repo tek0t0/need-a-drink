@@ -9,10 +9,15 @@ import java.util.Set;
 @Entity
 @Table(name = "cocktails")
 public class Cocktail extends BaseEntity {
+
     private String name;
+
     private String description;
+
     private String preparation;
+
     private String imgUrl;
+
     private Set<Ingredient> ingredients;
 
     public Cocktail() {

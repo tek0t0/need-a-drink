@@ -9,7 +9,7 @@ import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
-import bg.softuni.needadrink.error.Constants;
+import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
 import bg.softuni.needadrink.repositiry.UserRepository;

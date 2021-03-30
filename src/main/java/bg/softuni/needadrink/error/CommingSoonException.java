@@ -3,8 +3,8 @@ package bg.softuni.needadrink.error;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Comming Soon!")
-public class CommingSoonException extends RuntimeException{
+@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Coming Soon!")
+public class CommingSoonException extends RuntimeException {
 
     private int status;
 
