@@ -154,6 +154,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
+    @PageTitle("Delete user")
     public String deleteUser(@PathVariable String id, Model model) {
         UserServiceModel userById = this.userService.findUserById(id);
         model.addAttribute("userProfileViewModel", modelMapper.map(userById, UserProfileViewModel.class));

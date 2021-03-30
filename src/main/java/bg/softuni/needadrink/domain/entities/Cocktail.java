@@ -63,7 +63,7 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }

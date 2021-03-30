@@ -9,6 +9,7 @@ import bg.softuni.needadrink.error.CommingSoonException;
 import bg.softuni.needadrink.service.CocktailService;
 import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.service.UserService;
+import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,7 @@ public class CocktailController {
     }
 
     @GetMapping("/all")
+    @PageTitle("All Cocktails")
     public String allCocktails(Model model) {
         List<AllCocktailsViewModel> allCocktails = cocktailService.getAllCocktails()
                 .stream()
@@ -52,6 +54,7 @@ public class CocktailController {
     }
 
     @GetMapping("/details/{id}")
+    @PageTitle("Details")
     public String cocktailDetails(@PathVariable String id, Model model, Principal principal) {
         CocktailDetailsViewModel viewModel = modelMapper.map(this.cocktailService.getCocktailById(id), CocktailDetailsViewModel.class);
         model.addAttribute("cocktailViewModel", viewModel);
@@ -64,6 +67,7 @@ public class CocktailController {
     }
 
     @GetMapping("/add")
+    @PageTitle("Add Cocktail")
     public String addCocktail(Model model) {
         if (!model.containsAttribute("cocktailInitBindingModel")) {
             model.addAttribute("cocktailInitBindingModel", new CocktailInitBindingModel());
@@ -116,6 +120,7 @@ public class CocktailController {
     }
 
     @GetMapping("/myCocktails")
+    @PageTitle("My Cocktails")
     public String favoriteCocktails(Principal principal, Model model) throws UserPrincipalNotFoundException {
 
         model.addAttribute("allCocktails", this.cocktailService.getFavoriteCocktails(principal.getName()));
@@ -138,6 +143,7 @@ public class CocktailController {
     }
 
     @GetMapping("/cocktails/edit/{id}")
+    @PageTitle("Edit Cocktail")
     public String editCocktail(@PathVariable String id){
         throw new CommingSoonException();
     }
