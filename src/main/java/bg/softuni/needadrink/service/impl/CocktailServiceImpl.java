@@ -138,4 +138,9 @@ public class CocktailServiceImpl implements CocktailService {
             throw new UserPrincipalNotFoundException(Constants.USER_ID_NOT_FOUND);
         }
     }
+
+    @Override
+    public void deleteById(String id) {
+        this.cocktailRepository.deleteById(id);
+    }
 }

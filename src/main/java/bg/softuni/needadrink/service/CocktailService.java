@@ -21,4 +21,6 @@ public interface CocktailService {
     void addCocktail(CocktailInitBindingModel cocktailInitBindingModel);
 
     List<AllCocktailsViewModel> getFavoriteCocktails(String principalName) throws UserPrincipalNotFoundException;
+
+    void deleteById(String id);
 }

@@ -142,6 +142,11 @@ public class CocktailController {
         throw new CommingSoonException();
     }
 
+    @PostMapping("/delete/{id}")
+    public String deleteCocktailConfirm(@PathVariable String id) {
+        this.cocktailService.deleteById(id);
+        return "redirect:/cocktails/all";
+    }
 
 
 }

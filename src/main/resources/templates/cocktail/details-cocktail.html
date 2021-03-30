@@ -18,7 +18,7 @@
                 <div>
                     <ul>
                         <li th:each="i: ${ingredients}" th:object="${i}" th:text="*{name}"
-                        style="list-style: circle inside;" ></li>
+                            style="list-style: circle inside;"></li>
                     </ul>
                 </div>
 
@@ -28,8 +28,15 @@
                             <button class="btn btn-dark btn-width">Add to Favorites</button>
                         </form>
                     </div>
-                    <div  sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/cocktails/edit/{id}(id=${cocktailViewModel.id})}" class="btn btn-dark">Edit</a></div>
-                    <div  sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/cocktails/delete/{id}(id=${cocktailViewModel.id})}" class="btn btn-dark">Delete</a></div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')"><a
+                            th:href="@{/cocktails/edit/{id}(id=${cocktailViewModel.id})}" class="btn btn-dark">Edit</a>
+                    </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <form th:action="@{/cocktails/delete/{id}(id=${cocktailViewModel.id})}" method="POST">
+                            <button class="btn btn-dark btn-width">Delete</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
