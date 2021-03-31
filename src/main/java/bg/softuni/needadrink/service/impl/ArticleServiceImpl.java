@@ -65,6 +65,14 @@ public class ArticleServiceImpl implements ArticleService {
                 Article article = this.modelMapper.map(bindingModel, Article.class);
                 article.setAddedOn(LocalDate.now());
                 this.articleRepository.saveAndFlush(article);
+            } else {
+
+                LogServiceModel logServiceModel = new LogServiceModel();
+                logServiceModel.setUsername("ADMIN");
+                logServiceModel.setDescription("Failed to add article.");
+                logServiceModel.setTime(LocalDateTime.now());
+
+                this.logService.seedLogInDB(logServiceModel);
             }
 
         }

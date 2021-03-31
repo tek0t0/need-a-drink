@@ -92,6 +92,13 @@ public class CocktailServiceImpl implements CocktailService {
                 }
 
                 this.cocktailRepository.saveAndFlush(cocktail);
+            } else {
+                LogServiceModel logServiceModel = new LogServiceModel();
+                logServiceModel.setUsername("ADMIN");
+                logServiceModel.setDescription("Failed to add cocktail.");
+                logServiceModel.setTime(LocalDateTime.now());
+
+                this.logService.seedLogInDB(logServiceModel);
             }
         }
     }
