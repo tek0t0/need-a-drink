@@ -2,7 +2,6 @@ package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
-import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.error.CommingSoonException;
@@ -11,6 +10,7 @@ import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +42,7 @@ public class CocktailController {
     }
 
     @GetMapping("/all")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PageTitle("All Cocktails")
     public String allCocktails(Model model) {
         List<AllCocktailsViewModel> allCocktails = cocktailService.getAllCocktails()
@@ -54,6 +55,7 @@ public class CocktailController {
     }
 
     @GetMapping("/details/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PageTitle("Details")
     public String cocktailDetails(@PathVariable String id, Model model, Principal principal) {
         CocktailDetailsViewModel viewModel = modelMapper.map(this.cocktailService.getCocktailById(id), CocktailDetailsViewModel.class);
@@ -67,6 +69,7 @@ public class CocktailController {
     }
 
     @GetMapping("/add")
+    @Secured("ROLE_ADMIN")
     @PageTitle("Add Cocktail")
     public String addCocktail(Model model) {
         if (!model.containsAttribute("cocktailInitBindingModel")) {
@@ -82,6 +85,7 @@ public class CocktailController {
     }
 
     @PostMapping("/addIngredient/{id}")
+    @Secured("ROLE_ADMIN")
     public String addIngredient(@PathVariable String id,
                                 Model model,
                                 CocktailInitBindingModel cocktailInitBindingModel) {
@@ -98,6 +102,7 @@ public class CocktailController {
     }
 
     @PostMapping("/add")
+    @Secured("ROLE_ADMIN")
     public String addCocktailConfirm(@Valid CocktailInitBindingModel cocktailInitBindingModel,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes) {
@@ -120,6 +125,7 @@ public class CocktailController {
     }
 
     @GetMapping("/myCocktails")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PageTitle("My Cocktails")
     public String favoriteCocktails(Principal principal, Model model) throws UserPrincipalNotFoundException {
 
@@ -129,6 +135,7 @@ public class CocktailController {
     }
 
     @PostMapping("/addToFavorites/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String addToFavorites(@PathVariable String id, Principal principal) throws UserPrincipalNotFoundException {
         this.userService.addCocktailToUserFavorites(principal.getName(), id);
 
@@ -136,6 +143,7 @@ public class CocktailController {
     }
 
     @PostMapping("/removeFromFavorites/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String removeFromFavorites(@PathVariable String id, Principal principal) throws UserPrincipalNotFoundException {
         this.userService.removeCocktailToUserFavorites(principal.getName(), id);
 
@@ -143,12 +151,14 @@ public class CocktailController {
     }
 
     @GetMapping("/cocktails/edit/{id}")
+    @Secured("ROLE_ADMIN")
     @PageTitle("Edit Cocktail")
     public String editCocktail(@PathVariable String id){
         throw new CommingSoonException();
     }
 
     @PostMapping("/delete/{id}")
+    @Secured("ROLE_ADMIN")
     public String deleteCocktailConfirm(@PathVariable String id) {
         this.cocktailService.deleteById(id);
         return "redirect:/cocktails/all";

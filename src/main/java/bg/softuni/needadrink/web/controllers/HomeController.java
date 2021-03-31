@@ -5,6 +5,8 @@ import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +30,14 @@ public class HomeController {
 
 
     @GetMapping("/")
+    @PreAuthorize("isAnonymous()")
     @PageTitle("Welcome")
     public String index(){
         return "index";
     }
 
     @GetMapping("/home")
+    @PreAuthorize("isAuthenticated()")
     @PageTitle("Home")
     public String home(Principal principal, Model model){
         String email = principal.getName();

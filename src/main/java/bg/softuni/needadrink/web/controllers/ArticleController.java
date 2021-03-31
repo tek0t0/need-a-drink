@@ -5,6 +5,7 @@ import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class ArticleController {
     }
 
     @GetMapping("/all")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PageTitle("All Articles")
     public String getAll(Model model) {
         List<ArticleServiceModel> allArticles = this.articleService.getAllArticles();
@@ -34,6 +36,7 @@ public class ArticleController {
     }
 
     @GetMapping("/add")
+    @Secured("ROLE_ADMIN")
     @PageTitle("Add Article")
     public String add(Model model) {
         if (!model.containsAttribute("articleAddBindingModel")) {
@@ -44,6 +47,7 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
+    @Secured("ROLE_ADMIN")
     public String addConfirm(@Valid ArticleAddBindingModel articleAddBindingModel,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
@@ -68,6 +72,7 @@ public class ArticleController {
     }
 
     @GetMapping("/details/{id}")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PageTitle("Article")
     public String articleDetails(@PathVariable String id, Model model) {
         model.addAttribute("article", this.articleService.findArticleById(id));
@@ -75,6 +80,7 @@ public class ArticleController {
     }
 
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_ADMIN")
     @PageTitle("Edit Article")
     public String articleEdit(@PathVariable String id, Model model) {
         model.addAttribute("article", this.articleService.findArticleById(id));
@@ -83,6 +89,7 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/{id}")
+    @Secured("ROLE_ADMIN")
     public String articleEditConfirm(@PathVariable String id,
                                      ArticleAddBindingModel articleAddBindingModel) {
         //TODO:Add validation
@@ -93,6 +100,7 @@ public class ArticleController {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_ADMIN")
     @PageTitle("Delete Article")
     public String articleDelete(@PathVariable String id, Model model) {
         model.addAttribute("article", this.articleService.findArticleById(id));
@@ -101,6 +109,7 @@ public class ArticleController {
     }
 
     @PostMapping("/delete/{id}")
+    @Secured("ROLE_ADMIN")
     public String articleDeleteConfirm(@PathVariable String id) {
         this.articleService.deleteById(id);
         return "redirect:/articles/all";

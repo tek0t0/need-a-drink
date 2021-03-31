@@ -9,6 +9,8 @@ import bg.softuni.needadrink.domain.models.views.UserProfileViewModel;
 import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,12 +38,14 @@ public class UserController {
     }
 
     @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
     @PageTitle("Log-In")
     public String login() {
         return "user/login";
     }
 
     @GetMapping("/register")
+    @PreAuthorize("isAnonymous()")
     private String register(Model model) {
         if (!model.containsAttribute("userRegisterBindingModel")) {
             model.addAttribute("userRegisterBindingModel", new UserRegisterBindingModel());
@@ -52,6 +56,7 @@ public class UserController {
     }
 
     @PostMapping("register")
+    @PreAuthorize("isAnonymous()")
     private String registerConfirm(@Valid UserRegisterBindingModel userRegisterBindingModel,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes) {
@@ -85,6 +90,7 @@ public class UserController {
     }
 
     @PostMapping("/login-error")
+    @PreAuthorize("isAnonymous()")
     public String failedLogin(@ModelAttribute("email") String email, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("bad_credentials", true);
         redirectAttributes.addFlashAttribute("email", email);
@@ -93,6 +99,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
     @PageTitle("Profile")
     public String profile(Principal principal, Model model) {
         model
@@ -102,6 +109,7 @@ public class UserController {
     }
 
     @GetMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
     @PageTitle("Edit Profile")
     public String editProfile(Principal principal, Model model) {
         model.addAttribute("userEditBindingModel", this.modelMapper
@@ -111,6 +119,7 @@ public class UserController {
     }
 
     @PostMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
     public String editProfileConfirm(@Valid UserEditBindingModel userEditBindingModel,
                                      BindingResult bindingResult,
                                      RedirectAttributes redirectAttributes) {
@@ -126,6 +135,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @Secured("ROLE_ADMIN")
     @PageTitle("All Users")
     public String allUsers(Model model) {
         List<UserServiceModel> users = this.userService.findAllUsers();
@@ -140,6 +150,7 @@ public class UserController {
 
 
     @PostMapping("/set-admin/{id}")
+    @Secured("ROLE_ADMIN")
     public String setAdminRole(@PathVariable String id) {
         this.userService.setAsAdmin(id);
 
@@ -147,6 +158,7 @@ public class UserController {
     }
 
     @PostMapping("/set-user/{id}")
+    @Secured("ROLE_ADMIN")
     public String setUserRole(@PathVariable String id) {
         this.userService.setAsUser(id);
 
@@ -154,6 +166,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_ADMIN")
     @PageTitle("Delete user")
     public String deleteUser(@PathVariable String id, Model model) {
         UserServiceModel userById = this.userService.findUserById(id);
@@ -162,6 +175,7 @@ public class UserController {
     }
 
     @PostMapping("/delete/{id}")
+    @Secured("ROLE_ADMIN")
     public String deleteUserConfirm(@PathVariable String id) {
         this.userService.deleteUser(id);
         return "redirect:/users/all";
