@@ -63,46 +63,37 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     @Transactional
-    public void seedCocktails() {
+    public void seedCocktails() throws IOException {
         String content;
-        try {
-            content = String.join("", Files.readAllLines(Path.of(cocktailsFile.getURI())));
-            CocktailInitBindingModel[] cocktailModels = this.gson.fromJson(content, CocktailInitBindingModel[].class);
-            for (CocktailInitBindingModel cocktailModel : cocktailModels) {
-                if (this.cocktailRepository.getByName(cocktailModel.getName()).isPresent()) {
-                    throw new CocktailNameAlreadyExists(Constants.COCKTAIL_ALREADY_EXISTS);
-                }
-                List<IngredientBindingModel> ingredientModels = cocktailModel.getIngredients();
-                for (IngredientBindingModel ingredient : ingredientModels) {
-                    if (ingredientRepository.getByName(ingredient.getName()).isEmpty()) {
-                        ingredientService.addIngredient(modelMapper.map(ingredient, IngredientServiceModel.class));
-                    }
-                }
 
-                if (this.validatorUtil.isValid(cocktailModel)) {
-                    Cocktail cocktail = this.modelMapper.map(cocktailModel, Cocktail.class);
-
-                    cocktail.getIngredients().clear();
-                    for (IngredientBindingModel ingredientModel : ingredientModels) {
-                        cocktail.addIngredient((ingredientService.findByName(ingredientModel.getName())));
-                    }
-
-                    if (cocktailModel.getImgUrl().isEmpty()) {
-                        cocktail.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
-                    }
-
-                    this.cocktailRepository.saveAndFlush(cocktail);
-                } else {
-                    throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
-                }
-
-
+        content = String.join("", Files.readAllLines(Path.of(cocktailsFile.getURI())));
+        CocktailInitBindingModel[] cocktailModels = this.gson.fromJson(content, CocktailInitBindingModel[].class);
+        for (CocktailInitBindingModel cocktailModel : cocktailModels) {
+            if (this.cocktailRepository.getByName(cocktailModel.getName()).isPresent()) {
+                throw new CocktailNameAlreadyExists(Constants.COCKTAIL_ALREADY_EXISTS);
             }
-        } catch (IOException e) {
-            //TODO add custom exception
-            throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
-        }
+            List<IngredientBindingModel> ingredientModels = cocktailModel.getIngredients();
+            for (IngredientBindingModel ingredient : ingredientModels) {
+                if (ingredientRepository.getByName(ingredient.getName()).isEmpty()) {
+                    ingredientService.addIngredient(modelMapper.map(ingredient, IngredientServiceModel.class));
+                }
+            }
 
+            if (this.validatorUtil.isValid(cocktailModel)) {
+                Cocktail cocktail = this.modelMapper.map(cocktailModel, Cocktail.class);
+
+                cocktail.getIngredients().clear();
+                for (IngredientBindingModel ingredientModel : ingredientModels) {
+                    cocktail.addIngredient((ingredientService.findByName(ingredientModel.getName())));
+                }
+
+                if (cocktailModel.getImgUrl().isEmpty()) {
+                    cocktail.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
+                }
+
+                this.cocktailRepository.saveAndFlush(cocktail);
+            }
+        }
     }
 
     @Override
@@ -158,7 +149,7 @@ public class CocktailServiceImpl implements CocktailService {
     public void deleteById(String id) {
 
         Cocktail cocktail = this.cocktailRepository.findById(id)
-                .orElseThrow(()->new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+                .orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");

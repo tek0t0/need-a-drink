@@ -50,26 +50,21 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void seedIngredients() {
+    public void seedIngredients() throws IOException {
         String content;
-        try {
-            content = String.join("", Files.readAllLines(Path.of(ingredientsFile.getURI())));
-            IngredientBindingModel[] ingredientBindingModels = this.gson.fromJson(content, IngredientBindingModel[].class);
-            for (IngredientBindingModel bindingModel : ingredientBindingModels) {
 
-                if(this.validatorUtil.isValid(bindingModel)){
-                    addDefaultImgIngredient(bindingModel);
-                    Ingredient ingredient = this.modelMapper.map(bindingModel, Ingredient.class);
-                    this.ingredientRepository.saveAndFlush(ingredient);
-                } else {
-                    throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
-                }
+        content = String.join("", Files.readAllLines(Path.of(ingredientsFile.getURI())));
+        IngredientBindingModel[] ingredientBindingModels = this.gson.fromJson(content, IngredientBindingModel[].class);
+        for (IngredientBindingModel bindingModel : ingredientBindingModels) {
 
+            if (this.validatorUtil.isValid(bindingModel)) {
+                addDefaultImgIngredient(bindingModel);
+                Ingredient ingredient = this.modelMapper.map(bindingModel, Ingredient.class);
+                this.ingredientRepository.saveAndFlush(ingredient);
             }
-        } catch (IOException e) {
-            //TODO add custom exception
-            throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
+
         }
+
 
     }
 
@@ -166,19 +161,19 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public List<IngredientViewModel> findAllByCocktailId(String id) {
-        return  this.ingredientRepository.findAllByCocktailId(id)
+        return this.ingredientRepository.findAllByCocktailId(id)
                 .stream()
-                .map(i->modelMapper.map(i, IngredientViewModel.class))
+                .map(i -> modelMapper.map(i, IngredientViewModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<IngredientBindingModel> getAllWithoutAdded(CocktailInitBindingModel cocktailInitBindingModel) {
         List<String> ingredientsNames = new ArrayList<>();
-        cocktailInitBindingModel.getIngredients().forEach(i->ingredientsNames.add(i.getName()));
-        return   this.ingredientRepository
+        cocktailInitBindingModel.getIngredients().forEach(i -> ingredientsNames.add(i.getName()));
+        return this.ingredientRepository
                 .finadAllExeptAdded(ingredientsNames)
-                .stream().map(i->modelMapper.map(i, IngredientBindingModel.class))
+                .stream().map(i -> modelMapper.map(i, IngredientBindingModel.class))
                 .collect(Collectors.toList());
     }
 

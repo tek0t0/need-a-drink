@@ -7,11 +7,12 @@ import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.views.IngredientViewModel;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public interface IngredientService {
-    void seedIngredients();
+    void seedIngredients() throws IOException;
 
     List<IngredientServiceModel> getAllIngredients();
 

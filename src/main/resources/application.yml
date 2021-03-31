@@ -11,11 +11,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      enabled: true
+
+
 cloudinary:
   api-key: 237938788997253
   api-secret: "${CLOUDINARY_SECRET}"
   cloud-name: tekoto-cloud
+
+

@@ -29,7 +29,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-    @Value("classpath:init/articles.json") Resource articlesFile;
+    @Value("classpath:init/articles.json")
+    Resource articlesFile;
     private final ArticleRepository articleRepository;
     private final ModelMapper modelMapper;
     private final Gson gson;
@@ -52,26 +53,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void initArticles() {
+    public void initArticles() throws IOException {
 
         String content;
-        try {
-            content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
-            ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
-            for (ArticleAddBindingModel bindingModel : articleAddBindingModels) {
 
-                if(this.validatorUtil.isValid(bindingModel)){
-                    Article article = this.modelMapper.map(bindingModel, Article.class);
-                    article.setAddedOn(LocalDate.now());
-                    this.articleRepository.saveAndFlush(article);
-                } else {
-                    throw new InvalidJsonException(Constants.INVALID_JSON_DATA_ERROR);
-                }
+        content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
+        ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
+        for (ArticleAddBindingModel bindingModel : articleAddBindingModels) {
 
+            if (this.validatorUtil.isValid(bindingModel)) {
+                Article article = this.modelMapper.map(bindingModel, Article.class);
+                article.setAddedOn(LocalDate.now());
+                this.articleRepository.saveAndFlush(article);
             }
-        } catch (IOException ex) {
-            //TODO
+
         }
+
     }
 
     @Override
@@ -134,7 +131,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .setDescription(articleServiceModel.getDescription())
                 .setContent(articleServiceModel.getContent());
 
-        if(articleServiceModel.getCoverImgUrl() == null){
+        if (articleServiceModel.getCoverImgUrl() == null) {
             article.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
         }
 
@@ -151,7 +148,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteById(String id) {
         Article article = this.articleRepository.findById(id)
-                .orElseThrow(()->new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -162,9 +159,6 @@ public class ArticleServiceImpl implements ArticleService {
 
         this.articleRepository.delete(article);
     }
-
-
-
 
 
 }
