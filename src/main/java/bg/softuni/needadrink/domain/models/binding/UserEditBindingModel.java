@@ -3,6 +3,7 @@ package bg.softuni.needadrink.domain.models.binding;
 
 import bg.softuni.needadrink.domain.validators.FieldMatch;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -25,7 +26,7 @@ public class UserEditBindingModel {
 
     private String confirmPassword;
 
-    private String imgUrl;
+    private MultipartFile img;
 
 
     public String getEmail() {
@@ -91,12 +92,12 @@ public class UserEditBindingModel {
         return this;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public MultipartFile getImg() {
+        return img;
     }
 
-    public UserEditBindingModel setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public UserEditBindingModel setImg(MultipartFile img) {
+        this.img = img;
         return this;
     }
 }

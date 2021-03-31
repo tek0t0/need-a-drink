@@ -4,10 +4,12 @@ import bg.softuni.needadrink.domain.entities.Cocktail;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
+import bg.softuni.needadrink.domain.models.binding.UserEditBindingModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
+import bg.softuni.needadrink.service.CloudinaryService;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.error.RoleNotFoundException;
@@ -24,7 +26,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,9 +44,10 @@ public class UserServiceImpl implements UserService {
     private final NeedADrinkUserService needADrinkUserService;
     private final CocktailRepository cocktailRepository;
     private final LogService logService;
+    private final CloudinaryService cloudinaryService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService, CloudinaryService cloudinaryService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
@@ -50,6 +55,7 @@ public class UserServiceImpl implements UserService {
         this.needADrinkUserService = needADrinkUserService;
         this.cocktailRepository = cocktailRepository;
         this.logService = logService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -116,15 +122,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel editUserProfile(UserServiceModel serviceModel) {
-        UserEntity userEntity = this.userRepository.findByEmail(serviceModel.getEmail())
+    public void editUserProfile(UserEditBindingModel bindingModel) throws IOException {
+
+        MultipartFile img = bindingModel.getImg();
+        String imageUrl = cloudinaryService.uploadImage(img);
+
+
+        UserEntity userEntity = this.userRepository.findByEmail(bindingModel.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         userEntity
-                .setFullName(serviceModel.getFullName())
-                .setPassword(passwordEncoder.encode(serviceModel.getPassword()))
-                .setImgUrl(serviceModel.getImgUrl())
-                .setBirthDate(serviceModel.getBirthDate());
+                .setFullName(bindingModel.getFullName())
+                .setPassword(passwordEncoder.encode(bindingModel.getPassword()))
+                .setImgUrl(imageUrl)
+                .setBirthDate(bindingModel.getBirthDate());
 
 
         LogServiceModel logServiceModel = new LogServiceModel();
@@ -134,8 +145,7 @@ public class UserServiceImpl implements UserService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-
-        return this.modelMapper.map(this.userRepository.saveAndFlush(userEntity), UserServiceModel.class);
+        this.userRepository.saveAndFlush(userEntity);
     }
 
     @Override

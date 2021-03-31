@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
@@ -119,7 +120,7 @@ public class UserController {
     @PostMapping("/edit")
     public String editProfileConfirm(@Valid UserEditBindingModel userEditBindingModel,
                                      BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes) {
+                                     RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userEditBindingModel", userEditBindingModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userEditBindingModel", bindingResult);
@@ -132,7 +133,7 @@ public class UserController {
             return "redirect:/users/edit";
         }
 
-        this.userService.editUserProfile(this.modelMapper.map(userEditBindingModel, UserServiceModel.class));
+        this.userService.editUserProfile(userEditBindingModel);
 
         return "redirect:/users/profile";
     }

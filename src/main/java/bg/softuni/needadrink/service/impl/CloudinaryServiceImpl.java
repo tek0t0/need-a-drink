@@ -25,7 +25,8 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
         return cloudinary
                 .uploader()
-                .upload(multipartFile, new HashMap<>())
-                .get("url").toString();
+                .upload(tempFile, new HashMap<>())
+                .get("url")
+                .toString();
     }
 }
