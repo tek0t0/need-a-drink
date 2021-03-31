@@ -15,7 +15,7 @@ public interface UserService {
 
     UserServiceModel findUserByEmail(String email);
 
-    UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword);
+    UserServiceModel editUserProfile(UserServiceModel serviceModel);
 
     List<UserServiceModel> findAllUsers();
 
@@ -32,5 +32,8 @@ public interface UserService {
     void removeCocktailToUserFavorites(String email, String id);
 
     boolean cocktailIsInFavorites(String id, String email);
+
+
+    boolean passwordMissMatch(String email, String oldPassword);
 }
 

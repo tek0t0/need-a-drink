@@ -5,6 +5,7 @@ import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ public class HomeController {
     private final ArticleService articleService;
     private final ModelMapper modelMapper;
 
+    @Autowired
     public HomeController(UserService userService, ArticleService articleService, ModelMapper modelMapper) {
         this.userService = userService;
         this.articleService = articleService;
@@ -32,7 +34,10 @@ public class HomeController {
     @GetMapping("/")
     @PreAuthorize("isAnonymous()")
     @PageTitle("Welcome")
-    public String index(){
+    public String index(Principal principal){
+        if(principal != null){
+            return "redirect:/home";
+        }
         return "index";
     }
 

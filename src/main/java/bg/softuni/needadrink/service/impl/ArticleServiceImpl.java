@@ -13,6 +13,7 @@ import bg.softuni.needadrink.util.ValidatorUtil;
 import com.google.gson.Gson;
 import com.jayway.jsonpath.InvalidJsonException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ValidatorUtil validatorUtil;
     private final LogService logService;
 
+    @Autowired
     public ArticleServiceImpl(ArticleRepository articleRepository,
                               ModelMapper modelMapper,
                               Gson gson,

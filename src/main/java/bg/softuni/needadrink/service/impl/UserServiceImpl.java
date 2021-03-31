@@ -116,18 +116,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserServiceModel editUserProfile(UserServiceModel serviceModel, String oldPassword) {
+    public UserServiceModel editUserProfile(UserServiceModel serviceModel) {
         UserEntity userEntity = this.userRepository.findByEmail(serviceModel.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        if (!this.passwordEncoder.matches(oldPassword, userEntity.getPassword())) {
-            throw new IllegalArgumentException(Constants.PASSWORD_IS_INCORRECT);
-        }
-
-
         userEntity
-                .setPassword(serviceModel.getPassword())
                 .setFullName(serviceModel.getFullName())
+                .setPassword(passwordEncoder.encode(serviceModel.getPassword()))
                 .setImgUrl(serviceModel.getImgUrl())
                 .setBirthDate(serviceModel.getBirthDate());
 
@@ -231,10 +226,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean cocktailIsInFavorites(String id, String email) {
 
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(Constants.USER_EMAIL_NOT_FOUND));
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_EMAIL_NOT_FOUND));
         return userEntity
                 .getFavoriteCocktails()
                 .contains(this.cocktailRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND)));
 
+    }
+
+    @Override
+    public boolean passwordMissMatch(String email, String oldPassword) {
+
+        UserEntity userEntity = this.userRepository.findByEmail(email).
+                orElseThrow(() -> new UsernameNotFoundException(Constants.USER_EMAIL_NOT_FOUND));
+
+        return !passwordEncoder.matches(oldPassword, userEntity.getPassword());
     }
 }

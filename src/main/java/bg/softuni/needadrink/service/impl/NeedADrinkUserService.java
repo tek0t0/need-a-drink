@@ -2,6 +2,7 @@ package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.repositiry.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -18,6 +19,7 @@ public class NeedADrinkUserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    @Autowired
     public NeedADrinkUserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

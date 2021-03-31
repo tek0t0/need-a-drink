@@ -5,6 +5,7 @@ import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final ModelMapper modelMapper;
 
+    @Autowired
     public ArticleController(ArticleService articleService, ModelMapper modelMapper) {
         this.articleService = articleService;
         this.modelMapper = modelMapper;

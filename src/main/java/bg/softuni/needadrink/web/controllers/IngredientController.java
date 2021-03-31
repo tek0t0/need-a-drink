@@ -6,6 +6,7 @@ import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class IngredientController {
     private final IngredientService ingredientService;
     private final ModelMapper modelMapper;
 
+    @Autowired
     public IngredientController(IngredientService ingredientService, ModelMapper modelMapper) {
         this.ingredientService = ingredientService;
         this.modelMapper = modelMapper;

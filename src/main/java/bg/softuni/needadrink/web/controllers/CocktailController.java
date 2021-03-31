@@ -4,12 +4,12 @@ import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
-import bg.softuni.needadrink.error.CommingSoonException;
 import bg.softuni.needadrink.service.CocktailService;
 import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +34,7 @@ public class CocktailController {
     private final IngredientService ingredientService;
     private final UserService userService;
 
+    @Autowired
     public CocktailController(CocktailService cocktailService, ModelMapper modelMapper, IngredientService ingredientService, UserController userController, UserService userService) {
         this.cocktailService = cocktailService;
         this.modelMapper = modelMapper;
@@ -144,7 +145,7 @@ public class CocktailController {
 
     @PostMapping("/removeFromFavorites/{id}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public String removeFromFavorites(@PathVariable String id, Principal principal) throws UserPrincipalNotFoundException {
+    public String removeFromFavorites(@PathVariable String id, Principal principal)  {
         this.userService.removeCocktailToUserFavorites(principal.getName(), id);
 
         return "redirect:/cocktails/myCocktails";
@@ -154,7 +155,7 @@ public class CocktailController {
     @Secured("ROLE_ADMIN")
     @PageTitle("Edit Cocktail")
     public String editCocktail(@PathVariable String id){
-        throw new CommingSoonException();
+        return "/error";
     }
 
     @PostMapping("/delete/{id}")

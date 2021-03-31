@@ -11,3 +11,7 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL8Dialect
                 format_sql: true
+    mvc:
+      hiddenmethod:
+        filter:
+            enabled: true
