@@ -5,6 +5,7 @@ import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.error.ArticleNotFoundException;
+import bg.softuni.needadrink.service.CloudinaryService;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
@@ -34,18 +35,20 @@ public class ArticleServiceImpl implements ArticleService {
     private final Gson gson;
     private final ValidatorUtil validatorUtil;
     private final LogService logService;
+    private final CloudinaryService cloudinaryService;
 
     @Autowired
     public ArticleServiceImpl(ArticleRepository articleRepository,
                               ModelMapper modelMapper,
                               Gson gson,
                               ValidatorUtil validatorUtil,
-                              LogService logService) {
+                              LogService logService, CloudinaryService cloudinaryService) {
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
         this.gson = gson;
         this.validatorUtil = validatorUtil;
         this.logService = logService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ArticleServiceImpl implements ArticleService {
                 }
 
             }
-        } catch (IOException ignored) {
+        } catch (IOException ex) {
             //TODO
         }
     }
@@ -96,6 +99,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void addArticle(ArticleServiceModel articleServiceModel) {
+
         Article article = modelMapper.map(articleServiceModel, Article.class);
         article.setAddedOn(LocalDate.now());
         if (article.getCoverImgUrl() == null) {

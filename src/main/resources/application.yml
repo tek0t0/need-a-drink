@@ -1,17 +1,21 @@
 spring:
-    datasource:
-        driverClassName: com.mysql.cj.jdbc.Driver
-        password: 12345
-        url: jdbc:mysql://localhost:3306/needADrink_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
-        username: root
-    jpa:
-        hibernate:
-            ddl-auto: create-drop
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.MySQL8Dialect
-                format_sql: true
-    mvc:
-      hiddenmethod:
-        filter:
-            enabled: true
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: 12345
+    url: jdbc:mysql://localhost:3306/needADrink_db?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+cloudinary:
+  api-key: 237938788997253
+  api-secret: "${CLOUDINARY_SECRET}"
+  cloud-name: tekoto-cloud
