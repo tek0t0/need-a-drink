@@ -8,8 +8,10 @@ import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
+import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
+import bg.softuni.needadrink.service.CocktailShuffler;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
@@ -19,11 +21,11 @@ import bg.softuni.needadrink.service.CocktailService;
 import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.util.ValidatorUtil;
 import com.google.gson.Gson;
-import com.jayway.jsonpath.InvalidJsonException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,9 +49,12 @@ public class CocktailServiceImpl implements CocktailService {
     private final ValidatorUtil validatorUtil;
     private final UserRepository userRepository;
     private final LogService logService;
+    private final CocktailShuffler cocktailShuffler;
+
+    private CocktailDetailsViewModel cocktailDetailsViewModel;
 
     @Autowired
-    public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil, UserRepository userRepository, LogService logService) {
+    public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil, UserRepository userRepository, LogService logService, CocktailShuffler cocktailShuffler) {
         this.gson = gson;
         this.modelMapper = modelMapper;
         this.ingredientRepository = ingredientRepository;
@@ -58,8 +63,15 @@ public class CocktailServiceImpl implements CocktailService {
         this.validatorUtil = validatorUtil;
         this.userRepository = userRepository;
         this.logService = logService;
+        this.cocktailShuffler = cocktailShuffler;
+        this.cocktailDetailsViewModel = new CocktailDetailsViewModel();
     }
 
+
+    @Override
+    public CocktailDetailsViewModel getCocktailOfTheDay() {
+        return this.cocktailDetailsViewModel;
+    }
 
     @Override
     @Transactional
@@ -167,5 +179,17 @@ public class CocktailServiceImpl implements CocktailService {
 
         this.cocktailRepository.delete(cocktail);
     }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    protected void getRandomCocktail() {
+        List<CocktailDetailsViewModel> collect = this.cocktailRepository
+                .findAll().stream()
+                .map(c -> modelMapper.map(c, CocktailDetailsViewModel.class))
+                .collect(Collectors.toList());
+        this.cocktailShuffler.shuffle(collect);
+        this.cocktailDetailsViewModel = collect.get(0);
+    }
+
+
 
 }

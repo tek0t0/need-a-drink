@@ -19,31 +19,27 @@
             </div>
         </div>
     </div>
-    <h2 class="text-center text-white">Articles</h2>
-    <div sec:authorize="isAuthenticated()" class="card-group container" id="article_container">
-        <div class="card m-3 rounded" th:each="a: ${latestArticles}" th:object="${a}">
-            <div>
-                <a th:href="@{/articles/details/{id} (id=${a.id})}">
-                    <img th:src="*{coverImgUrl}" class="card-img-top p-2" alt="cocktail">
-                </a>
-                <div class="card-body">
-                    <h4 th:text="*{title}" class="card-title">Card title</h4>
-                    <p th:text="*{description}" class="card-text"></p>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div><p th:text="*{addedOn}" class="card-text"><small class="text-muted"></small></p></div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a
-                                th:href="@{/articles/edit/{id} (id=*{id})}">Edit</a></div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="p-1 m-1 border border-dark rounded"><a
-                                th:href="@{/articles/delete/{id} (id=*{id})}">Delete</a></div>
-                        <div class="p-1 m-1 border border-dark rounded"><a
-                                th:href="@{/articles/details/{id}(id=${a.id})}">More info</a></div>
-                    </div>
+    <h2 class="text-center text-white">Cocktail of the day</h2>
+    <div sec:authorize="isAuthenticated()" class="container" id="cocktail_of_the_day_container">
+        <div th:object="${cocktailDetailsViewModel}" class="d-flex" id="cocktail-box">
+
+            <img class="h-25" th:src="*{imgUrl}" id="cocktail_details_img">
+
+            <div class="flex-column">
+                <div><h3 th:text="*{name}" class=""></h3></div>
+                <div><p th:text="*{description}"></p></div>
+                <div><p th:text="*{preparation}"></p></div>
+                <div class="d-flex justify-content-around my-3">
+                    <a th:href="@{/cocktails/details/{id}(id=*{id})}" class="btn btn-dark">Details</a>
                 </div>
+
+
             </div>
         </div>
 
     </div>
 </main>
 <footer th:include="fragments/fragment::footer"></footer>
+<script th:src="@{js/search-bar.js}"></script>
 </body>
 </html>

@@ -11,6 +11,9 @@ import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 public interface CocktailService {
+
+    CocktailDetailsViewModel getCocktailOfTheDay();
+
     void seedCocktails() throws IOException;
 
     List<CocktailServiceModel> getAllCocktails();
