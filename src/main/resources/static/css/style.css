@@ -115,6 +115,7 @@ a.text-primary:focus,a.text-primary:hover{
         display: flex;
         flex-direction: column;
         max-width: 500px;
+        align-items: center;
     }
 }
 
@@ -126,10 +127,16 @@ a.text-primary:focus,a.text-primary:hover{
 #profile-box{
     background-color: rgba(129, 131, 108, 0.6);
     max-width: 300px;
+    border: solid 1px white;
+    border-radius: 20px;
+
 }
 
 .all-users-box{
     background-color: rgba(229, 233, 202, 0.6);
+    margin-top: 40px;
+    border: solid 1px white;
+    border-radius: 20px;
 }
 
 
@@ -144,6 +151,11 @@ a.text-primary:focus,a.text-primary:hover{
     max-width: 40vh;
 }
 
-
+#cocktail_of_the_day_container{
+    background-color: rgba(250, 245, 245,0.6);
+    max-width: 600px;
+    border: solid 1px white;
+    border-radius: 20px;
+}
 
 

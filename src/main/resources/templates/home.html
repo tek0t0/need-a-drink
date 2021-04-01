@@ -20,13 +20,13 @@
         </div>
     </div>
     <h2 class="text-center text-white">Cocktail of the day</h2>
-    <div sec:authorize="isAuthenticated()" class="container" id="cocktail_of_the_day_container">
+    <div sec:authorize="isAuthenticated()" class="mx-auto mt-5 " id="cocktail_of_the_day_container">
         <div th:object="${cocktailDetailsViewModel}" class="d-flex" id="cocktail-box">
 
-            <img class="h-25" th:src="*{imgUrl}" id="cocktail_details_img">
+            <img class="h-25" style="max-width: 300px" th:src="*{imgUrl}" id="cocktail_details_img">
 
-            <div class="flex-column">
-                <div><h3 th:text="*{name}" class=""></h3></div>
+            <div class="flex-column p-2">
+                <div><h3 th:text="*{name}" class="my-4"></h3></div>
                 <div><p th:text="*{description}"></p></div>
                 <div><p th:text="*{preparation}"></p></div>
                 <div class="d-flex justify-content-around my-3">

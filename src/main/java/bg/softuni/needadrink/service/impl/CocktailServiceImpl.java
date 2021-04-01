@@ -11,6 +11,7 @@ import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
+import bg.softuni.needadrink.error.EmptyCocktailDataBaseError;
 import bg.softuni.needadrink.service.CocktailShuffler;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
@@ -29,6 +30,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -64,12 +66,18 @@ public class CocktailServiceImpl implements CocktailService {
         this.userRepository = userRepository;
         this.logService = logService;
         this.cocktailShuffler = cocktailShuffler;
-        this.cocktailDetailsViewModel = new CocktailDetailsViewModel();
     }
 
 
     @Override
     public CocktailDetailsViewModel getCocktailOfTheDay() {
+        if(this.cocktailRepository.count() == 0){
+            throw new EmptyCocktailDataBaseError();
+        }
+
+        if(this.cocktailDetailsViewModel == null){
+            return modelMapper.map(this.cocktailRepository.findAll().get(0), CocktailDetailsViewModel.class);
+        }
         return this.cocktailDetailsViewModel;
     }
 
@@ -179,9 +187,13 @@ public class CocktailServiceImpl implements CocktailService {
 
         this.cocktailRepository.delete(cocktail);
     }
-
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 * * ? * *") //every minute
+//    @Scheduled(cron = "0 0 0 * * ?") //every day at 24:00
     protected void getRandomCocktail() {
+        if(this.cocktailRepository.count() == 0){
+            throw new EmptyCocktailDataBaseError();
+        }
+
         List<CocktailDetailsViewModel> collect = this.cocktailRepository
                 .findAll().stream()
                 .map(c -> modelMapper.map(c, CocktailDetailsViewModel.class))

@@ -8,8 +8,6 @@ import java.util.List;
 public interface ArticleService {
     void initArticles() throws IOException;
 
-    List<ArticleServiceModel> findLatestArticles();
-
     List<ArticleServiceModel> getAllArticles();
 
     boolean titleExists(String title);

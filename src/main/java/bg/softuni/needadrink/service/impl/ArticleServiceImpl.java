@@ -80,15 +80,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleServiceModel> findLatestArticles() {
-        return articleRepository
-                .findLatestArticles()
-                .stream()
-                .map(a -> modelMapper.map(a, ArticleServiceModel.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<ArticleServiceModel> getAllArticles() {
         return articleRepository
                 .findAllOrderByDate()
