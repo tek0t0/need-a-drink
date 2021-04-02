@@ -19,6 +19,7 @@ import bg.softuni.needadrink.repositiry.UserRoleRepository;
 import bg.softuni.needadrink.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +46,9 @@ public class UserServiceImpl implements UserService {
     private final CocktailRepository cocktailRepository;
     private final LogService logService;
     private final CloudinaryService cloudinaryService;
+
+    @Value("${admin-init.admin-pass}")
+    private String pass;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService, CloudinaryService cloudinaryService) {
@@ -108,7 +112,7 @@ public class UserServiceImpl implements UserService {
                 .addRole(adminRole)
                 .setEmail("admin@abv.bg")
                 .setFullName("admin adminov")
-                .setPassword(passwordEncoder.encode("12345"))
+                .setPassword(passwordEncoder.encode(this.pass))
                 .setBirthDate(LocalDate.of(1983, 11, 5))
                 .setImgUrl(Constants.DEFAULT_USER_IMG_URL)
                 .setFavoriteCocktails(new ArrayList<>());

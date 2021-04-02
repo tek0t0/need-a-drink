@@ -23,4 +23,5 @@ cloudinary:
   api-secret: "${CLOUDINARY_SECRET}"
   cloud-name: tekoto-cloud
 
-
+admin-init:
+  admin-pass: "${ADMIN_USER_PASSWORD}"
