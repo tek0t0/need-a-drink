@@ -19,8 +19,9 @@
             </div>
         </div>
     </div>
-    <h2 class="text-center text-white">Cocktail of the day</h2>
+
     <div sec:authorize="isAuthenticated()" class="mx-auto mt-5 " id="cocktail_of_the_day_container">
+        <h2 class="text-center text-white my-3">Cocktail of the day</h2>
         <div th:object="${cocktailDetailsViewModel}" class="d-flex" id="cocktail-box">
 
             <img class="h-25" style="max-width: 300px" th:src="*{imgUrl}" id="cocktail_details_img">

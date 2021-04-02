@@ -112,6 +112,17 @@ public class CocktailServiceImpl implements CocktailService {
                 }
 
                 this.cocktailRepository.saveAndFlush(cocktail);
+
+                //TODO: Override Log constructor with all the params!!! OR USE ASPECTS TO LOG!!!
+
+                LogServiceModel logServiceModel = new LogServiceModel();
+                logServiceModel.setUsername("ADMIN");
+                logServiceModel.setDescription("Cocktail added.");
+                logServiceModel.setTime(LocalDateTime.now());
+
+                this.logService.seedLogInDB(logServiceModel);
+
+
             } else {
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");

@@ -62,6 +62,14 @@ public class IngredientServiceImpl implements IngredientService {
                 addDefaultImgIngredient(bindingModel);
                 Ingredient ingredient = this.modelMapper.map(bindingModel, Ingredient.class);
                 this.ingredientRepository.saveAndFlush(ingredient);
+
+                LogServiceModel logServiceModel = new LogServiceModel();
+                logServiceModel.setUsername("ADMIN");
+                logServiceModel.setDescription("Ingredient added.");
+                logServiceModel.setTime(LocalDateTime.now());
+
+                this.logService.seedLogInDB(logServiceModel);
+
             } else {
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");

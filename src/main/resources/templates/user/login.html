@@ -7,7 +7,7 @@
 <main class="background-image-2 hero-image">
     <div>
         <h1 class="text-center text-white">Login</h1>
-
+<!--TODO: frontend validation-->
         <form class="mx-auto w-75 register-form-wrapper" th:method="POST" th:action="@{/users/login}">
             <div th:if="${bad_credentials}" class="alert alert-danger" role="alert">
                 This username and password combination does not exist.
