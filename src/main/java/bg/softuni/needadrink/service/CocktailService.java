@@ -5,6 +5,7 @@ import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
+import bg.softuni.needadrink.domain.models.views.CocktailSearchViewModel;
 
 import java.io.IOException;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface CocktailService {
 
-    CocktailDetailsViewModel getCocktailOfTheDay();
+    CocktailSearchViewModel getCocktailOfTheDay();
 
     void seedCocktails() throws IOException;
 

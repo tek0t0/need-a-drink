@@ -13,31 +13,35 @@
         </div>
         <div>
             <div class="input-group rounded">
-                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                <input id="searchInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                        aria-describedby="search-addon"/>
                 <span class="input-group-text border-1" id="search-addon"><i class="fas fa-search"></i></span>
             </div>
         </div>
     </div>
 
-    <div sec:authorize="isAuthenticated()" class="mx-auto mt-5 " id="cocktail_of_the_day_container">
-        <h2 class="text-center text-white my-3">Cocktail of the day</h2>
-        <div th:object="${cocktailDetailsViewModel}" class="d-flex" id="cocktail-box">
+    <div class="row" id="cocktailsList">
+        <div sec:authorize="isAuthenticated()" class="mx-auto mt-5 " id="cocktail_of_the_day_container">
+            <h2 class="text-center text-white my-3">Cocktail of the day</h2>
+            <div th:object="${cocktailSearchViewModel}" class="d-flex" id="cocktail-box">
 
-            <img class="h-25" style="max-width: 300px" th:src="*{imgUrl}" id="cocktail_details_img">
+                <img class="h-25" style="" th:src="*{imgUrl}" id="cocktail_details_img">
 
-            <div class="flex-column p-2">
-                <div><h3 th:text="*{name}" class="my-4"></h3></div>
-                <div><p th:text="*{description}"></p></div>
-                <div><p th:text="*{preparation}"></p></div>
-                <div class="d-flex justify-content-around my-3">
-                    <a th:href="@{/cocktails/details/{id}(id=*{id})}" class="btn btn-dark">Details</a>
+                <div class="flex-column p-2">
+                    <div><h3 th:text="*{name}" class="my-4"></h3></div>
+                    <div><p th:text="*{description}"></p></div>
+                    <div>
+                        <ul>
+                            <li th:each="i: ${cocktailSearchViewModel.getIngredientsNames()}"  th:text="${i}"
+                                style="list-style: circle inside;"></li>
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-around my-3">
+                        <a th:href="@{/cocktails/details/{id}(id=*{id})}" class="btn btn-dark">Details</a>
+                    </div>
                 </div>
-
-
             </div>
         </div>
-
     </div>
 </main>
 <footer th:include="fragments/fragment::footer"></footer>

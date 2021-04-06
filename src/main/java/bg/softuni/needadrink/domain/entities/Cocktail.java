@@ -63,7 +63,7 @@ public class Cocktail extends BaseEntity {
         return this;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }

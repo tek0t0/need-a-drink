@@ -1,9 +1,9 @@
-package bg.softuni.needadrink.domain.models.service;
+package bg.softuni.needadrink.domain.models.views;
+
 
 import java.util.List;
-import java.util.Set;
 
-public class CocktailServiceModel {
+public class CocktailSearchViewModel {
 
     private String id;
 
@@ -11,17 +11,16 @@ public class CocktailServiceModel {
 
     private String description;
 
-    private String preparation;
-
     private String imgUrl;
 
     private List<String> ingredientsNames;
+
 
     public String getId() {
         return id;
     }
 
-    public CocktailServiceModel setId(String id) {
+    public CocktailSearchViewModel setId(String id) {
         this.id = id;
         return this;
     }
@@ -30,7 +29,7 @@ public class CocktailServiceModel {
         return name;
     }
 
-    public CocktailServiceModel setName(String name) {
+    public CocktailSearchViewModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -39,17 +38,8 @@ public class CocktailServiceModel {
         return description;
     }
 
-    public CocktailServiceModel setDescription(String description) {
+    public CocktailSearchViewModel setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public String getPreparation() {
-        return preparation;
-    }
-
-    public CocktailServiceModel setPreparation(String preparation) {
-        this.preparation = preparation;
         return this;
     }
 
@@ -57,7 +47,7 @@ public class CocktailServiceModel {
         return imgUrl;
     }
 
-    public CocktailServiceModel setImgUrl(String imgUrl) {
+    public CocktailSearchViewModel setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
         return this;
     }
@@ -66,7 +56,7 @@ public class CocktailServiceModel {
         return ingredientsNames;
     }
 
-    public CocktailServiceModel setIngredientsNames(List<String> ingredientsNames) {
+    public CocktailSearchViewModel setIngredientsNames(List<String> ingredientsNames) {
         this.ingredientsNames = ingredientsNames;
         return this;
     }

@@ -12,6 +12,7 @@ public class CocktailDetailsViewModel {
 
     private String imgUrl;
 
+
     public String getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.Cocktail;
+import bg.softuni.needadrink.domain.entities.Ingredient;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
@@ -9,6 +10,7 @@ import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
+import bg.softuni.needadrink.domain.models.views.CocktailSearchViewModel;
 import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.error.EmptyCocktailDataBaseError;
@@ -37,6 +39,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +56,7 @@ public class CocktailServiceImpl implements CocktailService {
     private final LogService logService;
     private final CocktailShuffler cocktailShuffler;
 
-    private CocktailDetailsViewModel cocktailDetailsViewModel;
+    private CocktailSearchViewModel cocktailSearchViewModel;
 
     @Autowired
     public CocktailServiceImpl(Gson gson, ModelMapper modelMapper, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, IngredientService ingredientService, ValidatorUtil validatorUtil, UserRepository userRepository, LogService logService, CocktailShuffler cocktailShuffler) {
@@ -70,15 +73,19 @@ public class CocktailServiceImpl implements CocktailService {
 
 
     @Override
-    public CocktailDetailsViewModel getCocktailOfTheDay() {
-        if(this.cocktailRepository.count() == 0){
+    public CocktailSearchViewModel getCocktailOfTheDay() {
+        if (this.cocktailRepository.count() == 0) {
             throw new EmptyCocktailDataBaseError();
         }
 
-        if(this.cocktailDetailsViewModel == null){
-            return modelMapper.map(this.cocktailRepository.findAll().get(0), CocktailDetailsViewModel.class);
+        if (this.cocktailSearchViewModel == null) {
+            Cocktail cocktail = this.cocktailRepository.findAll().get(0);
+            CocktailSearchViewModel viewModel = modelMapper.map(cocktail, CocktailSearchViewModel.class);
+            viewModel.setIngredientsNames(cocktail.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList()));
+
+            return viewModel;
         }
-        return this.cocktailDetailsViewModel;
+        return this.cocktailSearchViewModel;
     }
 
     @Override
@@ -136,12 +143,19 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public List<CocktailServiceModel> getAllCocktails() {
-
-        return this.cocktailRepository
+        List<CocktailServiceModel> allCocktailsModelsList = this.cocktailRepository
                 .findAll()
                 .stream()
-                .map(c -> modelMapper.map(c, CocktailServiceModel.class))
+                .map(c -> {
+                    CocktailServiceModel cocktailServiceModel = modelMapper.map(c, CocktailServiceModel.class);
+                    List<String> ingredients = c.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList());
+                    cocktailServiceModel.setIngredientsNames(ingredients);
+                    return cocktailServiceModel;
+                })
                 .collect(Collectors.toList());
+
+
+        return allCocktailsModelsList;
     }
 
     @Override
@@ -198,21 +212,25 @@ public class CocktailServiceImpl implements CocktailService {
 
         this.cocktailRepository.delete(cocktail);
     }
+
     @Scheduled(cron = "0 * * ? * *") //every minute
 //    @Scheduled(cron = "0 0 0 * * ?") //every day at 24:00
     protected void getRandomCocktail() {
-        if(this.cocktailRepository.count() == 0){
+        if (this.cocktailRepository.count() == 0) {
             throw new EmptyCocktailDataBaseError();
         }
 
-        List<CocktailDetailsViewModel> collect = this.cocktailRepository
+        List<CocktailSearchViewModel> collect = this.cocktailRepository
                 .findAll().stream()
-                .map(c -> modelMapper.map(c, CocktailDetailsViewModel.class))
+                .map(c -> {
+                    CocktailSearchViewModel cocktailSearchViewModel = this.modelMapper.map(c, CocktailSearchViewModel.class);
+                    cocktailSearchViewModel.setIngredientsNames(c.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList()));
+                    return cocktailSearchViewModel;
+                })
                 .collect(Collectors.toList());
         this.cocktailShuffler.shuffle(collect);
-        this.cocktailDetailsViewModel = collect.get(0);
+        this.cocktailSearchViewModel = collect.get(0);
     }
-
 
 
 }
