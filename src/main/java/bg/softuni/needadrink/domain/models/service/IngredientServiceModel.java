@@ -6,6 +6,8 @@ public class IngredientServiceModel {
 
     private String name;
 
+    private String description;
+
     private String imgUrl;
 
     public String getId() {
@@ -23,6 +25,15 @@ public class IngredientServiceModel {
 
     public IngredientServiceModel setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public IngredientServiceModel setDescription(String description) {
+        this.description = description;
         return this;
     }
 

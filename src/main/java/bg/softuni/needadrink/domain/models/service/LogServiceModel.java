@@ -13,6 +13,7 @@ public class LogServiceModel {
     private LocalDateTime time;
 
     public LogServiceModel() {
+        this.time = LocalDateTime.now();
     }
 
     public String getId() {

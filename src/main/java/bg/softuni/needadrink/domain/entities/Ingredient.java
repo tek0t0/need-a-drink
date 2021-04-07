@@ -10,6 +10,8 @@ public class Ingredient extends BaseEntity{
 
     private String name;
 
+    private String description;
+
     private String imgUrl;
 
     private List<Cocktail> usedIn;
@@ -25,6 +27,16 @@ public class Ingredient extends BaseEntity{
 
     public Ingredient setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    public String getDescription() {
+        return description;
+    }
+
+    public Ingredient setDescription(String description) {
+        this.description = description;
         return this;
     }
 

@@ -20,10 +20,13 @@
                         <span class="font-weight-bold" th:utext="${iter.index + 1}"></span>
                     </th>
                     <td class="col-sm-2 text-center">
-                        <img class="img-thumbnail" th:src="*{imgUrl}">
+                       <div class="bg-white rounded">
+                           <img class="img-thumbnail" th:src="*{imgUrl}">
+                       </div>
                     </td>
-                    <td class="col-sm-5 d-flex justify-content-center align-items-center">
-                        <span class="font-weight-bold h3" th:utext="*{name}"></span>
+                    <td class="col-sm-5 flex-column justify-content-center align-items-center">
+                        <h3 class="font-weight-bold my-2" th:utext="*{name}"></h3>
+                        <p th:text="*{description}"></p>
                     </td>
                     <td class="col-sm-2 d-flex justify-content-center align-items-center">
                         <a th:href="@{/ingredients/edit/{id}(id=${i.id})}" class="btn btn-dark">Edit</a>

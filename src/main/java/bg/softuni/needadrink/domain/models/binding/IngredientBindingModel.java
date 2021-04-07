@@ -13,6 +13,9 @@ public class IngredientBindingModel {
     private String name;
 
     @Expose
+    private String description;
+
+    @Expose
     private String imgUrl;
 
     public String getId() {
@@ -32,6 +35,16 @@ public class IngredientBindingModel {
 
     public IngredientBindingModel setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    @Length(min = 5, max = 200, message = "Description length must be between 4 and 100 symbols!")
+    public String getDescription() {
+        return description;
+    }
+
+    public IngredientBindingModel setDescription(String description) {
+        this.description = description;
         return this;
     }
 

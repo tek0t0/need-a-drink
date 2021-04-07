@@ -13,7 +13,6 @@ import bg.softuni.needadrink.repositiry.IngredientRepository;
 import bg.softuni.needadrink.service.IngredientService;
 import bg.softuni.needadrink.util.ValidatorUtil;
 import com.google.gson.Gson;
-import com.jayway.jsonpath.InvalidJsonException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +39,6 @@ public class IngredientServiceImpl implements IngredientService {
     private final LogService logService;
 
 
-
     @Autowired
     public IngredientServiceImpl(IngredientRepository ingredientRepository, Gson gson, ModelMapper modelMapper, ValidatorUtil validatorUtil, LogService logService) {
         this.ingredientRepository = ingredientRepository;
@@ -56,37 +54,43 @@ public class IngredientServiceImpl implements IngredientService {
 
         content = String.join("", Files.readAllLines(Path.of(ingredientsFile.getURI())));
         IngredientBindingModel[] ingredientBindingModels = this.gson.fromJson(content, IngredientBindingModel[].class);
-        for (IngredientBindingModel bindingModel : ingredientBindingModels) {
-
-            if (this.validatorUtil.isValid(bindingModel)) {
-                addDefaultImgIngredient(bindingModel);
-                Ingredient ingredient = this.modelMapper.map(bindingModel, Ingredient.class);
-                this.ingredientRepository.saveAndFlush(ingredient);
-
+        for (IngredientBindingModel ingredientBindingModel : ingredientBindingModels) {
+            if(this.ingredientRepository.getByName(ingredientBindingModel.getName()).isPresent()){
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");
-                logServiceModel.setDescription("Ingredient added.");
-                logServiceModel.setTime(LocalDateTime.now());
-
+                logServiceModel.setDescription("Ingredient name already exists.");
                 this.logService.seedLogInDB(logServiceModel);
-
             } else {
-                LogServiceModel logServiceModel = new LogServiceModel();
-                logServiceModel.setUsername("ADMIN");
-                logServiceModel.setDescription("Failed to add ingredient.");
-                logServiceModel.setTime(LocalDateTime.now());
+                if (this.validatorUtil.isValid(ingredientBindingModel)) {
+                    addDefaultImgIngredient(ingredientBindingModel);
+                    Ingredient ingredient = this.modelMapper.map(ingredientBindingModel, Ingredient.class);
+                    this.ingredientRepository.saveAndFlush(ingredient);
 
-                this.logService.seedLogInDB(logServiceModel);
+                    LogServiceModel logServiceModel = new LogServiceModel();
+                    logServiceModel.setUsername("ADMIN");
+                    logServiceModel.setDescription("Ingredient added.");
+
+                    this.logService.seedLogInDB(logServiceModel);
+
+                } else {
+                    LogServiceModel logServiceModel = new LogServiceModel();
+                    logServiceModel.setUsername("ADMIN");
+                    logServiceModel.setDescription("Failed to add ingredient.");
+
+                    this.logService.seedLogInDB(logServiceModel);
+                }
             }
+
+
 
         }
 
 
     }
 
-    protected void addDefaultImgIngredient(IngredientBindingModel bindingModel) {
-        if (bindingModel.getImgUrl().isEmpty()) {
-            bindingModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
+    protected void addDefaultImgIngredient(IngredientBindingModel ingredientBindingModel) {
+        if (ingredientBindingModel.getImgUrl().isEmpty()) {
+            ingredientBindingModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
         }
     }
 
@@ -113,7 +117,6 @@ public class IngredientServiceImpl implements IngredientService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Ingredient added.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -133,13 +136,13 @@ public class IngredientServiceImpl implements IngredientService {
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_ID_NOT_FOUND));
         ingredient
                 .setName(ingredientServiceModel.getName())
-                .setImgUrl(ingredientServiceModel.getImgUrl());
+                .setImgUrl(ingredientServiceModel.getImgUrl())
+                .setDescription(ingredientServiceModel.getDescription());
 
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Ingredient edited.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
         this.ingredientRepository.saveAndFlush(ingredient);
@@ -162,7 +165,6 @@ public class IngredientServiceImpl implements IngredientService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Ingredient deleted.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -188,7 +190,7 @@ public class IngredientServiceImpl implements IngredientService {
         List<String> ingredientsNames = new ArrayList<>();
         cocktailInitBindingModel.getIngredients().forEach(i -> ingredientsNames.add(i.getName()));
         return this.ingredientRepository
-                .finadAllExeptAdded(ingredientsNames)
+                .findAllExceptAdded(ingredientsNames)
                 .stream().map(i -> modelMapper.map(i, IngredientBindingModel.class))
                 .collect(Collectors.toList());
     }

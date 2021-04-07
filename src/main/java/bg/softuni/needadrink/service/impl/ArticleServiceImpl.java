@@ -5,14 +5,12 @@ import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.error.ArticleNotFoundException;
-import bg.softuni.needadrink.service.CloudinaryService;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
 import bg.softuni.needadrink.service.ArticleService;
 import bg.softuni.needadrink.util.ValidatorUtil;
 import com.google.gson.Gson;
-import com.jayway.jsonpath.InvalidJsonException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,20 +34,18 @@ public class ArticleServiceImpl implements ArticleService {
     private final Gson gson;
     private final ValidatorUtil validatorUtil;
     private final LogService logService;
-    private final CloudinaryService cloudinaryService;
 
     @Autowired
     public ArticleServiceImpl(ArticleRepository articleRepository,
                               ModelMapper modelMapper,
                               Gson gson,
                               ValidatorUtil validatorUtil,
-                              LogService logService, CloudinaryService cloudinaryService) {
+                              LogService logService) {
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
         this.gson = gson;
         this.validatorUtil = validatorUtil;
         this.logService = logService;
-        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -60,18 +56,16 @@ public class ArticleServiceImpl implements ArticleService {
 
             content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
             ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
-            for (ArticleAddBindingModel bindingModel : articleAddBindingModels) {
+            for (ArticleAddBindingModel articleAddBindingModel : articleAddBindingModels) {
 
-                if (this.validatorUtil.isValid(bindingModel)) {
-                    Article article = this.modelMapper.map(bindingModel, Article.class);
+                if (this.validatorUtil.isValid(articleAddBindingModel)) {
+                    Article article = this.modelMapper.map(articleAddBindingModel, Article.class);
                     article.setAddedOn(LocalDate.now());
                     this.articleRepository.saveAndFlush(article);
                 } else {
-
                     LogServiceModel logServiceModel = new LogServiceModel();
                     logServiceModel.setUsername("ADMIN");
                     logServiceModel.setDescription("Failed to add article.");
-                    logServiceModel.setTime(LocalDateTime.now());
 
                     this.logService.seedLogInDB(logServiceModel);
                 }
@@ -107,7 +101,6 @@ public class ArticleServiceImpl implements ArticleService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Article added");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 

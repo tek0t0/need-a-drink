@@ -18,5 +18,5 @@ public interface IngredientRepository extends JpaRepository<Ingredient, String> 
     List<Ingredient>findAllByCocktailId(@Param(value = "id") String id);
 
     @Query("select i from Ingredient i where i.name not in :names")
-    List<Ingredient> finadAllExeptAdded(@Param(value = "names") List<String> ingredientsNames);
+    List<Ingredient> findAllExceptAdded(@Param(value = "names") List<String> ingredientsNames);
 }
