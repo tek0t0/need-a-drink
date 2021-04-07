@@ -20,12 +20,12 @@
         </div>
     </div>
 
-    <div class="row" id="cocktailsList">
-        <div sec:authorize="isAuthenticated()" class="mx-auto mt-5 " id="cocktail_of_the_day_container">
+    <div class="col" id="cocktailsList">
+        <div class="mx-auto mt-5 " id="cocktail_of_the_day_container">
             <h2 class="text-center text-white my-3">Cocktail of the day</h2>
             <div th:object="${cocktailSearchViewModel}" class="d-flex" id="cocktail-box">
 
-                <img class="h-25" style="" th:src="*{imgUrl}" id="cocktail_details_img">
+                <img class="h-25" style="" th:src="*{imgUrl}" id="cocktail_details_img" alt="cocktail_image">
 
                 <div class="flex-column p-2">
                     <div><h3 th:text="*{name}" class="my-4"></h3></div>
