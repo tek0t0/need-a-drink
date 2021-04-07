@@ -10,6 +10,8 @@ import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -167,6 +169,8 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
+//    @Secured("ROLE_ADMIN")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable String id, Model model) {
         UserServiceModel userById = this.userService.findUserById(id);
         model.addAttribute("userProfileViewModel", modelMapper.map(userById, UserProfileViewModel.class));

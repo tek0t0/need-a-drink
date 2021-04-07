@@ -76,7 +76,6 @@ public class UserServiceImpl implements UserService {
                 () -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND));
 
         userEntity.addRole(userRole);
-        //TODO: upload default img in cloud
         userEntity.setImgUrl(Constants.DEFAULT_USER_IMG_PATH);
 
         userEntity = userRepository.save(userEntity);

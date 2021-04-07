@@ -55,26 +55,28 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void initArticles() throws IOException {
 
-        String content;
+        if (articleRepository.count() == 0) {
+            String content;
 
-        content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
-        ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
-        for (ArticleAddBindingModel bindingModel : articleAddBindingModels) {
+            content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
+            ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
+            for (ArticleAddBindingModel bindingModel : articleAddBindingModels) {
 
-            if (this.validatorUtil.isValid(bindingModel)) {
-                Article article = this.modelMapper.map(bindingModel, Article.class);
-                article.setAddedOn(LocalDate.now());
-                this.articleRepository.saveAndFlush(article);
-            } else {
+                if (this.validatorUtil.isValid(bindingModel)) {
+                    Article article = this.modelMapper.map(bindingModel, Article.class);
+                    article.setAddedOn(LocalDate.now());
+                    this.articleRepository.saveAndFlush(article);
+                } else {
 
-                LogServiceModel logServiceModel = new LogServiceModel();
-                logServiceModel.setUsername("ADMIN");
-                logServiceModel.setDescription("Failed to add article.");
-                logServiceModel.setTime(LocalDateTime.now());
+                    LogServiceModel logServiceModel = new LogServiceModel();
+                    logServiceModel.setUsername("ADMIN");
+                    logServiceModel.setDescription("Failed to add article.");
+                    logServiceModel.setTime(LocalDateTime.now());
 
-                this.logService.seedLogInDB(logServiceModel);
+                    this.logService.seedLogInDB(logServiceModel);
+                }
+
             }
-
         }
 
     }
