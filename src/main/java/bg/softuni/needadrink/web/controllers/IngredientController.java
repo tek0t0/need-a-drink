@@ -8,6 +8,7 @@ import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,7 @@ public class IngredientController {
     }
 
     @GetMapping("/all")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PageTitle("All Ingredients")
     public String getAllIngredients(Model model) {
         List<IngredientServiceModel> allIngredients = ingredientService.getAllIngredients();
@@ -42,7 +43,7 @@ public class IngredientController {
     }
 
     @GetMapping("/add")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PageTitle("Add Ingredient")
     public String add(Model model) {
         List<IngredientServiceModel> allIngredients = ingredientService.getAllIngredients();
@@ -59,7 +60,7 @@ public class IngredientController {
     }
 
     @PostMapping("/add")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addConfirm(@Valid IngredientBindingModel ingredientBindingModel,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
@@ -87,7 +88,7 @@ public class IngredientController {
     }
 
     @GetMapping("/edit/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PageTitle("Edit Ingredient")
     public String ingredientEdit(@PathVariable String id, Model model) {
         model.addAttribute("ingredientBindingModel", this.ingredientService.findIngredientById(id));
@@ -98,7 +99,7 @@ public class IngredientController {
     }
 
     @PostMapping("/edit/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public String ingredientEditConfirm(@PathVariable String id,
                                         @Valid IngredientBindingModel ingredientBindingModel,
                                         BindingResult bindingResult,
@@ -124,7 +125,7 @@ public class IngredientController {
     }
 
     @GetMapping("/delete/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @PageTitle("Delete Ingredient")
     public String deleteIngredient(@PathVariable String id, Model model) {
         model.addAttribute("ingredient", this.ingredientService.findIngredientById(id));
@@ -132,7 +133,7 @@ public class IngredientController {
     }
 
     @PostMapping("/delete/{id}")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteIngredientConfirm(@PathVariable String id) {
         this.ingredientService.deleteIngredient(id);
         return "redirect:/ingredients/all";

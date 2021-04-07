@@ -2,7 +2,6 @@ package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.views.CocktailSearchViewModel;
 import bg.softuni.needadrink.service.CocktailService;
-import bg.softuni.needadrink.service.IngredientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

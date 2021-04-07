@@ -48,7 +48,7 @@ public class UserController {
 
     @GetMapping("/register")
     @PageTitle("Register")
-    private String register(Model model) {
+    public String register(Model model) {
         if (!model.containsAttribute("userRegisterBindingModel")) {
             model.addAttribute("userRegisterBindingModel", new UserRegisterBindingModel());
             model.addAttribute("emailExistsError", false);
@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("register")
-    private String registerConfirm(
+    public String registerConfirm(
             @Valid UserRegisterBindingModel userRegisterBindingModel,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
@@ -102,6 +102,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
     @PageTitle("Profile")
     public String profile(Principal principal, Model model) {
         model
@@ -111,6 +112,7 @@ public class UserController {
     }
 
     @GetMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
     @PageTitle("Edit Profile")
     public String editProfile(Principal principal, Model model) {
         model.addAttribute("userEditBindingModel", this.modelMapper
@@ -141,6 +143,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
     @PageTitle("All Users")
     public String allUsers(Model model) {
         List<UserServiceModel> users = this.userService.findAllUsers();
@@ -155,6 +158,7 @@ public class UserController {
 
 
     @PostMapping("/set-admin/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String setAdminRole(@PathVariable String id) {
         this.userService.setAsAdmin(id);
 
@@ -162,6 +166,7 @@ public class UserController {
     }
 
     @PostMapping("/set-user/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String setUserRole(@PathVariable String id) {
         this.userService.setAsUser(id);
 
@@ -169,8 +174,8 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
-//    @Secured("ROLE_ADMIN")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PageTitle("Delete Confirm")
     public String deleteUser(@PathVariable String id, Model model) {
         UserServiceModel userById = this.userService.findUserById(id);
         model.addAttribute("userProfileViewModel", modelMapper.map(userById, UserProfileViewModel.class));
@@ -178,6 +183,7 @@ public class UserController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUserConfirm(@PathVariable String id) {
         this.userService.deleteUser(id);
         return "redirect:/users/all";
