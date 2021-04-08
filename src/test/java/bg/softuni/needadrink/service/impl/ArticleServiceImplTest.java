@@ -25,8 +25,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-
-class ArticleEntityServiceImplTest {
+class ArticleServiceImplTest {
 
     private ArticleEntity testArticleEntity1, testArticleEntity2;
 
@@ -114,9 +113,7 @@ class ArticleEntityServiceImplTest {
     @Test
     void testFindArticleByIdThrowsExceptionWhenArticleDoesNotExist() {
         Assertions.assertThrows(
-                ArticleNotFoundException.class, () -> {
-                    serviceToTest.findArticleById("article_id_Does_not_exists");
-                }
+                ArticleNotFoundException.class, () -> serviceToTest.findArticleById("article_id_Does_not_exists")
         );
     }
 
