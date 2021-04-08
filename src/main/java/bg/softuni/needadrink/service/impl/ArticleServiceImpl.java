@@ -1,6 +1,6 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.Article;
+import bg.softuni.needadrink.domain.entities.ArticleEntity;
 import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
@@ -59,9 +59,9 @@ public class ArticleServiceImpl implements ArticleService {
             for (ArticleAddBindingModel articleAddBindingModel : articleAddBindingModels) {
 
                 if (this.validatorUtil.isValid(articleAddBindingModel)) {
-                    Article article = this.modelMapper.map(articleAddBindingModel, Article.class);
-                    article.setAddedOn(LocalDate.now());
-                    this.articleRepository.saveAndFlush(article);
+                    ArticleEntity articleEntity = this.modelMapper.map(articleAddBindingModel, ArticleEntity.class);
+                    articleEntity.setAddedOn(LocalDate.now());
+                    this.articleRepository.saveAndFlush(articleEntity);
                 } else {
                     LogServiceModel logServiceModel = new LogServiceModel();
                     logServiceModel.setUsername("ADMIN");
@@ -92,11 +92,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void addArticle(ArticleServiceModel articleServiceModel) {
 
-        Article article = modelMapper.map(articleServiceModel, Article.class);
-        article.setAddedOn(LocalDate.now());
-        if (article.getCoverImgUrl() == null) {
-            article.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
-        }
+        ArticleEntity articleEntity = new ArticleEntity();
+
+        articleEntity
+                .setTitle(articleServiceModel.getTitle())
+                .setDescription(articleServiceModel.getDescription())
+                .setContent(articleServiceModel.getContent())
+                .setCoverImgUrl(articleServiceModel.getCoverImgUrl())
+                .setAddedOn(LocalDate.now());
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -104,7 +107,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-        articleRepository.saveAndFlush(article);
+        articleRepository.saveAndFlush(articleEntity);
     }
 
     @Override
@@ -118,40 +121,40 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleServiceModel editArticle(String id, ArticleServiceModel articleServiceModel) {
-        Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
-        article
+        ArticleEntity articleEntity = getArticleEntity(id);
+        articleEntity
                 .setTitle(articleServiceModel.getTitle())
+                .setCoverImgUrl(articleServiceModel.getCoverImgUrl())
                 .setDescription(articleServiceModel.getDescription())
                 .setContent(articleServiceModel.getContent());
-
-        if (articleServiceModel.getCoverImgUrl() == null) {
-            article.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
-        }
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Article edited");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
-        return this.modelMapper.map(this.articleRepository.saveAndFlush(article), ArticleServiceModel.class);
+        this.articleRepository.saveAndFlush(articleEntity);
+
+        return this.modelMapper.map(articleEntity, ArticleServiceModel.class);
     }
 
     @Override
     public void deleteById(String id) {
-        Article article = this.articleRepository.findById(id)
-                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+        ArticleEntity articleEntity = getArticleEntity(id);
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Article deleted");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
-        this.articleRepository.delete(article);
+        this.articleRepository.delete(articleEntity);
+    }
+
+    public ArticleEntity getArticleEntity(String id) {
+        return this.articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
     }
 
 

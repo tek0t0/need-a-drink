@@ -2,14 +2,12 @@ package bg.softuni.needadrink.domain.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "articles")
-public class Article extends BaseEntity {
+public class ArticleEntity extends BaseEntity {
 
     private String title;
 
@@ -21,7 +19,7 @@ public class Article extends BaseEntity {
 
     private String content;
 
-    public Article() {
+    public ArticleEntity() {
     }
 
     @Column(name = "title", nullable = false, unique = true)
@@ -29,7 +27,7 @@ public class Article extends BaseEntity {
         return title;
     }
 
-    public Article setTitle(String name) {
+    public ArticleEntity setTitle(String name) {
         this.title = name;
         return this;
     }
@@ -39,7 +37,7 @@ public class Article extends BaseEntity {
         return coverImgUrl;
     }
 
-    public Article setCoverImgUrl(String coverImgUrl) {
+    public ArticleEntity setCoverImgUrl(String coverImgUrl) {
         this.coverImgUrl = coverImgUrl;
         return this;
     }
@@ -49,7 +47,7 @@ public class Article extends BaseEntity {
         return addedOn;
     }
 
-    public Article setAddedOn(LocalDate addedOn) {
+    public ArticleEntity setAddedOn(LocalDate addedOn) {
         this.addedOn = addedOn;
         return this;
     }
@@ -59,7 +57,7 @@ public class Article extends BaseEntity {
         return description;
     }
 
-    public Article setDescription(String description) {
+    public ArticleEntity setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -69,7 +67,7 @@ public class Article extends BaseEntity {
         return content;
     }
 
-    public Article setContent(String content) {
+    public ArticleEntity setContent(String content) {
         this.content = content;
         return this;
     }

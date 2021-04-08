@@ -3,6 +3,7 @@ package bg.softuni.needadrink.web.controllers;
 import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.service.ArticleService;
+import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,10 @@ public class ArticleController {
             return "redirect:/articles/add";
         }
 
+        if (articleAddBindingModel.getCoverImgUrl().isEmpty()) {
+            articleAddBindingModel.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
+        }
+
         ArticleServiceModel articleServiceModel = modelMapper.map(articleAddBindingModel, ArticleServiceModel.class);
         articleService.addArticle(articleServiceModel);
 
@@ -97,6 +102,9 @@ public class ArticleController {
                                      ArticleAddBindingModel articleAddBindingModel) {
         //TODO:Add validation
         ArticleServiceModel serviceModel = modelMapper.map(articleAddBindingModel, ArticleServiceModel.class);
+        if (serviceModel.getCoverImgUrl() == null) {
+            serviceModel.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);
+        }
         this.articleService.editArticle(id, serviceModel);
 
         return "redirect:/articles/details/" + id;

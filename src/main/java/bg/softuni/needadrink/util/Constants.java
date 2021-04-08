@@ -31,8 +31,8 @@ public class Constants {
 
     public static final String COCKTAIL_ID_NOT_FOUND = "Cocktail with Id not found";
 
-    public static final String DEFAULT_USER_IMG_PATH =  "/images/default-user-img.jpg";
+    public static final String DEFAULT_USER_IMG_PATH = "/images/default-user-img.jpg";
 
-    public  static final String DEFAULT_ARTICLE_IMAGE_URL ="https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg";
+    public static final String DEFAULT_ARTICLE_IMAGE_URL = "https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg";
 }
 
