@@ -21,7 +21,7 @@ public interface CocktailService {
 
     CocktailServiceModel getCocktailById(String id);
 
-    boolean nameExists(CocktailInitBindingModel cocktailInitBindingModel);
+    boolean nameExists(String name);
 
     void addCocktail(CocktailInitBindingModel cocktailInitBindingModel);
 

@@ -74,9 +74,7 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public CocktailSearchViewModel getCocktailOfTheDay() {
-        if (this.cocktailRepository.count() == 0) {
-            throw new EmptyCocktailDataBaseError();
-        }
+        throwsExceptionIfDBIsEmpty();
 
         if (this.cocktailSearchViewModel == null) {
             Cocktail cocktail = this.cocktailRepository.findAll().get(0);
@@ -125,7 +123,6 @@ public class CocktailServiceImpl implements CocktailService {
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");
                 logServiceModel.setDescription("Cocktail added.");
-                logServiceModel.setTime(LocalDateTime.now());
 
                 this.logService.seedLogInDB(logServiceModel);
 
@@ -134,7 +131,6 @@ public class CocktailServiceImpl implements CocktailService {
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");
                 logServiceModel.setDescription("Failed to add cocktail.");
-                logServiceModel.setTime(LocalDateTime.now());
 
                 this.logService.seedLogInDB(logServiceModel);
             }
@@ -166,8 +162,8 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public boolean nameExists(CocktailInitBindingModel cocktailInitBindingModel) {
-        return this.cocktailRepository.getByName(cocktailInitBindingModel.getName()).isPresent();
+    public boolean nameExists(String name) {
+        return this.cocktailRepository.getByName(name).isPresent();
 
     }
 
@@ -177,7 +173,6 @@ public class CocktailServiceImpl implements CocktailService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Cocktail added.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -216,9 +211,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Scheduled(cron = "0 * * ? * *") //every minute
 //    @Scheduled(cron = "0 0 0 * * ?") //every day at 24:00
     protected void getRandomCocktail() {
-        if (this.cocktailRepository.count() == 0) {
-            throw new EmptyCocktailDataBaseError();
-        }
+        throwsExceptionIfDBIsEmpty();
 
         List<CocktailSearchViewModel> collect = this.cocktailRepository
                 .findAll().stream()
@@ -230,6 +223,12 @@ public class CocktailServiceImpl implements CocktailService {
                 .collect(Collectors.toList());
         this.cocktailShuffler.shuffle(collect);
         this.cocktailSearchViewModel = collect.get(0);
+    }
+
+    private void throwsExceptionIfDBIsEmpty() {
+        if (this.cocktailRepository.count() == 0) {
+            throw new EmptyCocktailDataBaseError();
+        }
     }
 
 

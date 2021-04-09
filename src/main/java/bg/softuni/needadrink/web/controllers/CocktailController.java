@@ -115,7 +115,7 @@ public class CocktailController {
             return "redirect:/cocktails/add";
         }
 
-        if (this.cocktailService.nameExists(cocktailInitBindingModel)) {
+        if (this.cocktailService.nameExists(cocktailInitBindingModel.getName())) {
             redirectAttributes.addFlashAttribute("cocktailInitBindingModel", cocktailInitBindingModel);
             redirectAttributes.addFlashAttribute("nameExists", true);
             return "redirect:/cocktails/add";
