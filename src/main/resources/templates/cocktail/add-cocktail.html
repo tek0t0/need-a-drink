@@ -6,9 +6,9 @@
 <header th:replace="fragments/fragment::nav-bar"></header>
 <main class="background-image-2 hero-image">
     <div class="container">
-        <h2 class="text-center text-white m-5">Add Cocktail</h2>
+        <h2 class="text-center text-white m-4">Add Cocktail</h2>
         <div class="d-flex" id="add-cocktail-box">
-            <form class="mx-auto w-75 register-form-wrapper"
+            <form class="mx-auto w-50 register-form-wrapper"
                   th:method="POST"
                   th:action="@{/cocktails/add}"
                   th:object="${cocktailInitBindingModel}">
@@ -34,7 +34,8 @@
                     <label class="text-white mb-1">Ingredients</label>
                     <ul>
                         <li th:each="i: ${cocktailInitBindingModel.getIngredients()}" th:object="${i}" th:text="*{name}"
-                            style="list-style: circle inside;" class="text-white"></li>
+                            style="list-style: circle inside;"
+                            class="text-white"></li>
                     </ul>
 
                 </div>
@@ -66,20 +67,20 @@
                     <button type="submit" class="btn text-white border-1 border-light bg-dark">Add Cocktail</button>
                 </div>
             </form>
-           <div>
-               <table class="table table-sm table-hover mx-auto w-50" th:object="${allIngredients}">
+           <div class="add-cocktails__ingredients-wrapper">
+               <table class="table table-sm table-hover mx-auto" >
                    <tbody>
-                   <th:block th:each="i, iter: ${allIngredients}" th:object="${i}">
+                   <th:block th:each="il, iter: ${allIngredients}" th:object="${il}">
                        <tr class="row mx-auto">
 
-                           <td class="col-sm-2 text-center">
-                               <img class="img-thumbnail" th:src="*{imgUrl}">
+                           <td class="col-sm-3 text-center">
+                               <img class="img-thumbnail" th:src="*{imgUrl}" alt="cocktail_image">
                            </td>
                            <td class="col-sm-5 d-flex justify-content-center align-items-center">
                                <span class="font-weight-bold h5 text-white" th:utext="*{name}"></span>
                            </td>
                            <td class="col-sm-2 d-flex justify-content-center align-items-center">
-                               <form th:action="@{/cocktails/addIngredient/{id}(id=${i.id})}" method="POST">
+                               <form th:action="@{/cocktails/addIngredient/{id}(id=${il.id})}" method="POST">
                                    <button class="btn btn-dark btn-width">Add</button>
                                </form>
                            </td>

@@ -1,4 +1,4 @@
-.body_wrapper{
+.body_wrapper {
     display: grid;
     grid-auto-rows: auto 1fr auto;
     height: 100vh;
@@ -22,31 +22,36 @@
     background-size: cover; /* Resize the background image to cover the entire container */
 }
 
-.background-image-1{
-    background-image:url("../images/carousel-img1.jpg");
+.background-image-1 {
+    background-image: url("../images/carousel-img1.jpg");
 }
 
-.background-image-2{
-    background-image:url("../images/carousel-img2.jpg");
+.background-image-2 {
+    background-image: url("../images/carousel-img2.jpg");
 }
-.background-image-3{
-    background-image:url("../images/carousel-img3.jpg");
+
+.background-image-3 {
+    background-image: url("../images/carousel-img3.jpg");
 }
-.background-image-4{
-    background-image:url("../images/carousel-img4.jpg");
+
+.background-image-4 {
+    background-image: url("../images/carousel-img4.jpg");
 }
-.background-image-5{
-    background-image:url("../images/carousel-img5.jpg");
+
+.background-image-5 {
+    background-image: url("../images/carousel-img5.jpg");
 }
-.background-image-6{
-    background-image:url("../images/carousel-img6.jpg");
+
+.background-image-6 {
+    background-image: url("../images/carousel-img6.jpg");
 }
-.background-image-7{
-    background-image:url("../images/background-7.jpg");
+
+.background-image-7 {
+    background-image: url("../images/background-7.jpg");
 }
 
 
-.absolute-box-center{
+.absolute-box-center {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -56,11 +61,11 @@
 
 }
 
-.title-box{
+.title-box {
     top: 20vh;
 }
 
-.title-box h1{
+.title-box h1 {
     font-size: 10vh;
     color: white;
     font-family: 'Lora', serif;
@@ -71,45 +76,47 @@
     color: white;
 }
 
-.text-blue{
+.text-blue {
     color: #005cbf;
 }
 
-.text-primary{
-    color:#0275d8!important;
+.text-primary {
+    color: #0275d8 !important;
     cursor: pointer;
 
 }
-a.text-primary:focus,a.text-primary:hover{
-    color:#025aa5;
+
+a.text-primary:focus, a.text-primary:hover {
+    color: #025aa5;
     text-decoration: underline;
     cursor: pointer;
 
 }
 
-.footer-box{
+.footer-box {
     height: 5vh;
 }
 
-.register-form-wrapper{
+.register-form-wrapper {
     max-width: 300px;
 }
 
-.logout-btn{
+.logout-btn {
     background: transparent;
     border: none;
 }
 
-.search-box_wrapper{
+.search-box_wrapper {
     max-width: 300px;
     margin: 50px auto;
 }
 
-#search-addon{
+#search-addon {
     background: none;
     font-size: larger;
     color: white;
 }
+
 @media (max-width: 900px) {
     #article_container {
         display: flex;
@@ -119,12 +126,13 @@ a.text-primary:focus,a.text-primary:hover{
     }
 }
 
-#card{
-    min-width: 330px;!important;
+#card {
+    min-width: 330px;
+!important;
     max-width: 350px;
 }
 
-#profile-box{
+#profile-box {
     background-color: rgba(129, 131, 108, 0.6);
     max-width: 300px;
     border: solid 1px white;
@@ -132,7 +140,7 @@ a.text-primary:focus,a.text-primary:hover{
 
 }
 
-.all-users-box{
+.all-users-box {
     background-color: rgba(229, 233, 202, 0.6);
     margin-top: 40px;
     border: solid 1px white;
@@ -147,15 +155,29 @@ a.text-primary:focus,a.text-primary:hover{
     }
 }
 
-#cocktail_details_img{
+#cocktail_details_img {
     max-width: 300px;
 }
 
-#cocktail_of_the_day_container{
-    background-color: rgba(250, 245, 245,0.6);
+#cocktail_of_the_day_container {
+    background-color: rgba(250, 245, 245, 0.6);
     max-width: 600px;
     border: solid 1px white;
     border-radius: 20px;
 }
 
+@media (min-width: 900px) {
+    .add-cocktails__ingredients-wrapper {
+        max-height: 70vh;
+        overflow: auto;
 
+    }
+
+}
+
+.add-cocktails__ingredients-wrapper {
+        min-width: 333px;
+    }
+.register-form-wrapper{
+    max-width: 300px;
+}
