@@ -24,8 +24,9 @@ public class LogEntity extends BaseEntity{
         return username;
     }
 
-    public void setUsername(String username) {
+    public LogEntity setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     @Column(name = "description", nullable = false)
@@ -33,8 +34,9 @@ public class LogEntity extends BaseEntity{
         return description;
     }
 
-    public void setDescription(String description) {
+    public LogEntity setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     @Column(name = "time", nullable = false)
@@ -42,7 +44,8 @@ public class LogEntity extends BaseEntity{
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public LogEntity setTime(LocalDateTime time) {
         this.time = time;
+        return this;
     }
 }

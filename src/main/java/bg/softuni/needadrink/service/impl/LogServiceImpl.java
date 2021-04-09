@@ -24,6 +24,7 @@ public class LogServiceImpl implements LogService {
     @Override
     public LogServiceModel seedLogInDB(LogServiceModel logServiceModel) {
         LogEntity log = this.modelMapper.map(logServiceModel, LogEntity.class);
-        return this.modelMapper.map(this.logRepository.saveAndFlush(log),LogServiceModel.class);
+        this.logRepository.saveAndFlush(log);
+        return logServiceModel;
     }
 }

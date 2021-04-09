@@ -29,23 +29,26 @@ public class LogServiceModel {
         return username;
     }
 
-    public void setUsername(String username) {
+    public LogServiceModel setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public LogServiceModel setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public LogServiceModel setTime(LocalDateTime time) {
         this.time = time;
+        return this;
     }
 }
