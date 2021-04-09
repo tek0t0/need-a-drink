@@ -1,6 +1,5 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.LogEntity;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.repositiry.LogRepository;
 import org.junit.jupiter.api.AfterEach;
