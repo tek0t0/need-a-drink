@@ -156,8 +156,7 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public CocktailServiceModel getCocktailById(String id) {
-        Cocktail byId = this.cocktailRepository.findById(id)
-                .orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+        Cocktail byId = getCocktail(id);
         return modelMapper.map(byId, CocktailServiceModel.class);
     }
 
@@ -195,8 +194,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public void deleteById(String id) {
 
-        Cocktail cocktail = this.cocktailRepository.findById(id)
-                .orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+        Cocktail cocktail = getCocktail(id);
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -206,6 +204,11 @@ public class CocktailServiceImpl implements CocktailService {
         this.logService.seedLogInDB(logServiceModel);
 
         this.cocktailRepository.delete(cocktail);
+    }
+
+    private Cocktail getCocktail(String id) {
+        return this.cocktailRepository.findById(id)
+                .orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
     }
 
     @Scheduled(cron = "0 * * ? * *") //every minute

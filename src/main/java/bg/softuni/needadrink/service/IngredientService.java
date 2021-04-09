@@ -22,7 +22,7 @@ public interface IngredientService {
 
     IngredientServiceModel findIngredientById(String id);
 
-    void editIngredient(IngredientServiceModel ingredientServiceModel);
+    IngredientServiceModel editIngredient(IngredientServiceModel ingredientServiceModel);
 
     boolean newNameExists(IngredientServiceModel ingredientServiceModel);
 

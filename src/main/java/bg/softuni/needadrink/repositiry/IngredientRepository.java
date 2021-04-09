@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, String> 
 
     @Query("select i from Ingredient i where i.name not in :names")
     List<Ingredient> findAllExceptAdded(@Param(value = "names") List<String> ingredientsNames);
+
+    @Query("select i from Ingredient i order by i.name")
+    List<Ingredient> findAllOrderByName();
 }

@@ -97,7 +97,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<IngredientServiceModel> getAllIngredients() {
 
-        return this.ingredientRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        return this.ingredientRepository.findAllOrderByName()
                 .stream()
                 .map(i -> this.modelMapper.map(i, IngredientServiceModel.class))
                 .collect(Collectors.toList());
@@ -110,9 +110,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void addIngredient(IngredientServiceModel ingredientServiceModel) {
-        if (ingredientServiceModel.getImgUrl() == null || ingredientServiceModel.getImgUrl().isEmpty()) {
-            ingredientServiceModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
-        }
+
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -131,7 +129,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void editIngredient(IngredientServiceModel ingredientServiceModel) {
+    public IngredientServiceModel editIngredient(IngredientServiceModel ingredientServiceModel) {
         Ingredient ingredient = this.ingredientRepository.findById(ingredientServiceModel.getId())
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_ID_NOT_FOUND));
         ingredient
@@ -146,6 +144,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         this.logService.seedLogInDB(logServiceModel);
         this.ingredientRepository.saveAndFlush(ingredient);
+        return modelMapper.map(ingredient, IngredientServiceModel.class);
     }
 
     @Override
@@ -161,6 +160,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void deleteIngredient(String id) {
+        entityExists(id);
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -170,6 +170,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         this.ingredientRepository.deleteById(id);
     }
+
 
     @Override
     public Ingredient findByName(String name) {
@@ -193,6 +194,12 @@ public class IngredientServiceImpl implements IngredientService {
                 .findAllExceptAdded(ingredientsNames)
                 .stream().map(i -> modelMapper.map(i, IngredientBindingModel.class))
                 .collect(Collectors.toList());
+    }
+
+
+    private void entityExists(String id) {
+        Ingredient ingredient = this.ingredientRepository.findById(id)
+                .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_ID_NOT_FOUND));
     }
 
 

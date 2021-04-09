@@ -4,6 +4,7 @@ package bg.softuni.needadrink.web.controllers;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.service.IngredientService;
+import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,10 @@ public class IngredientController {
             redirectAttributes.addFlashAttribute("nameExists", true);
 
             return "redirect:/ingredients/add";
+        }
+
+        if (ingredientBindingModel.getImgUrl() == null || ingredientBindingModel.getImgUrl().isEmpty()) {
+            ingredientBindingModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
         }
 
         IngredientServiceModel ingredientServiceModel = modelMapper.map(ingredientBindingModel, IngredientServiceModel.class);
