@@ -13,7 +13,7 @@ public interface UserService{
 
     void registerAndLoginUser(UserRegisterServiceModel registerServiceModel);
 
-    void initAdminUser();
+    UserRegisterServiceModel initAdminUser();
 
     UserServiceModel findUserByEmail(String email);
 

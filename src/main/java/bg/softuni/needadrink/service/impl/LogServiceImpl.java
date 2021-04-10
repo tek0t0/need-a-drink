@@ -27,4 +27,6 @@ public class LogServiceImpl implements LogService {
         this.logRepository.saveAndFlush(log);
         return logServiceModel;
     }
+
+
 }

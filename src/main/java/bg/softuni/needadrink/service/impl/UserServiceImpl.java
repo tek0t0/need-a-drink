@@ -5,9 +5,11 @@ import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
 import bg.softuni.needadrink.domain.models.binding.UserEditBindingModel;
+import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
+import bg.softuni.needadrink.error.ArticleNotFoundException;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.service.CloudinaryService;
 import bg.softuni.needadrink.service.LogService;
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean emailExists(String email) {
-        return userRepository.findByEmail(email).isPresent();
+        return this.userRepository.findByEmail(email).isPresent();
     }
 
     @Override
@@ -80,10 +82,10 @@ public class UserServiceImpl implements UserService {
 
         userEntity = userRepository.save(userEntity);
 
+
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
         logServiceModel.setDescription("User registered");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -99,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void initAdminUser() {
+    public UserRegisterServiceModel initAdminUser() {
         UserRoleEntity userRole = userRoleRepository.findByName(UserRoleEnum.USER)
                 .orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND));
         UserRoleEntity adminRole = userRoleRepository.findByName(UserRoleEnum.ADMIN)
@@ -116,12 +118,14 @@ public class UserServiceImpl implements UserService {
                 .setImgUrl(Constants.DEFAULT_USER_IMG_URL)
                 .setFavoriteCocktails(new ArrayList<>());
         this.userRepository.saveAndFlush(adminUser);
+        return modelMapper.map(adminUser, UserRegisterServiceModel.class);
     }
 
     @Override
     public UserServiceModel findUserByEmail(String email) {
-        UserEntity user = this.userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(Constants.EMAIL_NOT_FOUND));
-        return modelMapper.map(user, UserServiceModel.class);
+        return this.userRepository.findByEmail(email)
+                .map(u -> modelMapper.map(u, UserServiceModel.class))
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_EMAIL_NOT_FOUND));
     }
 
     @Override
@@ -144,7 +148,6 @@ public class UserServiceImpl implements UserService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
         logServiceModel.setDescription("User profile edited.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -169,7 +172,6 @@ public class UserServiceImpl implements UserService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
         logServiceModel.setDescription("Admin role added.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -186,7 +188,6 @@ public class UserServiceImpl implements UserService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
         logServiceModel.setDescription("User role added.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
@@ -200,7 +201,6 @@ public class UserServiceImpl implements UserService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
         logServiceModel.setDescription("User deleted.");
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 
