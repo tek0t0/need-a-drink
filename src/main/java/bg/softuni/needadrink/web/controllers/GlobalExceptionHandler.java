@@ -27,7 +27,6 @@ public class GlobalExceptionHandler {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription(ex.getMessage());
-        logServiceModel.setTime(LocalDateTime.now());
 
         this.logService.seedLogInDB(logServiceModel);
 

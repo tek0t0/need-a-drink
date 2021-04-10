@@ -1,4 +1,4 @@
-#spring:
+spring:
 #    #  This is the default in-memory credentials, we can change them if we want
 #    #      datasource:
 #    #          url:
@@ -7,17 +7,21 @@
 #    #              org.h2.Driver
 #    #          username: sa
 #    #          password: ''
-#    jpa:
+    jpa:
 #        #For H2 Database
-#        database-platform: org.hibernate.dialect.H2Dialect
-#        hibernate:
-#            ddl-auto: create-drop
-#        open-in-view: false
-#    servlet:
-#        multipart:
-#            max-file-size: 5MB
-#            max-request-size: 5MB
-#    mvc:
-#        hiddenmethod:
-#            filter:
-#                enabled: true
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: create-drop
+        open-in-view: false
+    servlet:
+        multipart:
+            max-file-size: 5MB
+            max-request-size: 5MB
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
+cloudinary:
+  api-key: test
+  api-secret: test
+  cloud-name: tekoto-cloud

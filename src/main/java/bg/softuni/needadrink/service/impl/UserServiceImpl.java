@@ -5,11 +5,9 @@ import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
 import bg.softuni.needadrink.domain.models.binding.UserEditBindingModel;
-import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
-import bg.softuni.needadrink.error.ArticleNotFoundException;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.service.CloudinaryService;
 import bg.softuni.needadrink.service.LogService;
@@ -33,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,8 +46,8 @@ public class UserServiceImpl implements UserService {
     private final LogService logService;
     private final CloudinaryService cloudinaryService;
 
-    @Value("${admin-init.admin-pass}")
-    private String pass;
+//    @Value("${admin-init.admin-pass}")
+//    private String pass;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService, CloudinaryService cloudinaryService) {
@@ -113,7 +110,7 @@ public class UserServiceImpl implements UserService {
                 .addRole(adminRole)
                 .setEmail("admin@abv.bg")
                 .setFullName("admin adminov")
-                .setPassword(passwordEncoder.encode(this.pass))
+                .setPassword(passwordEncoder.encode("12345"))
                 .setBirthDate(LocalDate.of(1983, 11, 5))
                 .setImgUrl(Constants.DEFAULT_USER_IMG_URL)
                 .setFavoriteCocktails(new ArrayList<>());

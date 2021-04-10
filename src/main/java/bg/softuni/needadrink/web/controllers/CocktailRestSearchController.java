@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("/cocktails")
 @RestController
+@RequestMapping("/cocktails")
 public class CocktailRestSearchController {
     private final CocktailService cocktailService;
     private final ModelMapper modelMapper;

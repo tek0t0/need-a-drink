@@ -1,6 +1,7 @@
 package bg.softuni.needadrink.init;
 
 
+import bg.softuni.needadrink.repositiry.ArticleRepository;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
 import bg.softuni.needadrink.repositiry.UserRepository;
@@ -19,16 +20,27 @@ public class DBInit implements CommandLineRunner {
     private final IngredientRepository ingredientRepository;
     private final CocktailRepository cocktailRepository;
     private final CocktailService cocktailService;
+    private final ArticleRepository articleRepository;
 
-    public DBInit(UserRoleEntityService userRoleEntityService, UserRepository userRepository, UserService userService, UserRepository userRepository1, ArticleService articleService, IngredientService ingredientService, IngredientRepository ingredientRepository, CocktailRepository cocktailRepository, CocktailService cocktailService) {
+    public DBInit(UserRoleEntityService userRoleEntityService,
+                  UserService userService,
+                  UserRepository userRepository,
+                  ArticleService articleService,
+                  IngredientService ingredientService,
+                  IngredientRepository ingredientRepository,
+                  CocktailRepository cocktailRepository,
+                  CocktailService cocktailService,
+                  ArticleRepository articleRepository) {
         this.userRoleEntityService = userRoleEntityService;
         this.userService = userService;
-        this.userRepository = userRepository1;
+        this.userRepository = userRepository;
         this.articleService = articleService;
         this.ingredientService = ingredientService;
         this.ingredientRepository = ingredientRepository;
         this.cocktailRepository = cocktailRepository;
         this.cocktailService = cocktailService;
+
+        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -36,17 +48,19 @@ public class DBInit implements CommandLineRunner {
 
         userRoleEntityService.initRoles();
 
-        if (userRepository.count() == 0) {
+        if (this.userRepository.count() == 0) {
             userService.initAdminUser();
         }
 
-        articleService.initArticles();
+        if(this.articleRepository.count() == 0){
+            articleService.initArticles();
+        }
 
-        if (ingredientRepository.count() == 0) {
+        if (this.ingredientRepository.count() == 0) {
             ingredientService.seedIngredients();
         }
 
-        if (cocktailRepository.count() == 0) {
+        if (this.cocktailRepository.count() == 0) {
             cocktailService.seedCocktails();
         }
 
