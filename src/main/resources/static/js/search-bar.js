@@ -16,7 +16,7 @@ searchBar.addEventListener('keyup', (e) => {
     let filteredCocktails = allCocktails.filter(cocktail => {
         console.log(cocktail);
         return cocktail.name.toLowerCase().includes(searchingCharacters)
-            || cocktail.description.toLowerCase().includes(searchingCharacters);
+             || cocktail.preparation.toLowerCase(). includes(searchingCharacters);
     });
     displayCocktails(filteredCocktails);
 })
@@ -29,7 +29,7 @@ const displayCocktails = (cocktail) => {
             <h2 class="text-center text-white my-3" hidden>Cocktail of the day</h2>
             <div  class="d-flex" id="cocktail-box">
 
-                <img class="h-25" style="" src="${c.imgUrl}" id="cocktail_details_img" alt="cocktail image"
+                <img class="h-25 align-self-center m-2 rounded" src="${c.imgUrl}" id="cocktail_details_img" alt="cocktail image"
                 data-holder-rendered="true">
 
                 <div class="flex-column p-2">

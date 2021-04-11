@@ -55,7 +55,7 @@ public class IngredientServiceImpl implements IngredientService {
         content = String.join("", Files.readAllLines(Path.of(ingredientsFile.getURI())));
         IngredientBindingModel[] ingredientBindingModels = this.gson.fromJson(content, IngredientBindingModel[].class);
         for (IngredientBindingModel ingredientBindingModel : ingredientBindingModels) {
-            if(this.ingredientRepository.getByName(ingredientBindingModel.getName()).isPresent()){
+            if (this.ingredientRepository.getByName(ingredientBindingModel.getName()).isPresent()) {
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");
                 logServiceModel.setDescription("Ingredient name already exists.");
@@ -80,7 +80,6 @@ public class IngredientServiceImpl implements IngredientService {
                     this.logService.seedLogInDB(logServiceModel);
                 }
             }
-
 
 
         }
@@ -110,7 +109,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void addIngredient(IngredientServiceModel ingredientServiceModel) {
-
+        if (ingredientServiceModel.getImgUrl() == null) {
+            ingredientServiceModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
+        }
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");

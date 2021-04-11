@@ -9,9 +9,9 @@
         <h1 class="text-center text-white py-3">Cocktail Details</h1>
         <div class="d-flex" id="cocktail-box">
 
-            <img class="h-25" th:src="*{imgUrl}" id="cocktail_details_img">
+            <img class="h-25 rounded" th:src="*{imgUrl}" id="cocktail_details_img">
 
-            <div class="flex-column">
+            <div class="flex-column mx-4">
                 <div><h3 th:text="*{name}" class=""></h3></div>
                 <div><p th:text="*{description}"></p></div>
                 <div><p th:text="*{preparation}"></p></div>

@@ -1,5 +1,6 @@
 package bg.softuni.needadrink.web.controllers;
 
+import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.views.CocktailSearchViewModel;
 import bg.softuni.needadrink.service.CocktailService;
 import org.modelmapper.ModelMapper;
@@ -23,10 +24,10 @@ public class CocktailRestSearchController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<CocktailSearchViewModel>>findAll(){
-        List<CocktailSearchViewModel> cocktailsList = cocktailService.getAllCocktails()
+    public ResponseEntity<List<CocktailServiceModel>>findAll(){
+        List<CocktailServiceModel> cocktailsList = cocktailService.getAllCocktails()
                 .stream()
-                .map(c->modelMapper.map(c, CocktailSearchViewModel.class))
+                .map(c->modelMapper.map(c, CocktailServiceModel.class))
                 .collect(Collectors.toList());
 
 return ResponseEntity

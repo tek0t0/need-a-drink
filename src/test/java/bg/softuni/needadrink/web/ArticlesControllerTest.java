@@ -1,14 +1,9 @@
 package bg.softuni.needadrink.web;
 
-import bg.softuni.needadrink.config.CloudinaryConfiguration;
 import bg.softuni.needadrink.domain.entities.ArticleEntity;
-import bg.softuni.needadrink.init.DBInit;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
 import bg.softuni.needadrink.service.ArticleService;
-import bg.softuni.needadrink.service.CloudinaryService;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,9 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.io.IOException;
-import java.time.LocalDate;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,20 +34,7 @@ public class ArticlesControllerTest {
 
     @Autowired
     private ArticleRepository articleRepository;
-//
 
-//
-
-
-//    @BeforeEach
-//    public void setup(){
-//        ArticleEntity articleEntity = new ArticleEntity()
-//                .setContent("test123")
-//                .setDescription("test123")
-//                .setAddedOn(LocalDate.now())
-//                .setTitle("test123");
-//        this.articleRepository.save(articleEntity);
-//    }
 
     @Test
     @WithMockUser(username = "admin@admin.bg", roles = {"ADMIN", "USER"})

@@ -95,44 +95,46 @@ public class CocktailServiceImpl implements CocktailService {
         CocktailInitBindingModel[] cocktailModels = this.gson.fromJson(content, CocktailInitBindingModel[].class);
         for (CocktailInitBindingModel cocktailModel : cocktailModels) {
             if (this.cocktailRepository.getByName(cocktailModel.getName()).isPresent()) {
-                throw new CocktailNameAlreadyExists(Constants.COCKTAIL_ALREADY_EXISTS);
-            }
-            List<IngredientBindingModel> ingredientModels = cocktailModel.getIngredients();
-            for (IngredientBindingModel ingredient : ingredientModels) {
-                if (ingredientRepository.getByName(ingredient.getName()).isEmpty()) {
-                    ingredientService.addIngredient(modelMapper.map(ingredient, IngredientServiceModel.class));
-                }
-            }
-
-            if (this.validatorUtil.isValid(cocktailModel)) {
-                Cocktail cocktail = this.modelMapper.map(cocktailModel, Cocktail.class);
-
-                cocktail.getIngredients().clear();
-                for (IngredientBindingModel ingredientModel : ingredientModels) {
-                    cocktail.addIngredient((ingredientService.findByName(ingredientModel.getName())));
-                }
-
-                if (cocktailModel.getImgUrl().isEmpty()) {
-                    cocktail.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
-                }
-
-                this.cocktailRepository.saveAndFlush(cocktail);
-
-                //TODO: Override Log constructor with all the params!!! OR USE ASPECTS TO LOG!!!
-
                 LogServiceModel logServiceModel = new LogServiceModel();
                 logServiceModel.setUsername("ADMIN");
-                logServiceModel.setDescription("Cocktail added.");
-
+                logServiceModel.setDescription("Cocktail already exists!.");
                 this.logService.seedLogInDB(logServiceModel);
-
-
             } else {
-                LogServiceModel logServiceModel = new LogServiceModel();
-                logServiceModel.setUsername("ADMIN");
-                logServiceModel.setDescription("Failed to add cocktail.");
+                List<IngredientBindingModel> ingredientModels = cocktailModel.getIngredients();
+                for (IngredientBindingModel ingredient : ingredientModels) {
+                    if (this.ingredientRepository.getByName(ingredient.getName()).isEmpty()) {
+                        this.ingredientService.addIngredient(modelMapper.map(ingredient, IngredientServiceModel.class));
+                    }
+                }
 
-                this.logService.seedLogInDB(logServiceModel);
+                if (this.validatorUtil.isValid(cocktailModel)) {
+                    Cocktail cocktail = this.modelMapper.map(cocktailModel, Cocktail.class);
+
+                    cocktail.getIngredients().clear();
+                    for (IngredientBindingModel ingredientModel : ingredientModels) {
+                        cocktail.addIngredient((this.ingredientService.findByName(ingredientModel.getName())));
+                    }
+
+                    if (cocktailModel.getImgUrl().isEmpty()) {
+                        cocktail.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
+                    }
+
+                    this.cocktailRepository.saveAndFlush(cocktail);
+
+                    //TODO: Override Log constructor with all the params!!! OR USE ASPECTS TO LOG!!!
+
+                    LogServiceModel logServiceModel = new LogServiceModel();
+                    logServiceModel.setUsername("ADMIN");
+                    logServiceModel.setDescription("Cocktail added.");
+                    this.logService.seedLogInDB(logServiceModel);
+
+
+                } else {
+                    LogServiceModel logServiceModel = new LogServiceModel();
+                    logServiceModel.setUsername("ADMIN");
+                    logServiceModel.setDescription("Failed to add cocktail.");
+                    this.logService.seedLogInDB(logServiceModel);
+                }
             }
         }
     }
@@ -140,10 +142,10 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public List<CocktailServiceModel> getAllCocktails() {
         List<CocktailServiceModel> allCocktailsModelsList = this.cocktailRepository
-                .findAll()
+                .finaAllOrderByName()
                 .stream()
                 .map(c -> {
-                    CocktailServiceModel cocktailServiceModel = modelMapper.map(c, CocktailServiceModel.class);
+                    CocktailServiceModel cocktailServiceModel = this.modelMapper.map(c, CocktailServiceModel.class);
                     List<String> ingredients = c.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList());
                     cocktailServiceModel.setIngredientsNames(ingredients);
                     return cocktailServiceModel;
@@ -157,7 +159,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public CocktailServiceModel getCocktailById(String id) {
         Cocktail byId = getCocktail(id);
-        return modelMapper.map(byId, CocktailServiceModel.class);
+        return this.modelMapper.map(byId, CocktailServiceModel.class);
     }
 
     @Override
@@ -175,7 +177,7 @@ public class CocktailServiceImpl implements CocktailService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-        this.cocktailRepository.saveAndFlush(modelMapper.map(cocktailInitBindingModel, Cocktail.class));
+        this.cocktailRepository.saveAndFlush(this.modelMapper.map(cocktailInitBindingModel, Cocktail.class));
     }
 
     @Override
@@ -186,7 +188,7 @@ public class CocktailServiceImpl implements CocktailService {
         List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
         return favoriteCocktails
                 .stream()
-                .map(c -> modelMapper.map(c, AllCocktailsViewModel.class))
+                .map(c -> this.modelMapper.map(c, AllCocktailsViewModel.class))
                 .collect(Collectors.toList());
 
     }
@@ -199,8 +201,6 @@ public class CocktailServiceImpl implements CocktailService {
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Cocktail deleted.");
-        logServiceModel.setTime(LocalDateTime.now());
-
         this.logService.seedLogInDB(logServiceModel);
 
         this.cocktailRepository.delete(cocktail);
@@ -230,7 +230,7 @@ public class CocktailServiceImpl implements CocktailService {
 
     private void throwsExceptionIfDBIsEmpty() {
         if (this.cocktailRepository.count() == 0) {
-            throw new EmptyCocktailDataBaseError();
+            throw new EmptyCocktailDataBaseError(Constants.COCKTAIL_DB_IS_EMPTY);
         }
     }
 

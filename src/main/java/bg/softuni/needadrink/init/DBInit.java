@@ -52,17 +52,12 @@ public class DBInit implements CommandLineRunner {
             userService.initAdminUser();
         }
 
-        if(this.articleRepository.count() == 0){
-            articleService.initArticles();
-        }
+        articleService.initArticles();
 
-        if (this.ingredientRepository.count() == 0) {
-            ingredientService.seedIngredients();
-        }
+        ingredientService.seedIngredients();
 
-        if (this.cocktailRepository.count() == 0) {
-            cocktailService.seedCocktails();
-        }
+        cocktailService.seedCocktails();
+
 
     }
 }

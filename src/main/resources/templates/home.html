@@ -25,9 +25,9 @@
             <h2 class="text-center text-white my-3">Cocktail of the day</h2>
             <div th:object="${cocktailSearchViewModel}" class="d-flex" id="cocktail-box">
 
-                <img class="h-25" style="" th:src="*{imgUrl}" id="cocktail_details_img" alt="cocktail_image">
+                <img class="h-25 rounded m-2" style="" th:src="*{imgUrl}" id="cocktail_details_img" alt="cocktail_image">
 
-                <div class="flex-column p-2">
+                <div class="flex-column p-2 mx-4">
                     <div><h3 th:text="*{name}" class="my-4"></h3></div>
                     <div><p th:text="*{description}"></p></div>
                     <div>

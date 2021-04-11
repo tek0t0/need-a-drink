@@ -17,32 +17,250 @@
     ]
   },
   {
-    "name": "Vodka Cola",
-    "description": "asd fsdf asdfasdfas dfas dfasdf asdfa sd fas dfasdf",
-    "preparation": "fghfg hfghghf hhhhhhhhhf ghfgh hhh  hhhh hhhhhh hhhh hhhhh hhhhhhf",
+    "name": "Acapulco",
+    "description": "A stronger variation uses lime juice and sweet&sour instead of grapefruit and pineapple juice, served in cocktail glass.",
+    "preparation": "1. Put some ice cubes into shaker.\n2. Add 50ml tequila, 50ml white rum, 75ml pineapple juice and 50ml grapefruit juice.\n3. Optionally add a splash of lime juice and 10ml sugar syrup.\n4. Shake well and strain into hurricane glass.",
     "imgUrl": "",
     "ingredients": [
       {
-        "name": "Cola"
+        "name": "Tequila Blanco"
       },
       {
-        "name": "Vodka"
+        "name": "White Rum"
+      },
+      {
+        "name": "Pineapple Juice"
+      },
+      {
+        "name": "Grapefruit Juice"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Sugar Syrup"
+      },
+      {
+        "name": "Sugar Syrup"
       }
     ]
   },
   {
-    "name": "Vodka Tonic",
-    "description": "asdfsd fasdf asdfa sdfasdfasdf asdfas dfa dfasdf",
-    "preparation": "fghfghhh hhhh hhh hhhfhfhfg hghjghk gkhj khjt 78676 7676767676 7676767 67676 767 676767",
-    "imgUrl": "",
+    "name": "Amaretto sour",
+    "description": "A stronger variation uses a splash of sweet&sour mix instead of lemon juice.",
+    "preparation": "1. Fill shaker with ice cubes.\n2. Add 60ml Amaretto and 30ml lemon juice.\n3. Shake well and pour into rocks glass.\n4. Garnish with lemon slice.",
+    "imgUrl": "/images/cocktails/Amaretto_sour.jpg",
     "ingredients": [
       {
-        "name": "Tonic"
+        "name": "Amaretto"
       },
       {
+        "name": "Lemon"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
+  {
+    "name": "B-52",
+    "description": "The name of this IBA official cocktail refers to the US B-52 Stratofortress long-range bomber.",
+    "preparation": "1. Pour 20ml Kahlua into shooter glass.\n2. Very carefully pour Baileys on top of Kahlua followed by Cointreau.\n3. Serve flamed and drink flamed using long straw.",
+    "imgUrl": "/images/cocktails/B-52.jpg",
+    "ingredients": [
+      {
+        "name": "Kahlua"
+      },
+      {
+        "name": "Baileys"
+      },
+      {
+        "name": "Cointreau"
+      }
+    ]
+  },
+  {
+    "name": "Bahama Mama",
+    "description": "Refreshing and beautiful exotic long drink.",
+    "preparation": "1. Put some cracked ice into shaker.\n2. Add 45ml rum, 30ml Malibu coconut rum and 15ml cherry brandy.\n3. Mix with 15ml lemon juice, 60ml orange juice, 60ml pineapple juice and 10ml Grenadine.\n4. Shake well and pour into chilled Hurricane glass.\n5. Garnish with orange slice.",
+    "imgUrl": "/images/cocktails/bahama_mama.jpg",
+    "ingredients": [
+      {
+        "name": "White Rum"
+      },
+      {
+        "name": "Malibu Coconut Rum"
+      },
+      {
+        "name": "Cherry Brandy"
+      },
+      {
+        "name": "Lemon"
+      },
+      {
+        "name": "Orange Juice"
+      },
+      {
+        "name": "Pineapple Juice"
+      },
+      {
+        "name": "Grenadine"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
+  {
+    "name": "Bloody Mary",
+    "description": "There are many legends regarding the origin of this IBA official cocktail. The name is associated with many historical and fictional figures including Queen Mary I of England.",
+    "preparation": "1. Put ice cubes into highball glass.\n2. Add 2-3 dashes of Worcestershire Sauce, 1 dash of Tabasco, salt and pepper.\n3. Pour 45ml vodka, 90ml tomato juice and 15ml lemon juice over the ice.\n4. Stir gently and garnish celery stalk or lemon wedge.",
+    "imgUrl": "/images/cocktails/bloody mary.jpg",
+    "ingredients": [
+      {
         "name": "Vodka"
+      },
+      {
+        "name": "Tomato Juice"
+      },
+      {
+        "name": "Lemon"
+      },
+      {
+        "name": "Tabasco"
+      },
+      {
+        "name": "Worcestershire Sauce"
+      },
+      {
+        "name": "Salt"
+      },
+      {
+        "name": "Black Paper"
+      }
+    ]
+  },
+  {
+    "name": "Caipirinha",
+    "description": "Famous Brazil national cocktail made with Cachaça. The word caipirinha is the diminutive version of the word caipira, which refers to someone from the countryside, being an almost exact equivalent of the American English hillbilly.",
+    "preparation": "1. Cut half of lime into wedges, place them with sugar into rocks glass and muddle.\n2. Add 50ml Cachaça and stir so that some sugar is dissolved.\n3. Add crushed ice and stir a little bit to melt some of the ice.\n4. Garnish with a lime piece.",
+    "imgUrl": "/images/cocktails/caipirinha.jpg",
+    "ingredients": [
+      {
+        "name": "Cachaca"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Sugar"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
+  {
+    "name": "Caipiroska",
+    "description": "A variation of Caipirinha made with vodka instead of Cachaça, also popular in Brazil and nearby countries. Also known as Caipivodka or Caipirodka.",
+    "preparation": "1. Cut half of lime into wedges, place them with sugar into rocks glass and muddle.\n2. Add 50ml vodka and stir so that some sugar is dissolved.\n3. Add crushed ice and stir a little bit to melt some of the ice.\n4. Garnish with a lime piece.",
+    "imgUrl": "/images/cocktails/caipiroska.jpg",
+    "ingredients": [
+      {
+        "name": "Vodka"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Sugar"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
+  {
+    "name": "Cosmopolitan",
+    "description": "As often, the originals of this IBA official cocktail are disputed. It is generally recognized that John Caine brought the drink to San Francisco around 1980-s from the Midwest, but most likely this cocktail was created independently by different bartenders in 1970-s.",
+    "preparation": "1. Fill shaker with ice.\n2. Add 40ml Vodka Citron, 15ml Cointreau, 15ml lime juice and 30ml cranberry juice.\n3. Shake well and strain into cocktail glass.\n4. Garnish with lime slice.",
+    "imgUrl": "/images/cocktails/cosmo.jpg",
+    "ingredients": [
+      {
+        "name": "Cointreau"
+      },
+      {
+        "name": "Vodka Citron"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Cranberry Juice"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
+  {
+    "name": "Cuba Libre",
+    "description": "Often referred to as \"Rum and Cola\", this IBA official cocktail became popular in the United States after the Andrews Sisters recorded a song named after the drink's ingredients, \"Rum and Coca-Cola\" in 1945. Popular variation often omits lime juice.",
+    "preparation": "1. Fill Highball glass with ice.\n2. Pour 50ml light rum and 120ml cola over the ice.\n3. Add 30ml lime juice.\n4. Garnish with lime slice.",
+    "imgUrl": "/images/cocktails/cuba libre.jpg",
+    "ingredients": [
+      {
+        "name": "White Rum"
+      },
+      {
+        "name": "Cola"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
+  {
+  "name": "Daiquiri",
+  "description": "By legend, this IBA official cocktail was invented around 1900 in a bar named Venus in Santiago by a group of American mining engineers. Daiquirí was one of the favorite drinks of writer Ernest Hemingway and president John F. Kennedy.",
+  "preparation": "1. Put ice into shaker.\n2. Add 45ml white rum, 25ml lime juice and 15ml sugar syrup.\n3. Shake well and strain into cocktail glass.",
+  "imgUrl": "/images/cocktails/daiquiri.jpg",
+  "ingredients": [
+    {
+      "name": "White Rum"
+    },
+    {
+      "name": "Lime"
+    },
+    {
+      "name": "Sugar Syrup"
+    },
+    {
+      "name": "Ice"
+    }
+  ]
+},
+  {
+    "name": "Dark 'N' Stormy",
+    "description": "IBA official long drink",
+    "preparation": "1. Fill highball glass with ice.\n2. Pour 60ml dark rum and top with 100ml ginger beer.\n3. Garnish with lime wedge.",
+    "imgUrl": "/images/cocktails/dark_N_stormy.jpg",
+    "ingredients": [
+      {
+        "name": "Dark Rum"
+      },
+      {
+        "name": "Ginger Beer"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Ice"
       }
     ]
   }
-
 ]

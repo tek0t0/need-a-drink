@@ -50,13 +50,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void initArticles() throws IOException {
 
-        if (articleRepository.count() == 0) {
-            String content;
 
-            content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
-            ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
-            for (ArticleAddBindingModel articleAddBindingModel : articleAddBindingModels) {
+        String content;
 
+        content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
+        ArticleAddBindingModel[] articleAddBindingModels = this.gson.fromJson(content, ArticleAddBindingModel[].class);
+        for (ArticleAddBindingModel articleAddBindingModel : articleAddBindingModels) {
+            if (this.articleRepository.findByTitle(articleAddBindingModel.getTitle()).isPresent()) {
+                LogServiceModel logServiceModel = new LogServiceModel();
+                logServiceModel.setUsername("ADMIN");
+                logServiceModel.setDescription("Article with this name already exists!");
+            } else {
                 if (this.validatorUtil.isValid(articleAddBindingModel)) {
                     ArticleEntity articleEntity = this.modelMapper.map(articleAddBindingModel, ArticleEntity.class);
                     articleEntity.setAddedOn(LocalDate.now());
@@ -68,10 +72,8 @@ public class ArticleServiceImpl implements ArticleService {
 
                     this.logService.seedLogInDB(logServiceModel);
                 }
-
             }
         }
-
     }
 
     @Override

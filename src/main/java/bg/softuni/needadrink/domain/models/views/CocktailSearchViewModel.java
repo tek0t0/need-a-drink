@@ -11,6 +11,8 @@ public class CocktailSearchViewModel {
 
     private String description;
 
+    private String preparation;
+
     private String imgUrl;
 
     private List<String> ingredientsNames;
