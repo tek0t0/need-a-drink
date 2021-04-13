@@ -5,7 +5,7 @@ import bg.softuni.needadrink.domain.entities.Ingredient;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
-import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
+import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.error.EmptyCocktailDataBaseError;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
@@ -175,13 +175,13 @@ public class CocktailServiceImplTests {
 
         when(mockUserRepository.findByEmail("A@A")).thenReturn(Optional.of(userEntity));
 
-        List<AllCocktailsViewModel> favoriteCocktails = serviceToTest.getFavoriteCocktails("A@A");
+        List<CocktailDetailsViewModel> favoriteCocktails = serviceToTest.getFavoriteCocktails("A@A");
 
         Assertions.assertEquals(2, favoriteCocktails.size());
 
 
-        AllCocktailsViewModel model1 = favoriteCocktails.get(0);
-        AllCocktailsViewModel model2 = favoriteCocktails.get(1);
+        CocktailDetailsViewModel model1 = favoriteCocktails.get(0);
+        CocktailDetailsViewModel model2 = favoriteCocktails.get(1);
 
         Assertions.assertEquals(testCocktail1.getName(), model1.getName());
         Assertions.assertEquals(testCocktail1.getImgUrl(), model1.getImgUrl());

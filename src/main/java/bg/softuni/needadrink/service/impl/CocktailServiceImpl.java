@@ -8,10 +8,8 @@ import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
-import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailSearchViewModel;
-import bg.softuni.needadrink.error.CocktailNameAlreadyExists;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.error.EmptyCocktailDataBaseError;
 import bg.softuni.needadrink.service.CocktailShuffler;
@@ -32,14 +30,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -181,14 +176,14 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public List<AllCocktailsViewModel> getFavoriteCocktails(String principalName) {
+    public List<CocktailDetailsViewModel> getFavoriteCocktails(String principalName) {
         UserEntity userEntity = this.userRepository.findByEmail(principalName)
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
         return favoriteCocktails
                 .stream()
-                .map(c -> this.modelMapper.map(c, AllCocktailsViewModel.class))
+                .map(c -> this.modelMapper.map(c, CocktailDetailsViewModel.class))
                 .collect(Collectors.toList());
 
     }

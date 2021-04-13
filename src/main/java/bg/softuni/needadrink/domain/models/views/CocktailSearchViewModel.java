@@ -62,4 +62,13 @@ public class CocktailSearchViewModel {
         this.ingredientsNames = ingredientsNames;
         return this;
     }
+
+    public String getPreparation() {
+        return preparation;
+    }
+
+    public CocktailSearchViewModel setPreparation(String preparation) {
+        this.preparation = preparation;
+        return this;
+    }
 }

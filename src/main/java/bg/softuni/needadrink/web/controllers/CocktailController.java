@@ -2,7 +2,6 @@ package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
-import bg.softuni.needadrink.domain.models.views.AllCocktailsViewModel;
 import bg.softuni.needadrink.domain.models.views.CocktailDetailsViewModel;
 import bg.softuni.needadrink.service.CocktailService;
 import bg.softuni.needadrink.service.IngredientService;
@@ -10,7 +9,6 @@ import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,9 +45,9 @@ public class CocktailController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("All Cocktails")
     public String allCocktails(Model model) {
-        List<AllCocktailsViewModel> allCocktails = cocktailService.getAllCocktails()
+        List<CocktailDetailsViewModel> allCocktails = this.cocktailService.getAllCocktails()
                 .stream()
-                .map(c -> modelMapper.map(c, AllCocktailsViewModel.class))
+                .map(c -> this.modelMapper.map(c, CocktailDetailsViewModel.class))
                 .collect(Collectors.toList());
         model.addAttribute("allCocktails", allCocktails);
 
@@ -60,7 +58,7 @@ public class CocktailController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Details")
     public String cocktailDetails(@PathVariable String id, Model model, Principal principal) {
-        CocktailDetailsViewModel viewModel = modelMapper.map(this.cocktailService.getCocktailById(id), CocktailDetailsViewModel.class);
+        CocktailDetailsViewModel viewModel = this.modelMapper.map(this.cocktailService.getCocktailById(id), CocktailDetailsViewModel.class);
         model.addAttribute("cocktailViewModel", viewModel);
         model.addAttribute("ingredients", this.ingredientService.findAllByCocktailId(id));
         model.addAttribute("alreadyInFavorite", false);
@@ -95,7 +93,7 @@ public class CocktailController {
 
         cocktailInitBindingModel
                 .getIngredients()
-                .add(modelMapper.map(ingredientService.findIngredientById(id), IngredientBindingModel.class));
+                .add(this.modelMapper.map(this.ingredientService.findIngredientById(id), IngredientBindingModel.class));
         model.addAttribute("cocktailInitBindingModel", cocktailInitBindingModel);
         model.addAttribute("allIngredients", this.ingredientService.getAllWithoutAdded(cocktailInitBindingModel));
 
@@ -138,7 +136,7 @@ public class CocktailController {
 
     @PostMapping("/addToFavorites/{id}")
     @PreAuthorize("isAuthenticated()")
-    public String addToFavorites(@PathVariable String id, Principal principal) throws UserPrincipalNotFoundException {
+    public String addToFavorites(@PathVariable String id, Principal principal) {
         this.userService.addCocktailToUserFavorites(principal.getName(), id);
 
         return "redirect:/cocktails/myCocktails";
