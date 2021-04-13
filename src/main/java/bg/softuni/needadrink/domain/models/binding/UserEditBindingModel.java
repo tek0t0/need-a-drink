@@ -5,9 +5,7 @@ import bg.softuni.needadrink.domain.validators.FieldMatch;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 
@@ -71,8 +69,7 @@ public class UserEditBindingModel {
         return this;
     }
 
-    @NotBlank
-    @Size(min = 5, message = "Password must be 5 or more symbols!")
+    @Pattern(regexp ="^(|[\\w\\W\\d\\s]{4,20})$",message = "New Password must be 5 or more symbols!" )
     public String getPassword() {
         return password;
     }
@@ -82,7 +79,7 @@ public class UserEditBindingModel {
         return this;
     }
 
-    @NotBlank
+
     public String getConfirmPassword() {
         return confirmPassword;
     }

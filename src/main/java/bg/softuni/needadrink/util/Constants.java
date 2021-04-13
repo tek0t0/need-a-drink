@@ -29,6 +29,7 @@ public class Constants {
 
     public static final String DEFAULT_ARTICLE_IMAGE_URL = "https://cdn.vox-cdn.com/thumbor/QMfCpaGj-WwLgeLin_b8hCMEL8M=/22x0:912x668/1400x1400/filters:focal(22x0:912x668):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/45710634/unnamed-1.0.0.jpg";
 
-    public static final String FAV_ICON_URL = "https://icons-for-free.com/iconfiles/png/512/beverage+cocktail+drink+icon-1320195452071512367.png";
+    public static final String FAV_ICON_URL = "/images/fav_icon.png";
 }
 
+//https://icons-for-free.com/iconfiles/png/512/beverage+cocktail+drink+icon-1320195452071512367.png

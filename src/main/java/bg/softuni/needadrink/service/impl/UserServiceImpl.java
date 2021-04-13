@@ -128,19 +128,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUserProfile(UserEditBindingModel bindingModel) throws IOException {
 
-        MultipartFile img = bindingModel.getImg();
-        String imageUrl = cloudinaryService.uploadImage(img);
-
-
         UserEntity userEntity = this.userRepository.findByEmail(bindingModel.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
         userEntity
                 .setFullName(bindingModel.getFullName())
-                .setPassword(passwordEncoder.encode(bindingModel.getPassword()))
-                .setImgUrl(imageUrl)
                 .setBirthDate(bindingModel.getBirthDate());
 
+        if(!bindingModel.getPassword().equals("")){
+            userEntity.setPassword(passwordEncoder.encode(bindingModel.getPassword()));
+        }
+
+        String imageUrl;
+        if(bindingModel.getImg().getSize() != 0){
+            MultipartFile img = bindingModel.getImg();
+            imageUrl = cloudinaryService.uploadImage(img);
+            userEntity.setImgUrl(imageUrl);
+        }
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());

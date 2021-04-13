@@ -117,7 +117,7 @@ public class UserController {
     public String editProfile(Principal principal, Model model) {
         model.addAttribute("userEditBindingModel", this.modelMapper
                 .map(this.userService.findUserByEmail(principal.getName()), UserEditBindingModel.class));
-        model.addAttribute("confirmPassMissMatch", false);
+        model.addAttribute("passMissMatch", false);
         return "user/profile-edit";
     }
 
