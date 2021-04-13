@@ -102,7 +102,6 @@ public class ArticleController {
     @PreAuthorize("hasRole('ADMIN')")
     public String articleEditConfirm(@PathVariable String id,
                                      ArticleAddBindingModel articleAddBindingModel) {
-        //TODO:Add validation
         ArticleServiceModel serviceModel = modelMapper.map(articleAddBindingModel, ArticleServiceModel.class);
         if (serviceModel.getCoverImgUrl() == null) {
             serviceModel.setCoverImgUrl(Constants.DEFAULT_ARTICLE_IMAGE_URL);

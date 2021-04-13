@@ -17,46 +17,36 @@ public class DBInit implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ArticleService articleService;
     private final IngredientService ingredientService;
-    private final IngredientRepository ingredientRepository;
-    private final CocktailRepository cocktailRepository;
     private final CocktailService cocktailService;
-    private final ArticleRepository articleRepository;
 
     public DBInit(UserRoleEntityService userRoleEntityService,
                   UserService userService,
                   UserRepository userRepository,
                   ArticleService articleService,
                   IngredientService ingredientService,
-                  IngredientRepository ingredientRepository,
-                  CocktailRepository cocktailRepository,
-                  CocktailService cocktailService,
-                  ArticleRepository articleRepository) {
+                  CocktailService cocktailService) {
         this.userRoleEntityService = userRoleEntityService;
         this.userService = userService;
         this.userRepository = userRepository;
         this.articleService = articleService;
         this.ingredientService = ingredientService;
-        this.ingredientRepository = ingredientRepository;
-        this.cocktailRepository = cocktailRepository;
         this.cocktailService = cocktailService;
-
-        this.articleRepository = articleRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-        userRoleEntityService.initRoles();
+        this.userRoleEntityService.initRoles();
 
         if (this.userRepository.count() == 0) {
-            userService.initAdminUser();
+            this.userService.initAdminUser();
         }
 
-        articleService.initArticles();
+        this.articleService.initArticles();
 
-        ingredientService.seedIngredients();
+        this.ingredientService.seedIngredients();
 
-        cocktailService.seedCocktails();
+        this.cocktailService.seedCocktails();
 
 
     }

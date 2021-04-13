@@ -14,22 +14,14 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    private final LogService logService;
 
-    public GlobalExceptionHandler(LogService logService) {
-        this.logService = logService;
+    public GlobalExceptionHandler() {
     }
 
     @ExceptionHandler({Throwable.class})
     public String handleException(Throwable ex, Model model){
 
         LOGGER.error("Exception", ex);
-        LogServiceModel logServiceModel = new LogServiceModel();
-        logServiceModel.setUsername("ADMIN");
-        logServiceModel.setDescription(ex.getMessage());
-
-        this.logService.seedLogInDB(logServiceModel);
-
 
         Throwable throwable = ex;
 
