@@ -127,7 +127,7 @@ public class CocktailServiceImpl implements CocktailService {
                 } else {
                     LogServiceModel logServiceModel = new LogServiceModel();
                     logServiceModel.setUsername("ADMIN");
-                    logServiceModel.setDescription("Failed to add cocktail.");
+                    logServiceModel.setDescription("Failed to add cocktail."+cocktailModel);
                     this.logService.seedLogInDB(logServiceModel);
                 }
             }

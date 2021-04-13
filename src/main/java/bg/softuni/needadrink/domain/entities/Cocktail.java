@@ -18,6 +18,8 @@ public class Cocktail extends BaseEntity {
 
     private String imgUrl;
 
+    private String videoUrl;
+
     private Set<Ingredient> ingredients;
 
     public Cocktail() {
@@ -75,5 +77,14 @@ public class Cocktail extends BaseEntity {
 
     public void addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public Cocktail setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+        return this;
     }
 }

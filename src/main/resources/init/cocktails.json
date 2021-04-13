@@ -4,6 +4,7 @@
     "description": "asdfsdfa sdfasdfasdfasd fasdfasdf asdfasdfasdf",
     "preparation": "fghfghf ghghfhhhh hhhhh fghfgh hhhhhhh hhhhh hhhhhhhh hhhh hhhhf",
     "imgUrl": "",
+    "videoUrl": "cvxH8lHFKG0",
     "ingredients": [
       {
         "name": "Aperol"
@@ -21,6 +22,7 @@
     "description": "A stronger variation uses lime juice and sweet&sour instead of grapefruit and pineapple juice, served in cocktail glass.",
     "preparation": "1. Put some ice cubes into shaker.\n2. Add 50ml tequila, 50ml white rum, 75ml pineapple juice and 50ml grapefruit juice.\n3. Optionally add a splash of lime juice and 10ml sugar syrup.\n4. Shake well and strain into hurricane glass.",
     "imgUrl": "",
+    "videoUrl": "L-4_waa1KDY",
     "ingredients": [
       {
         "name": "Tequila Blanco"
@@ -39,9 +41,6 @@
       },
       {
         "name": "Sugar Syrup"
-      },
-      {
-        "name": "Sugar Syrup"
       }
     ]
   },
@@ -50,6 +49,7 @@
     "description": "A stronger variation uses a splash of sweet&sour mix instead of lemon juice.",
     "preparation": "1. Fill shaker with ice cubes.\n2. Add 60ml Amaretto and 30ml lemon juice.\n3. Shake well and pour into rocks glass.\n4. Garnish with lemon slice.",
     "imgUrl": "/images/cocktails/Amaretto_sour.jpg",
+    "videoUrl": "7AaSS8ATg7w",
     "ingredients": [
       {
         "name": "Amaretto"
@@ -67,6 +67,7 @@
     "description": "The name of this IBA official cocktail refers to the US B-52 Stratofortress long-range bomber.",
     "preparation": "1. Pour 20ml Kahlua into shooter glass.\n2. Very carefully pour Baileys on top of Kahlua followed by Cointreau.\n3. Serve flamed and drink flamed using long straw.",
     "imgUrl": "/images/cocktails/B-52.jpg",
+    "videoUrl": "uLdQitD47lw",
     "ingredients": [
       {
         "name": "Kahlua"
@@ -84,6 +85,7 @@
     "description": "Refreshing and beautiful exotic long drink.",
     "preparation": "1. Put some cracked ice into shaker.\n2. Add 45ml rum, 30ml Malibu coconut rum and 15ml cherry brandy.\n3. Mix with 15ml lemon juice, 60ml orange juice, 60ml pineapple juice and 10ml Grenadine.\n4. Shake well and pour into chilled Hurricane glass.\n5. Garnish with orange slice.",
     "imgUrl": "/images/cocktails/bahama_mama.jpg",
+    "videoUrl": "c3rKtNTczUc",
     "ingredients": [
       {
         "name": "White Rum"
@@ -115,7 +117,8 @@
     "name": "Bloody Mary",
     "description": "There are many legends regarding the origin of this IBA official cocktail. The name is associated with many historical and fictional figures including Queen Mary I of England.",
     "preparation": "1. Put ice cubes into highball glass.\n2. Add 2-3 dashes of Worcestershire Sauce, 1 dash of Tabasco, salt and pepper.\n3. Pour 45ml vodka, 90ml tomato juice and 15ml lemon juice over the ice.\n4. Stir gently and garnish celery stalk or lemon wedge.",
-    "imgUrl": "/images/cocktails/bloody mary.jpg",
+    "imgUrl": "/images/cocktails/bloody_mary.jpg",
+    "videoUrl": "rpEzoWNbgSk",
     "ingredients": [
       {
         "name": "Vodka"
@@ -145,6 +148,7 @@
     "description": "Famous Brazil national cocktail made with Cachaça. The word caipirinha is the diminutive version of the word caipira, which refers to someone from the countryside, being an almost exact equivalent of the American English hillbilly.",
     "preparation": "1. Cut half of lime into wedges, place them with sugar into rocks glass and muddle.\n2. Add 50ml Cachaça and stir so that some sugar is dissolved.\n3. Add crushed ice and stir a little bit to melt some of the ice.\n4. Garnish with a lime piece.",
     "imgUrl": "/images/cocktails/caipirinha.jpg",
+    "videoUrl": "alEN21hwRYI",
     "ingredients": [
       {
         "name": "Cachaca"
@@ -165,6 +169,7 @@
     "description": "A variation of Caipirinha made with vodka instead of Cachaça, also popular in Brazil and nearby countries. Also known as Caipivodka or Caipirodka.",
     "preparation": "1. Cut half of lime into wedges, place them with sugar into rocks glass and muddle.\n2. Add 50ml vodka and stir so that some sugar is dissolved.\n3. Add crushed ice and stir a little bit to melt some of the ice.\n4. Garnish with a lime piece.",
     "imgUrl": "/images/cocktails/caipiroska.jpg",
+    "videoUrl": "LsdF7qTjpA4",
     "ingredients": [
       {
         "name": "Vodka"
@@ -185,6 +190,7 @@
     "description": "As often, the originals of this IBA official cocktail are disputed. It is generally recognized that John Caine brought the drink to San Francisco around 1980-s from the Midwest, but most likely this cocktail was created independently by different bartenders in 1970-s.",
     "preparation": "1. Fill shaker with ice.\n2. Add 40ml Vodka Citron, 15ml Cointreau, 15ml lime juice and 30ml cranberry juice.\n3. Shake well and strain into cocktail glass.\n4. Garnish with lime slice.",
     "imgUrl": "/images/cocktails/cosmo.jpg",
+    "videoUrl": "y23sJPG5McA",
     "ingredients": [
       {
         "name": "Cointreau"
@@ -207,7 +213,8 @@
     "name": "Cuba Libre",
     "description": "Often referred to as \"Rum and Cola\", this IBA official cocktail became popular in the United States after the Andrews Sisters recorded a song named after the drink's ingredients, \"Rum and Coca-Cola\" in 1945. Popular variation often omits lime juice.",
     "preparation": "1. Fill Highball glass with ice.\n2. Pour 50ml light rum and 120ml cola over the ice.\n3. Add 30ml lime juice.\n4. Garnish with lime slice.",
-    "imgUrl": "/images/cocktails/cuba libre.jpg",
+    "imgUrl": "/images/cocktails/cuba_libre.jpg",
+    "videoUrl": "cC4pk4Md7ng",
     "ingredients": [
       {
         "name": "White Rum"
@@ -224,30 +231,32 @@
     ]
   },
   {
-  "name": "Daiquiri",
-  "description": "By legend, this IBA official cocktail was invented around 1900 in a bar named Venus in Santiago by a group of American mining engineers. Daiquirí was one of the favorite drinks of writer Ernest Hemingway and president John F. Kennedy.",
-  "preparation": "1. Put ice into shaker.\n2. Add 45ml white rum, 25ml lime juice and 15ml sugar syrup.\n3. Shake well and strain into cocktail glass.",
-  "imgUrl": "/images/cocktails/daiquiri.jpg",
-  "ingredients": [
-    {
-      "name": "White Rum"
-    },
-    {
-      "name": "Lime"
-    },
-    {
-      "name": "Sugar Syrup"
-    },
-    {
-      "name": "Ice"
-    }
-  ]
-},
+    "name": "Daiquiri",
+    "description": "By legend, this IBA official cocktail was invented around 1900 in a bar named Venus in Santiago by a group of American mining engineers. Daiquirí was one of the favorite drinks of writer Ernest Hemingway and president John F. Kennedy.",
+    "preparation": "1. Put ice into shaker.\n2. Add 45ml white rum, 25ml lime juice and 15ml sugar syrup.\n3. Shake well and strain into cocktail glass.",
+    "imgUrl": "/images/cocktails/daiquiri.jpg",
+    "videoUrl": "TbRmNrAeymo",
+    "ingredients": [
+      {
+        "name": "White Rum"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Sugar Syrup"
+      },
+      {
+        "name": "Ice"
+      }
+    ]
+  },
   {
     "name": "Dark 'N' Stormy",
     "description": "IBA official long drink",
     "preparation": "1. Fill highball glass with ice.\n2. Pour 60ml dark rum and top with 100ml ginger beer.\n3. Garnish with lime wedge.",
     "imgUrl": "/images/cocktails/dark_N_stormy.jpg",
+    "videoUrl": "FT43iTg0RYQ",
     "ingredients": [
       {
         "name": "Dark Rum"

@@ -59,4 +59,14 @@ public class Ingredient extends BaseEntity{
         this.usedIn = usedIn;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", usedIn=" + usedIn +
+                '}';
+    }
 }

@@ -23,6 +23,9 @@ public class CocktailInitBindingModel {
     private String imgUrl;
 
     @Expose
+    private String videoUrl;
+
+    @Expose
     private List<IngredientBindingModel> ingredients;
 
     public CocktailInitBindingModel() {
@@ -41,7 +44,7 @@ public class CocktailInitBindingModel {
     }
 
     @NotBlank
-    @Length(min = 10, message = "Description length must be between 3 and 30 symbols!")
+    @Length(min = 10, message = "Description length must be more than 10 symbols!")
     public String getDescription() {
         return description;
     }
@@ -52,7 +55,7 @@ public class CocktailInitBindingModel {
     }
 
     @NotBlank
-    @Length(min = 10, message = "Description length must be between 3 and 30 symbols!")
+    @Length(min = 10, message = "Preparation length must be more than 10 symbols!")
     public String getPreparation() {
         return preparation;
     }
@@ -79,5 +82,26 @@ public class CocktailInitBindingModel {
     public CocktailInitBindingModel setIngredients(List<IngredientBindingModel> ingredients) {
         this.ingredients = ingredients;
         return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public CocktailInitBindingModel setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "CocktailInitBindingModel{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", preparation='" + preparation + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", ingredients=" + ingredients +
+                '}';
     }
 }

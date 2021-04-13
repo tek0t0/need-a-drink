@@ -38,7 +38,7 @@ public class IngredientBindingModel {
         return this;
     }
 
-    @Length(min = 5, max = 200, message = "Description length must be between 4 and 100 symbols!")
+    @Length(min = 5, max = 300, message = "Description length must be between 4 and 100 symbols!")
     public String getDescription() {
         return description;
     }
@@ -56,5 +56,15 @@ public class IngredientBindingModel {
     public IngredientBindingModel setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "IngredientBindingModel{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                '}';
     }
 }

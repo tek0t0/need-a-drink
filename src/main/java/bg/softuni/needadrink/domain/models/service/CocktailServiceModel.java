@@ -15,6 +15,8 @@ public class CocktailServiceModel {
 
     private String imgUrl;
 
+    private String videoUrl;
+
     private List<String> ingredientsNames;
 
     public String getId() {
@@ -68,6 +70,15 @@ public class CocktailServiceModel {
 
     public CocktailServiceModel setIngredientsNames(List<String> ingredientsNames) {
         this.ingredientsNames = ingredientsNames;
+        return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public CocktailServiceModel setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
         return this;
     }
 }

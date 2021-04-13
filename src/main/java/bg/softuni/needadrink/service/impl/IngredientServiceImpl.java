@@ -75,7 +75,7 @@ public class IngredientServiceImpl implements IngredientService {
                 } else {
                     LogServiceModel logServiceModel = new LogServiceModel();
                     logServiceModel.setUsername("ADMIN");
-                    logServiceModel.setDescription("Failed to add ingredient.");
+                    logServiceModel.setDescription("Failed to add ingredient." + ingredientBindingModel.toString());
 
                     this.logService.seedLogInDB(logServiceModel);
                 }

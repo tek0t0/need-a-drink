@@ -12,6 +12,10 @@ public class CocktailDetailsViewModel {
 
     private String imgUrl;
 
+    private String videoUrl;
+
+
+
 
     public String getId() {
         return id;
@@ -55,6 +59,15 @@ public class CocktailDetailsViewModel {
 
     public CocktailDetailsViewModel setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+        return this;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public CocktailDetailsViewModel setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
         return this;
     }
 }

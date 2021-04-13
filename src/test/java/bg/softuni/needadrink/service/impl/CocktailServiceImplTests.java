@@ -117,7 +117,7 @@ public class CocktailServiceImplTests {
 
     @Test
     void testGetAllCocktails() {
-        when(mockCocktailRepository.findAll()).thenReturn(List.of(testCocktail1, testCocktail2));
+        when(mockCocktailRepository.finaAllOrderByName()).thenReturn(List.of(testCocktail1, testCocktail2));
 
         List<CocktailServiceModel> allCocktails = serviceToTest.getAllCocktails();
 
