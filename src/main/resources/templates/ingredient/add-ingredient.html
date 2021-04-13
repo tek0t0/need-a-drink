@@ -15,9 +15,13 @@
                   class="flex-column ">
                 <div class="form-group">
                     <label for="name" class="text-white mb-1"></label>
-                    <input th:field="*{name}" th:errorclass="bg-danger" type="text" placeholder="Ingredient Name"
+                    <input th:field="*{name}"
+                           th:errorclass="bg-danger"
+                           type="text"
+                           placeholder="Ingredient Name"
                            id="name"
-                           class="form-control">
+                           class="form-control"
+                           required minlength="3" maxlength="30">
                     <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="nameError"
                            class="text-light form-text bg-danger rounded"></small>
                     <small th:if="${nameExists}" class="text-light form-text bg-danger rounded">

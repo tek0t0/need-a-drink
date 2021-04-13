@@ -20,8 +20,15 @@
                 </div>
                 <div class="form-group">
                     <label for="fullName" class="mb-1">Full Name</label>
-                    <input th:field="*{fullName}" th:errorclass="bg-danger" type="text" th:value="*{fullName}" class="form-control" id="fullName" placeholder="Full Name"
-                           name="fullName">
+                    <input th:field="*{fullName}"
+                           th:errorclass="bg-danger"
+                           type="text"
+                           th:value="*{fullName}"
+                           class="form-control"
+                           id="fullName"
+                           placeholder="Full Name"
+                           name="fullName"
+                           required minlength="5" maxlength="30">
                     <small th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" id="fullNAmeError"
                            class="text-light form-text bg-danger rounded"></small>
                 </div>
@@ -46,7 +53,7 @@
                            id="oldPassword"
                            placeholder="Old Password"
                            name="oldPassword"
-                           required>
+                           required minlength="5">
                     <small th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}" id="oldPasswordError"
                            class="text-light form-text bg-danger rounded"></small>
                     <small th:if="${passMissMatch}"

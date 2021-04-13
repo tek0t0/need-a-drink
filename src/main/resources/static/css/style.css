@@ -181,3 +181,15 @@ a.text-primary:focus, a.text-primary:hover {
 .register-form-wrapper{
     max-width: 300px;
 }
+
+input:invalid {
+    border: 2px solid red;
+}
+
+input:invalid:required {
+    background-image: linear-gradient(to left, #eb5757, #ffffff);
+}
+
+input:valid {
+    border: 2px solid lightgreen;
+}

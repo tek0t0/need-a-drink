@@ -23,8 +23,13 @@
 
             <div class="form-group">
                 <label for="name" class="text-white mb-1">Name</label>
-                <input th:field="*{name}" type="text" class="form-control" id="name" name="name"
-                       th:value="*{name}">
+                <input th:field="*{name}"
+                       th:value="*{name}"
+                       type="text"
+                       class="form-control"
+                       id="name"
+                       name="name"
+                       required minlength="3" maxlength="30">>
                 <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="titleError"
                        class="text-light form-text bg-danger rounded"></small>
                 <small th:if="${nameExists}" id="nameExistsError" class="text-light form-text bg-danger rounded">Ingredient

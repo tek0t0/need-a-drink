@@ -13,27 +13,50 @@
               th:object="${articleAddBindingModel}">
             <div class="form-group">
                 <label for="title" class="text-white mb-1">Title</label>
-                <input th:field="*{title}" th:errorclass="bg-danger" type="text" class="form-control" id="title" placeholder="Title" name="title">
+                <input th:field="*{title}"
+                       th:errorclass="bg-danger"
+                       type="text"
+                       class="form-control"
+                       id="title"
+                       placeholder="Title"
+                       name="title"
+                       required minlength="5" maxlength="50">
                 <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}" id="titleError"
                        class="text-light form-text bg-danger rounded"></small>
-                <small th:if="${titleExists}" id="titleExistsError" class="text-light form-text bg-danger rounded">Title already exists!</small>
+                <small th:if="${titleExists}" id="titleExistsError" class="text-light form-text bg-danger rounded">Title
+                    already exists!</small>
             </div>
             <div class="form-group">
                 <label for="description" class="text-white mb-1">Description</label>
-                <input th:field="*{description}" th:errorclass="bg-danger" type="text" class="form-control" id="description" placeholder="Description" name="description">
+                <input th:field="*{description}"
+                       th:errorclass="bg-danger"
+                       type="text"
+                       class="form-control"
+                       id="description"
+                       placeholder="Description"
+                       name="description"
+                       required minlength="5">
                 <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                        id="descriptionError" class="text-light form-text bg-danger rounded"></small>
             </div>
             <div class="form-group">
                 <label for="content" class="text-white mb-1">Content</label>
-                <textarea th:field="*{content}"  th:errorclass="is-invalid" rows="10" cols="100" class="form-control" id="content" placeholder="Content" name="content"></textarea>
+                <textarea th:field="*{content}"
+                          th:errorclass="is-invalid"
+                          rows="10" cols="100"
+                          class="form-control"
+                          id="content"
+                          placeholder="Content"
+                          name="content">
+                </textarea>
                 <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
                        id="contentError" class="text-light form-text bg-danger rounded"></small>
             </div>
 
             <div class="form-group">
                 <label for="coverImgUrl" class="text-white mb-1">Cover URL</label>
-                <input th:field="*{coverImgUrl}"  th:errorclass="is-invalid" type="text" class="form-control" id="coverImgUrl" placeholder="Cover Image Url" name="coverImgUrl">
+                <input th:field="*{coverImgUrl}" th:errorclass="is-invalid" type="text" class="form-control"
+                       id="coverImgUrl" placeholder="Cover Image Url" name="coverImgUrl">
                 <small th:if="${#fields.hasErrors('coverImgUrl')}" th:errors="*{coverImgUrl}"
                        id="imgUrlError" class="text-light form-text bg-danger rounded"></small>
             </div>
