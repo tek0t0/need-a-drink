@@ -3,12 +3,11 @@ package bg.softuni.needadrink.domain.entities;
 
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "cocktails")
-public class Cocktail extends BaseEntity {
+public class CocktailEntity extends BaseEntity {
 
     private String name;
 
@@ -20,9 +19,9 @@ public class Cocktail extends BaseEntity {
 
     private String videoUrl;
 
-    private Set<Ingredient> ingredients;
+    private Set<IngredientEntity> ingredientEntities;
 
-    public Cocktail() {
+    public CocktailEntity() {
     }
 
     @Column(name = "name", nullable = false, unique = true)
@@ -30,7 +29,7 @@ public class Cocktail extends BaseEntity {
         return name;
     }
 
-    public Cocktail setName(String name) {
+    public CocktailEntity setName(String name) {
         this.name = name;
         return this;
     }
@@ -40,7 +39,7 @@ public class Cocktail extends BaseEntity {
         return description;
     }
 
-    public Cocktail setDescription(String description) {
+    public CocktailEntity setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -50,7 +49,7 @@ public class Cocktail extends BaseEntity {
         return preparation;
     }
 
-    public Cocktail setPreparation(String preparation) {
+    public CocktailEntity setPreparation(String preparation) {
         this.preparation = preparation;
         return this;
     }
@@ -60,30 +59,30 @@ public class Cocktail extends BaseEntity {
         return imgUrl;
     }
 
-    public Cocktail setImgUrl(String imgUrl) {
+    public CocktailEntity setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
         return this;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
+    public Set<IngredientEntity> getIngredients() {
+        return ingredientEntities;
     }
 
-    public Cocktail setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public CocktailEntity setIngredients(Set<IngredientEntity> ingredientEntities) {
+        this.ingredientEntities = ingredientEntities;
         return this;
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
+    public void addIngredient(IngredientEntity ingredientEntity) {
+        this.ingredientEntities.add(ingredientEntity);
     }
 
     public String getVideoUrl() {
         return videoUrl;
     }
 
-    public Cocktail setVideoUrl(String videoUrl) {
+    public CocktailEntity setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
         return this;
     }

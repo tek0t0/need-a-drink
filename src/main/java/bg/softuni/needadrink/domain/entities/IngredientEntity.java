@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
-public class Ingredient extends BaseEntity{
+public class IngredientEntity extends BaseEntity{
 
     private String name;
 
@@ -14,9 +14,9 @@ public class Ingredient extends BaseEntity{
 
     private String imgUrl;
 
-    private List<Cocktail> usedIn;
+    private List<CocktailEntity> usedIn;
 
-    public Ingredient() {
+    public IngredientEntity() {
         this.usedIn = new ArrayList<>();
     }
 
@@ -25,7 +25,7 @@ public class Ingredient extends BaseEntity{
         return name;
     }
 
-    public Ingredient setName(String name) {
+    public IngredientEntity setName(String name) {
         this.name = name;
         return this;
     }
@@ -35,7 +35,7 @@ public class Ingredient extends BaseEntity{
         return description;
     }
 
-    public Ingredient setDescription(String description) {
+    public IngredientEntity setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -45,17 +45,17 @@ public class Ingredient extends BaseEntity{
         return imgUrl;
     }
 
-    public Ingredient setImgUrl(String imgUrl) {
+    public IngredientEntity setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
         return this;
     }
 
     @ManyToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
-    public List<Cocktail> getUsedIn() {
+    public List<CocktailEntity> getUsedIn() {
         return usedIn;
     }
 
-    public Ingredient setUsedIn(List<Cocktail> usedIn) {
+    public IngredientEntity setUsedIn(List<CocktailEntity> usedIn) {
         this.usedIn = usedIn;
         return this;
     }

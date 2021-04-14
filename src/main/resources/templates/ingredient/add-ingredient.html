@@ -10,7 +10,7 @@
 
         <div class="my-3 d-flex justify-content-center">
             <form th:method="POST"
-                  th:action="@{/ingredients/add}"
+                  th:action="@{/ingredientEntities/add}"
                   th:object="${ingredientBindingModel}"
                   class="flex-column ">
                 <div class="form-group">
@@ -62,7 +62,7 @@
                     </th>
                     <td class="col-sm-2 text-center">
                         <div class="bg-white rounded">
-                            <img class="img-thumbnail" th:src="*{imgUrl}">
+                            <img class="img-thumbnail" th:src="*{imgUrl}" alt="ingredient image">
                         </div>
                     </td>
                     <td class="col-sm-5 flex-column justify-content-center align-items-center">
@@ -70,10 +70,10 @@
                         <p class="font-weight-bold" th:text="*{description}"></p>
                     </td>
                     <td class="col-sm-2 d-flex justify-content-center align-items-center">
-                        <a th:href="@{/ingredients/edit/{id}(id=${i.id})}" class="btn btn-dark">Edit</a>
+                        <a th:href="@{/ingredientEntities/edit/{id}(id=${i.id})}" class="btn btn-dark">Edit</a>
                     </td>
                     <td class="col-sm-2 d-flex justify-content-center align-items-center">
-                        <a th:href="@{/ingredients/delete/{id}(id=${i.id})}" class="btn btn-dark">Delete</a>
+                        <a th:href="@{/ingredientEntities/delete/{id}(id=${i.id})}" class="btn btn-dark">Delete</a>
                     </td>
                 </tr>
             </th:block>

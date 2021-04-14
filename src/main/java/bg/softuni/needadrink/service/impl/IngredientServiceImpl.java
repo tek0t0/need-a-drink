@@ -1,6 +1,6 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.Ingredient;
+import bg.softuni.needadrink.domain.entities.IngredientEntity;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
@@ -17,13 +17,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,8 +61,8 @@ public class IngredientServiceImpl implements IngredientService {
             } else {
                 if (this.validatorUtil.isValid(ingredientBindingModel)) {
                     addDefaultImgIngredient(ingredientBindingModel);
-                    Ingredient ingredient = this.modelMapper.map(ingredientBindingModel, Ingredient.class);
-                    this.ingredientRepository.saveAndFlush(ingredient);
+                    IngredientEntity ingredientEntity = this.modelMapper.map(ingredientBindingModel, IngredientEntity.class);
+                    this.ingredientRepository.saveAndFlush(ingredientEntity);
 
                     LogServiceModel logServiceModel = new LogServiceModel();
                     logServiceModel.setUsername("ADMIN");
@@ -75,7 +73,7 @@ public class IngredientServiceImpl implements IngredientService {
                 } else {
                     LogServiceModel logServiceModel = new LogServiceModel();
                     logServiceModel.setUsername("ADMIN");
-                    logServiceModel.setDescription("Failed to add ingredient." + ingredientBindingModel.toString());
+                    logServiceModel.setDescription("Failed to add ingredient." + ingredientBindingModel);
 
                     this.logService.seedLogInDB(logServiceModel);
                 }
@@ -119,21 +117,21 @@ public class IngredientServiceImpl implements IngredientService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-        this.ingredientRepository.saveAndFlush(modelMapper.map(ingredientServiceModel, Ingredient.class));
+        this.ingredientRepository.saveAndFlush(modelMapper.map(ingredientServiceModel, IngredientEntity.class));
     }
 
     @Override
     public IngredientServiceModel findIngredientById(String id) {
-        Ingredient ingredient = this.ingredientRepository.findById(id)
+        IngredientEntity ingredientEntity = this.ingredientRepository.findById(id)
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NOT_FOUND));
-        return modelMapper.map(ingredient, IngredientServiceModel.class);
+        return modelMapper.map(ingredientEntity, IngredientServiceModel.class);
     }
 
     @Override
     public IngredientServiceModel editIngredient(IngredientServiceModel ingredientServiceModel) {
-        Ingredient ingredient = this.ingredientRepository.findById(ingredientServiceModel.getId())
+        IngredientEntity ingredientEntity = this.ingredientRepository.findById(ingredientServiceModel.getId())
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_ID_NOT_FOUND));
-        ingredient
+        ingredientEntity
                 .setName(ingredientServiceModel.getName())
                 .setImgUrl(ingredientServiceModel.getImgUrl())
                 .setDescription(ingredientServiceModel.getDescription());
@@ -144,8 +142,8 @@ public class IngredientServiceImpl implements IngredientService {
         logServiceModel.setDescription("Ingredient edited.");
 
         this.logService.seedLogInDB(logServiceModel);
-        this.ingredientRepository.saveAndFlush(ingredient);
-        return modelMapper.map(ingredient, IngredientServiceModel.class);
+        this.ingredientRepository.saveAndFlush(ingredientEntity);
+        return modelMapper.map(ingredientEntity, IngredientServiceModel.class);
     }
 
     @Override
@@ -154,9 +152,9 @@ public class IngredientServiceImpl implements IngredientService {
             return false;
         }
 
-        Ingredient ingredient = ingredientRepository.getByName(ingredientServiceModel.getName())
+        IngredientEntity ingredientEntity = ingredientRepository.getByName(ingredientServiceModel.getName())
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NAME_NOT_FOUND));
-        return !ingredient.getId().equals(ingredientServiceModel.getId());
+        return !ingredientEntity.getId().equals(ingredientServiceModel.getId());
     }
 
     @Override
@@ -174,7 +172,7 @@ public class IngredientServiceImpl implements IngredientService {
 
 
     @Override
-    public Ingredient findByName(String name) {
+    public IngredientEntity findByName(String name) {
         return this.ingredientRepository.getByName(name)
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NOT_FOUND));
     }
@@ -199,7 +197,7 @@ public class IngredientServiceImpl implements IngredientService {
 
 
     private void entityExists(String id) {
-        Ingredient ingredient = this.ingredientRepository.findById(id)
+        IngredientEntity ingredientEntity = this.ingredientRepository.findById(id)
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_ID_NOT_FOUND));
     }
 

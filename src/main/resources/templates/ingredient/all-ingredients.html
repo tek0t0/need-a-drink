@@ -9,7 +9,7 @@
         <h1 class="text-center text-white py-3">Ingredients</h1>
 
         <div class="my-3 d-flex justify-content-center">
-            <a th:href="@{/ingredients/add}" class="btn btn-dark ">Add Ingredient</a>
+            <a th:href="@{/ingredientEntities/add}" class="btn btn-dark ">Add Ingredient</a>
         </div>
 
         <table class="table table-sm table-hover mx-auto" th:object="${ingredients}">
@@ -29,10 +29,10 @@
                         <p class="font-weight-bold" th:text="*{description}"></p>
                     </td>
                     <td class="col-sm-2 d-flex justify-content-center align-items-center">
-                        <a th:href="@{/ingredients/edit/{id}(id=${i.id})}" class="btn btn-dark">Edit</a>
+                        <a th:href="@{/ingredientEntities/edit/{id}(id=${i.id})}" class="btn btn-dark">Edit</a>
                     </td>
                     <td class="col-sm-2 d-flex justify-content-center align-items-center">
-                        <a th:href="@{/ingredients/delete/{id}(id=${i.id})}" class="btn btn-dark">Delete</a>
+                        <a th:href="@{/ingredientEntities/delete/{id}(id=${i.id})}" class="btn btn-dark">Delete</a>
                     </td>
                 </tr>
             </th:block>

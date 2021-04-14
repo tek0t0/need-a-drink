@@ -1,6 +1,6 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.Cocktail;
+import bg.softuni.needadrink.domain.entities.CocktailEntity;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
@@ -19,7 +19,6 @@ import bg.softuni.needadrink.repositiry.UserRoleRepository;
 import bg.softuni.needadrink.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -218,10 +217,10 @@ public class UserServiceImpl implements UserService {
     public void addCocktailToUserFavorites(String name, String id) {
         UserEntity userEntity = this.userRepository.findByEmail(name).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        Cocktail cocktail = this.cocktailRepository.findById(id).orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
-        List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
-        favoriteCocktails.add(cocktail);
-        userEntity.setFavoriteCocktails(favoriteCocktails);
+        CocktailEntity cocktailEntity = this.cocktailRepository.findById(id).orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+        List<CocktailEntity> favoriteCocktailEntities = userEntity.getFavoriteCocktails();
+        favoriteCocktailEntities.add(cocktailEntity);
+        userEntity.setFavoriteCocktails(favoriteCocktailEntities);
         this.userRepository.saveAndFlush(userEntity);
 
     }
@@ -230,10 +229,10 @@ public class UserServiceImpl implements UserService {
     public void removeCocktailToUserFavorites(String name, String id) {
         UserEntity userEntity = this.userRepository.findByEmail(name).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        Cocktail cocktail = this.cocktailRepository.findById(id).orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
-        List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
-        favoriteCocktails.remove(cocktail);
-        userEntity.setFavoriteCocktails(favoriteCocktails);
+        CocktailEntity cocktailEntity = this.cocktailRepository.findById(id).orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
+        List<CocktailEntity> favoriteCocktailEntities = userEntity.getFavoriteCocktails();
+        favoriteCocktailEntities.remove(cocktailEntity);
+        userEntity.setFavoriteCocktails(favoriteCocktailEntities);
         this.userRepository.saveAndFlush(userEntity);
     }
 

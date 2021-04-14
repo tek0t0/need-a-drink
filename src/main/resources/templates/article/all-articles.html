@@ -11,7 +11,7 @@
             <div class="card m-3 rounded" th:each="a: ${allArticles}" th:object="${a}" id="card">
                 <div>
                     <a th:href="@{/articles/details/{id} (id=${a.id})}">
-                        <img th:src="*{coverImgUrl}" class="card-img-top p-3" alt="cocktail">
+                        <img th:src="*{coverImgUrl}" class="card-img-top p-3" alt="cocktailEntity">
                     </a>
                     <div class="card-body">
                         <h4 th:text="*{title}" class="card-title">Card title</h4>

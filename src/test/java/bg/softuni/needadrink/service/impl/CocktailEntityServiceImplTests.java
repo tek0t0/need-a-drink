@@ -1,7 +1,7 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.Cocktail;
-import bg.softuni.needadrink.domain.entities.Ingredient;
+import bg.softuni.needadrink.domain.entities.CocktailEntity;
+import bg.softuni.needadrink.domain.entities.IngredientEntity;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.service.CocktailServiceModel;
@@ -36,11 +36,11 @@ import java.util.Set;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CocktailServiceImplTests {
+public class CocktailEntityServiceImplTests {
 
-    private Cocktail testCocktail1, testCocktail2;
+    private CocktailEntity testCocktailEntity1, testCocktailEntity2;
 
-    private Ingredient testIngredient1, testIngredient2;
+    private IngredientEntity testIngredientEntity1, testIngredientEntity2;
 
     private CocktailService serviceToTest;
 
@@ -69,33 +69,33 @@ public class CocktailServiceImplTests {
     @BeforeEach
     public void init() {
 
-        testIngredient1 = new Ingredient();
-        testIngredient2 = new Ingredient();
+        testIngredientEntity1 = new IngredientEntity();
+        testIngredientEntity2 = new IngredientEntity();
 
-        testIngredient1
+        testIngredientEntity1
                 .setName("ing1")
                 .setDescription("ing_desc1")
                 .setImgUrl("ing_img1");
-        testIngredient2
+        testIngredientEntity2
                 .setName("ing2")
                 .setDescription("ing_desc2")
                 .setImgUrl("ing_img2");
 
-        testCocktail1 = new Cocktail();
-        testCocktail1
+        testCocktailEntity1 = new CocktailEntity();
+        testCocktailEntity1
                 .setName("cocktail1")
                 .setImgUrl("image1")
                 .setDescription("description1")
                 .setPreparation("preparation1")
-                .setIngredients(Set.of(testIngredient1, testIngredient2));
+                .setIngredients(Set.of(testIngredientEntity1, testIngredientEntity2));
 
-        testCocktail2 = new Cocktail();
-        testCocktail2
+        testCocktailEntity2 = new CocktailEntity();
+        testCocktailEntity2
                 .setName("cocktail2")
                 .setImgUrl("image2")
                 .setDescription("description2")
                 .setPreparation("preparation2")
-                .setIngredients(Set.of(testIngredient1, testIngredient2));
+                .setIngredients(Set.of(testIngredientEntity1, testIngredientEntity2));
 
 
         serviceToTest = new CocktailServiceImpl(
@@ -117,7 +117,7 @@ public class CocktailServiceImplTests {
 
     @Test
     void testGetAllCocktails() {
-        when(mockCocktailRepository.finaAllOrderByName()).thenReturn(List.of(testCocktail1, testCocktail2));
+        when(mockCocktailRepository.finaAllOrderByName()).thenReturn(List.of(testCocktailEntity1, testCocktailEntity2));
 
         List<CocktailServiceModel> allCocktails = serviceToTest.getAllCocktails();
 
@@ -126,30 +126,30 @@ public class CocktailServiceImplTests {
         CocktailServiceModel model1 = allCocktails.get(0);
         CocktailServiceModel model2 = allCocktails.get(1);
 
-        Assertions.assertEquals(testCocktail1.getName(), model1.getName());
-        Assertions.assertEquals(testCocktail1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testCocktail1.getPreparation(), model1.getPreparation());
-        Assertions.assertEquals(testCocktail1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testCocktailEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testCocktailEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testCocktailEntity1.getPreparation(), model1.getPreparation());
+        Assertions.assertEquals(testCocktailEntity1.getDescription(), model1.getDescription());
         Assertions.assertEquals(2, model1.getIngredientsNames().size());
 
 
-        Assertions.assertEquals(testCocktail2.getName(), model2.getName());
-        Assertions.assertEquals(testCocktail2.getImgUrl(), model2.getImgUrl());
-        Assertions.assertEquals(testCocktail2.getPreparation(), model2.getPreparation());
-        Assertions.assertEquals(testCocktail2.getDescription(), model2.getDescription());
+        Assertions.assertEquals(testCocktailEntity2.getName(), model2.getName());
+        Assertions.assertEquals(testCocktailEntity2.getImgUrl(), model2.getImgUrl());
+        Assertions.assertEquals(testCocktailEntity2.getPreparation(), model2.getPreparation());
+        Assertions.assertEquals(testCocktailEntity2.getDescription(), model2.getDescription());
         Assertions.assertEquals(2, model2.getIngredientsNames().size());
     }
 
     @Test
     void testGetCocktailByIdReturn() {
-        Mockito.when(mockCocktailRepository.findById("A")).thenReturn(Optional.of((testCocktail1)));
+        Mockito.when(mockCocktailRepository.findById("A")).thenReturn(Optional.of((testCocktailEntity1)));
 
         CocktailServiceModel model1 = serviceToTest.getCocktailById("A");
 
-        Assertions.assertEquals(testCocktail1.getName(), model1.getName());
-        Assertions.assertEquals(testCocktail1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testCocktail1.getPreparation(), model1.getPreparation());
-        Assertions.assertEquals(testCocktail1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testCocktailEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testCocktailEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testCocktailEntity1.getPreparation(), model1.getPreparation());
+        Assertions.assertEquals(testCocktailEntity1.getDescription(), model1.getDescription());
     }
 
     @Test
@@ -159,7 +159,7 @@ public class CocktailServiceImplTests {
 
     @Test
     void testNameExists() {
-        when(mockCocktailRepository.getByName("cocktail_1")).thenReturn(Optional.of(testCocktail1));
+        when(mockCocktailRepository.getByName("cocktail_1")).thenReturn(Optional.of(testCocktailEntity1));
 
         Assertions.assertTrue(serviceToTest.nameExists("cocktail_1"));
     }
@@ -171,7 +171,7 @@ public class CocktailServiceImplTests {
                 .setPassword("A")
                 .setBirthDate(LocalDate.now())
                 .setEmail("A@A")
-                .setFavoriteCocktails(List.of(testCocktail1, testCocktail2));
+                .setFavoriteCocktails(List.of(testCocktailEntity1, testCocktailEntity2));
 
         when(mockUserRepository.findByEmail("A@A")).thenReturn(Optional.of(userEntity));
 
@@ -183,20 +183,20 @@ public class CocktailServiceImplTests {
         CocktailDetailsViewModel model1 = favoriteCocktails.get(0);
         CocktailDetailsViewModel model2 = favoriteCocktails.get(1);
 
-        Assertions.assertEquals(testCocktail1.getName(), model1.getName());
-        Assertions.assertEquals(testCocktail1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testCocktail1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testCocktailEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testCocktailEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testCocktailEntity1.getDescription(), model1.getDescription());
 
-        Assertions.assertEquals(testCocktail2.getName(), model2.getName());
-        Assertions.assertEquals(testCocktail2.getImgUrl(), model2.getImgUrl());
-        Assertions.assertEquals(testCocktail2.getDescription(), model2.getDescription());
+        Assertions.assertEquals(testCocktailEntity2.getName(), model2.getName());
+        Assertions.assertEquals(testCocktailEntity2.getImgUrl(), model2.getImgUrl());
+        Assertions.assertEquals(testCocktailEntity2.getDescription(), model2.getDescription());
     }
 
     @Test
     void testDeleteByIdWorks() {
 
         Mockito.when(mockCocktailRepository.findById("A")).
-                thenReturn(Optional.of(testCocktail1));
+                thenReturn(Optional.of(testCocktailEntity1));
         serviceToTest.deleteById("A");
     }
 

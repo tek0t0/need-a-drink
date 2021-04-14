@@ -1,7 +1,7 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.Cocktail;
-import bg.softuni.needadrink.domain.entities.Ingredient;
+import bg.softuni.needadrink.domain.entities.CocktailEntity;
+import bg.softuni.needadrink.domain.entities.IngredientEntity;
 
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.views.IngredientViewModel;
@@ -27,9 +27,9 @@ import java.util.Set;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class IngredientServiceImplTest {
+public class IngredientEntityServiceImplTest {
 
-    private Ingredient testIngredient1, testIngredient2;
+    private IngredientEntity testIngredientEntity1, testIngredientEntity2;
 
     private IngredientServiceModel ingredientServiceModel;
 
@@ -50,16 +50,16 @@ public class IngredientServiceImplTest {
     public void init() {
 
 
-        testIngredient1 = new Ingredient();
-        testIngredient1
+        testIngredientEntity1 = new IngredientEntity();
+        testIngredientEntity1
                 .setName("Ing1")
                 .setDescription("test1")
                 .setImgUrl("url1")
                 .setUsedIn(List.of())
                 .setId("A");
 
-        testIngredient2 = new Ingredient();
-        testIngredient2
+        testIngredientEntity2 = new IngredientEntity();
+        testIngredientEntity2
                 .setName("Ing2")
                 .setDescription("test2")
                 .setImgUrl("url2")
@@ -88,7 +88,7 @@ public class IngredientServiceImplTest {
 
     @Test
     void testGetAllIngredients(){
-        when(mockIngredientRepository.findAllOrderByName()).thenReturn(List.of(testIngredient1, testIngredient2));
+        when(mockIngredientRepository.findAllOrderByName()).thenReturn(List.of(testIngredientEntity1, testIngredientEntity2));
 
         List<IngredientServiceModel> allIngredients = serviceToTest.getAllIngredients();
 
@@ -97,20 +97,20 @@ public class IngredientServiceImplTest {
         IngredientServiceModel model1 = allIngredients.get(0);
         IngredientServiceModel model2 = allIngredients.get(1);
 
-        Assertions.assertEquals(testIngredient1.getName(), model1.getName());
-        Assertions.assertEquals(testIngredient1.getDescription(), model1.getDescription());
-        Assertions.assertEquals(testIngredient1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testIngredient1.getId(), model1.getId());
+        Assertions.assertEquals(testIngredientEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testIngredientEntity1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testIngredientEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testIngredientEntity1.getId(), model1.getId());
 
-        Assertions.assertEquals(testIngredient2.getName(), model2.getName());
-        Assertions.assertEquals(testIngredient2.getDescription(), model2.getDescription());
-        Assertions.assertEquals(testIngredient2.getImgUrl(), model2.getImgUrl());
-        Assertions.assertEquals(testIngredient2.getId(), model2.getId());
+        Assertions.assertEquals(testIngredientEntity2.getName(), model2.getName());
+        Assertions.assertEquals(testIngredientEntity2.getDescription(), model2.getDescription());
+        Assertions.assertEquals(testIngredientEntity2.getImgUrl(), model2.getImgUrl());
+        Assertions.assertEquals(testIngredientEntity2.getId(), model2.getId());
     }
 
     @Test
     void testNameExists() {
-        when(mockIngredientRepository.getByName("Ing1")).thenReturn(Optional.of(testIngredient1));
+        when(mockIngredientRepository.getByName("Ing1")).thenReturn(Optional.of(testIngredientEntity1));
 
         Assertions.assertTrue(serviceToTest.nameExists("Ing1"));
     }
@@ -123,14 +123,14 @@ public class IngredientServiceImplTest {
 
     @Test
     void testFindIngredientById(){
-        Mockito.when(mockIngredientRepository.findById("A")).thenReturn(Optional.of((testIngredient1)));
+        Mockito.when(mockIngredientRepository.findById("A")).thenReturn(Optional.of((testIngredientEntity1)));
 
         IngredientServiceModel model1 = serviceToTest.findIngredientById("A");
 
-        Assertions.assertEquals(testIngredient1.getName(), model1.getName());
-        Assertions.assertEquals(testIngredient1.getDescription(), model1.getDescription());
-        Assertions.assertEquals(testIngredient1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testIngredient1.getId(), model1.getId());
+        Assertions.assertEquals(testIngredientEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testIngredientEntity1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testIngredientEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testIngredientEntity1.getId(), model1.getId());
     }
 
     @Test
@@ -141,14 +141,14 @@ public class IngredientServiceImplTest {
     @Test
     void testEditIngredient() {
 
-        Mockito.when(mockIngredientRepository.findById("A")).thenReturn(Optional.of(testIngredient1));
+        Mockito.when(mockIngredientRepository.findById("A")).thenReturn(Optional.of(testIngredientEntity1));
 
         IngredientServiceModel model1 = serviceToTest.editIngredient(this.ingredientServiceModel);
 
-        Assertions.assertEquals(testIngredient1.getName(), model1.getName());
-        Assertions.assertEquals(testIngredient1.getDescription(), model1.getDescription());
-        Assertions.assertEquals(testIngredient1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testIngredient1.getId(), model1.getId());
+        Assertions.assertEquals(testIngredientEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testIngredientEntity1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testIngredientEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testIngredientEntity1.getId(), model1.getId());
     }
 
     @Test
@@ -160,7 +160,7 @@ public class IngredientServiceImplTest {
     void testDeleteIngredient(){
 
         Mockito.when(mockIngredientRepository.findById("A")).
-                thenReturn(Optional.of(testIngredient1));
+                thenReturn(Optional.of(testIngredientEntity1));
         serviceToTest.deleteIngredient("A");
     }
 
@@ -171,14 +171,14 @@ public class IngredientServiceImplTest {
 
     @Test
     void testFindByName(){
-        Mockito.when(mockIngredientRepository.getByName("A")).thenReturn(Optional.of(testIngredient1));
+        Mockito.when(mockIngredientRepository.getByName("A")).thenReturn(Optional.of(testIngredientEntity1));
 
-        Ingredient model1 = serviceToTest.findByName("A");
+        IngredientEntity model1 = serviceToTest.findByName("A");
 
-        Assertions.assertEquals(testIngredient1.getName(), model1.getName());
-        Assertions.assertEquals(testIngredient1.getDescription(), model1.getDescription());
-        Assertions.assertEquals(testIngredient1.getImgUrl(), model1.getImgUrl());
-        Assertions.assertEquals(testIngredient1.getId(), model1.getId());
+        Assertions.assertEquals(testIngredientEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testIngredientEntity1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testIngredientEntity1.getImgUrl(), model1.getImgUrl());
+        Assertions.assertEquals(testIngredientEntity1.getId(), model1.getId());
 
     }
 
@@ -189,26 +189,26 @@ public class IngredientServiceImplTest {
 
     @Test
     void testFindAllByCocktailId(){
-        Cocktail cocktail = new Cocktail()
+        CocktailEntity cocktailEntity = new CocktailEntity()
                 .setName("test1")
                 .setDescription("test1")
                 .setImgUrl("test1")
                 .setPreparation("test1")
-                .setIngredients(Set.of(testIngredient1, testIngredient2));
-        cocktail.setId("A");
+                .setIngredients(Set.of(testIngredientEntity1, testIngredientEntity2));
+        cocktailEntity.setId("A");
 
-        Mockito.when(mockIngredientRepository.findAllByCocktailId("A")).thenReturn(List.of(testIngredient1,testIngredient2));
+        Mockito.when(mockIngredientRepository.findAllByCocktailId("A")).thenReturn(List.of(testIngredientEntity1, testIngredientEntity2));
 
         List<IngredientViewModel> all = serviceToTest.findAllByCocktailId("A");
 
         IngredientViewModel model1 = all.get(0);
         IngredientViewModel model2 = all.get(1);
 
-        Assertions.assertEquals(testIngredient1.getName(), model1.getName());
-        Assertions.assertEquals(testIngredient1.getDescription(), model1.getDescription());
+        Assertions.assertEquals(testIngredientEntity1.getName(), model1.getName());
+        Assertions.assertEquals(testIngredientEntity1.getDescription(), model1.getDescription());
 
-        Assertions.assertEquals(testIngredient2.getName(), model2.getName());
-        Assertions.assertEquals(testIngredient2.getDescription(), model2.getDescription());
+        Assertions.assertEquals(testIngredientEntity2.getName(), model2.getName());
+        Assertions.assertEquals(testIngredientEntity2.getDescription(), model2.getDescription());
 
     }
 

@@ -5,15 +5,15 @@
 <body class="body_wrapper">
 <header th:replace="fragments/fragment::nav-bar"></header>
 <main class="background-image-2 hero-image">
-    <div class="container">
+    <div class="container all-users-box">
         <h2 class="text-center text-white m-4">Add Cocktail</h2>
-        <div class="d-flex" id="add-cocktail-box">
+        <div class="d-flex" id="add-cocktailEntity-box">
             <form class="mx-auto w-50 register-form-wrapper"
                   th:method="POST"
                   th:action="@{/cocktails/add}"
                   th:object="${cocktailInitBindingModel}">
                 <div class="form-group">
-                    <label for="name" class="text-white mb-1">Title</label>
+                    <label for="name" class="mb-1">Title</label>
                     <input th:field="*{name}" th:errorclass="bg-danger" type="text" class="form-control" id="name"
                            placeholder="Name" name="name">
                     <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" id="nameError"
@@ -22,7 +22,7 @@
                         already exists!</small>
                 </div>
                 <div class="form-group">
-                    <label for="description" class="text-white mb-1">Description</label>
+                    <label for="description" class="mb-1">Description</label>
                     <textarea th:field="*{description}" th:errorclass="bg-danger" rows="5" cols="100"
                               class="form-control"
                               id="description" placeholder="Description" name="description"></textarea>
@@ -31,17 +31,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="text-white mb-1">Ingredients</label>
+                    <label class="mb-1">Ingredients</label>
                     <ul>
                         <li th:each="i: ${cocktailInitBindingModel.getIngredients()}" th:object="${i}" th:text="*{name}"
                             style="list-style: circle inside;"
-                            class="text-white"></li>
+                            ></li>
                     </ul>
 
                 </div>
 
                 <div class="form-group">
-                    <label for="preparation" class="text-white mb-1">Preparation</label>
+                    <label for="preparation" class="mb-1">Preparation</label>
                     <textarea th:field="*{preparation}" th:errorclass="is-invalid" rows="10" cols="100"
                               class="form-control"
                               id="preparation" placeholder="Preparation" name="preparation"></textarea>
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="imgUrl" class="text-white mb-1">Image URL</label>
+                    <label for="imgUrl" class="mb-1">Image URL</label>
                     <input th:field="*{imgUrl}" th:errorclass="bg-danger" type="text" class="form-control" id="imgUrl"
                            placeholder="Image" name="imgUrl">
                     <small th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}"

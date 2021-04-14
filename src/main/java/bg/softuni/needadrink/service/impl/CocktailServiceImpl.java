@@ -1,7 +1,7 @@
 package bg.softuni.needadrink.service.impl;
 
-import bg.softuni.needadrink.domain.entities.Cocktail;
-import bg.softuni.needadrink.domain.entities.Ingredient;
+import bg.softuni.needadrink.domain.entities.CocktailEntity;
+import bg.softuni.needadrink.domain.entities.IngredientEntity;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.models.binding.CocktailInitBindingModel;
 import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
@@ -50,7 +50,6 @@ public class CocktailServiceImpl implements CocktailService {
     private final UserRepository userRepository;
     private final LogService logService;
     private final CocktailShuffler cocktailShuffler;
-
     private CocktailSearchViewModel cocktailSearchViewModel;
 
     @Autowired
@@ -72,9 +71,9 @@ public class CocktailServiceImpl implements CocktailService {
         throwsExceptionIfDBIsEmpty();
 
         if (this.cocktailSearchViewModel == null) {
-            Cocktail cocktail = this.cocktailRepository.findAll().get(0);
-            CocktailSearchViewModel viewModel = modelMapper.map(cocktail, CocktailSearchViewModel.class);
-            viewModel.setIngredientsNames(cocktail.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList()));
+            CocktailEntity cocktailEntity = this.cocktailRepository.findAll().get(0);
+            CocktailSearchViewModel viewModel = modelMapper.map(cocktailEntity, CocktailSearchViewModel.class);
+            viewModel.setIngredientsNames(cocktailEntity.getIngredients().stream().map(IngredientEntity::getName).collect(Collectors.toList()));
 
             return viewModel;
         }
@@ -103,18 +102,18 @@ public class CocktailServiceImpl implements CocktailService {
                 }
 
                 if (this.validatorUtil.isValid(cocktailModel)) {
-                    Cocktail cocktail = this.modelMapper.map(cocktailModel, Cocktail.class);
+                    CocktailEntity cocktailEntity = this.modelMapper.map(cocktailModel, CocktailEntity.class);
 
-                    cocktail.getIngredients().clear();
+                    cocktailEntity.getIngredients().clear();
                     for (IngredientBindingModel ingredientModel : ingredientModels) {
-                        cocktail.addIngredient((this.ingredientService.findByName(ingredientModel.getName())));
+                        cocktailEntity.addIngredient((this.ingredientService.findByName(ingredientModel.getName())));
                     }
 
                     if (cocktailModel.getImgUrl().isEmpty()) {
-                        cocktail.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
+                        cocktailEntity.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
                     }
 
-                    this.cocktailRepository.saveAndFlush(cocktail);
+                    this.cocktailRepository.saveAndFlush(cocktailEntity);
 
                     //TODO: Override Log constructor with all the params!!! OR USE ASPECTS TO LOG!!!
 
@@ -141,7 +140,7 @@ public class CocktailServiceImpl implements CocktailService {
                 .stream()
                 .map(c -> {
                     CocktailServiceModel cocktailServiceModel = this.modelMapper.map(c, CocktailServiceModel.class);
-                    List<String> ingredients = c.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList());
+                    List<String> ingredients = c.getIngredients().stream().map(IngredientEntity::getName).collect(Collectors.toList());
                     cocktailServiceModel.setIngredientsNames(ingredients);
                     return cocktailServiceModel;
                 })
@@ -153,7 +152,7 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public CocktailServiceModel getCocktailById(String id) {
-        Cocktail byId = getCocktail(id);
+        CocktailEntity byId = getCocktail(id);
         return this.modelMapper.map(byId, CocktailServiceModel.class);
     }
 
@@ -172,7 +171,7 @@ public class CocktailServiceImpl implements CocktailService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-        this.cocktailRepository.saveAndFlush(this.modelMapper.map(cocktailInitBindingModel, Cocktail.class));
+        this.cocktailRepository.saveAndFlush(this.modelMapper.map(cocktailInitBindingModel, CocktailEntity.class));
     }
 
     @Override
@@ -180,8 +179,8 @@ public class CocktailServiceImpl implements CocktailService {
         UserEntity userEntity = this.userRepository.findByEmail(principalName)
                 .orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
 
-        List<Cocktail> favoriteCocktails = userEntity.getFavoriteCocktails();
-        return favoriteCocktails
+        List<CocktailEntity> favoriteCocktailEntities = userEntity.getFavoriteCocktails();
+        return favoriteCocktailEntities
                 .stream()
                 .map(c -> this.modelMapper.map(c, CocktailDetailsViewModel.class))
                 .collect(Collectors.toList());
@@ -191,17 +190,17 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public void deleteById(String id) {
 
-        Cocktail cocktail = getCocktail(id);
+        CocktailEntity cocktailEntity = getCocktail(id);
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Cocktail deleted.");
         this.logService.seedLogInDB(logServiceModel);
 
-        this.cocktailRepository.delete(cocktail);
+        this.cocktailRepository.delete(cocktailEntity);
     }
 
-    private Cocktail getCocktail(String id) {
+    private CocktailEntity getCocktail(String id) {
         return this.cocktailRepository.findById(id)
                 .orElseThrow(() -> new CocktailNotFoundException(Constants.COCKTAIL_ID_NOT_FOUND));
     }
@@ -215,7 +214,7 @@ public class CocktailServiceImpl implements CocktailService {
                 .findAll().stream()
                 .map(c -> {
                     CocktailSearchViewModel cocktailSearchViewModel = this.modelMapper.map(c, CocktailSearchViewModel.class);
-                    cocktailSearchViewModel.setIngredientsNames(c.getIngredients().stream().map(Ingredient::getName).collect(Collectors.toList()));
+                    cocktailSearchViewModel.setIngredientsNames(c.getIngredients().stream().map(IngredientEntity::getName).collect(Collectors.toList()));
                     return cocktailSearchViewModel;
                 })
                 .collect(Collectors.toList());

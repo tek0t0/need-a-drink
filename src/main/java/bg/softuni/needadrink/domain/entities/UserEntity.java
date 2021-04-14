@@ -23,11 +23,11 @@ public class UserEntity extends BaseEntity{
 
   private Set<UserRoleEntity> roles;
 
-  private List<Cocktail> favoriteCocktails;
+  private List<CocktailEntity> favoriteCocktailEntities;
 
   public UserEntity() {
     this.roles = new HashSet<>();
-    this.favoriteCocktails = new ArrayList<>();
+    this.favoriteCocktailEntities = new ArrayList<>();
   }
 
   @Column(name = "email", nullable = false, unique = true, updatable = false)
@@ -91,12 +91,12 @@ public class UserEntity extends BaseEntity{
   }
 
   @OneToMany
-  public List<Cocktail> getFavoriteCocktails() {
-    return favoriteCocktails;
+  public List<CocktailEntity> getFavoriteCocktails() {
+    return favoriteCocktailEntities;
   }
 
-  public UserEntity setFavoriteCocktails(List<Cocktail> myCocktails) {
-    this.favoriteCocktails = myCocktails;
+  public UserEntity setFavoriteCocktails(List<CocktailEntity> myCocktailEntities) {
+    this.favoriteCocktailEntities = myCocktailEntities;
     return this;
   }
 
