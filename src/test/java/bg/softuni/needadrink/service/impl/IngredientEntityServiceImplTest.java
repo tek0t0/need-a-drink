@@ -3,11 +3,13 @@ package bg.softuni.needadrink.service.impl;
 import bg.softuni.needadrink.domain.entities.CocktailEntity;
 import bg.softuni.needadrink.domain.entities.IngredientEntity;
 
+import bg.softuni.needadrink.domain.models.binding.IngredientBindingModel;
 import bg.softuni.needadrink.domain.models.service.IngredientServiceModel;
 import bg.softuni.needadrink.domain.models.views.IngredientViewModel;
 import bg.softuni.needadrink.error.IngredientNotFoundException;
 import bg.softuni.needadrink.repositiry.IngredientRepository;
 import bg.softuni.needadrink.service.LogService;
+import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.util.ValidatorUtil;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.AfterEach;
@@ -87,7 +89,7 @@ public class IngredientEntityServiceImplTest {
     }
 
     @Test
-    void testGetAllIngredients(){
+    void testGetAllIngredients() {
         when(mockIngredientRepository.findAllOrderByName()).thenReturn(List.of(testIngredientEntity1, testIngredientEntity2));
 
         List<IngredientServiceModel> allIngredients = serviceToTest.getAllIngredients();
@@ -116,13 +118,13 @@ public class IngredientEntityServiceImplTest {
     }
 
     @Test
-    void testAddIngredient(){
+    void testAddIngredient() {
 
         serviceToTest.addIngredient(ingredientServiceModel);
     }
 
     @Test
-    void testFindIngredientById(){
+    void testFindIngredientById() {
         Mockito.when(mockIngredientRepository.findById("A")).thenReturn(Optional.of((testIngredientEntity1)));
 
         IngredientServiceModel model1 = serviceToTest.findIngredientById("A");
@@ -157,7 +159,7 @@ public class IngredientEntityServiceImplTest {
     }
 
     @Test
-    void testDeleteIngredient(){
+    void testDeleteIngredient() {
 
         Mockito.when(mockIngredientRepository.findById("A")).
                 thenReturn(Optional.of(testIngredientEntity1));
@@ -165,12 +167,12 @@ public class IngredientEntityServiceImplTest {
     }
 
     @Test
-    void testDeleteIngredientThrowsException(){
+    void testDeleteIngredientThrowsException() {
         Assertions.assertThrows(IngredientNotFoundException.class, () -> serviceToTest.deleteIngredient("A"));
     }
 
     @Test
-    void testFindByName(){
+    void testFindByName() {
         Mockito.when(mockIngredientRepository.getByName("A")).thenReturn(Optional.of(testIngredientEntity1));
 
         IngredientEntity model1 = serviceToTest.findByName("A");
@@ -183,12 +185,12 @@ public class IngredientEntityServiceImplTest {
     }
 
     @Test
-    void testFindByNameThrowsException(){
+    void testFindByNameThrowsException() {
         Assertions.assertThrows(IngredientNotFoundException.class, () -> serviceToTest.findByName("A"));
     }
 
     @Test
-    void testFindAllByCocktailId(){
+    void testFindAllByCocktailId() {
         CocktailEntity cocktailEntity = new CocktailEntity()
                 .setName("test1")
                 .setDescription("test1")
@@ -209,8 +211,48 @@ public class IngredientEntityServiceImplTest {
 
         Assertions.assertEquals(testIngredientEntity2.getName(), model2.getName());
         Assertions.assertEquals(testIngredientEntity2.getDescription(), model2.getDescription());
+    }
+
+    @Test
+    void testAddDefaultImgAddIfEmpty() {
+        IngredientBindingModel ingredientBindingModel = new IngredientBindingModel();
+        ingredientBindingModel.setImgUrl("");
+        Assertions.assertTrue(ingredientBindingModel.getImgUrl().isEmpty());
+        serviceToTest.addDefaultImgIngredient(ingredientBindingModel);
+        Assertions.assertEquals(Constants.DEFAULT_INGREDIENT_IMG_URL, ingredientBindingModel.getImgUrl());
 
     }
+
+    @Test
+    void  testNewNameExistsReturnFalseIfNoIngredientWithThisName(){
+        Mockito.when(this.mockIngredientRepository.getByName("A")).thenReturn(Optional.empty());
+        IngredientServiceModel model = new IngredientServiceModel();
+        model.setName("A");
+
+        Assertions.assertFalse(serviceToTest.newNameExists(model));
+    }
+
+    @Test
+    void  testNewNameExistsThrowsException(){
+        Mockito.when(this.mockIngredientRepository.getByName("A")).thenThrow(IngredientNotFoundException.class);
+        IngredientServiceModel model = new IngredientServiceModel();
+        model.setName("A");
+
+        Assertions.assertThrows(IngredientNotFoundException.class, () -> serviceToTest.nameExists("A"));
+    }
+
+    @Test
+    void  testNewNameExists(){
+        IngredientServiceModel model = new IngredientServiceModel();
+        model.setName("A");
+
+        Mockito.when(this.mockIngredientRepository.getByName("A")).thenReturn(Optional.of(testIngredientEntity1));
+
+        Assertions.assertTrue(serviceToTest.newNameExists(model));
+    }
+
+
+
 
 
 

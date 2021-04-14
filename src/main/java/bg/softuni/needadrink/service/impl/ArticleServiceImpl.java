@@ -50,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void initArticles() throws IOException {
 
-
         String content;
 
         content = String.join("", Files.readAllLines(Path.of(articlesFile.getURI())));
@@ -108,7 +107,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         this.logService.seedLogInDB(logServiceModel);
 
-        articleRepository.saveAndFlush(articleEntity);
+        articleRepository.save(articleEntity);
     }
 
     @Override

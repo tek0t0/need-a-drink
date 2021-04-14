@@ -110,7 +110,6 @@ public class IngredientServiceImpl implements IngredientService {
         if (ingredientServiceModel.getImgUrl() == null) {
             ingredientServiceModel.setImgUrl(Constants.DEFAULT_INGREDIENT_IMG_URL);
         }
-
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
         logServiceModel.setDescription("Ingredient added.");
@@ -148,11 +147,11 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public boolean newNameExists(IngredientServiceModel ingredientServiceModel) {
-        if (ingredientRepository.getByName(ingredientServiceModel.getName()).isEmpty()) {
+        if (this.ingredientRepository.getByName(ingredientServiceModel.getName()).isEmpty()) {
             return false;
         }
 
-        IngredientEntity ingredientEntity = ingredientRepository.getByName(ingredientServiceModel.getName())
+        IngredientEntity ingredientEntity = this.ingredientRepository.getByName(ingredientServiceModel.getName())
                 .orElseThrow(() -> new IngredientNotFoundException(Constants.INGREDIENT_NAME_NOT_FOUND));
         return !ingredientEntity.getId().equals(ingredientServiceModel.getId());
     }

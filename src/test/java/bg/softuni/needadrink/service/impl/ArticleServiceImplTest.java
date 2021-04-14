@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -186,5 +187,28 @@ class ArticleServiceImplTest {
         Mockito.when(mockArticleRepository.findById("A")).
                 thenReturn(Optional.of(testArticleEntity1));
         serviceToTest.deleteById("A");
+    }
+
+    @Test
+    void testAddArticle() {
+        ArticleServiceModel articleServiceModel = new ArticleServiceModel()
+                .setTitle("new_article_1")
+                .setCoverImgUrl("new_image_1")
+                .setContent("new_content_1")
+                .setDescription("new_description_1")
+                .setAddedOn(LocalDate.of(2020, 1, 8));
+        ArticleEntity newArticle = new ArticleEntity();
+        newArticle
+                .setTitle(articleServiceModel.getTitle())
+                .setCoverImgUrl(articleServiceModel.getCoverImgUrl())
+                .setContent(articleServiceModel.getContent())
+                .setDescription(articleServiceModel.getDescription());
+
+        when(this.mockArticleRepository.save(any(ArticleEntity.class))).thenReturn(newArticle);
+
+        serviceToTest.addArticle(articleServiceModel);
+
+
+
     }
 }
