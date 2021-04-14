@@ -39,8 +39,7 @@ public class UserServiceImplTest {
 
     private UserRoleEntity roleUser, roleAdmin;
 
-    @Mock
-    private ModelMapper modelMapper;
+
 
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
@@ -94,7 +93,7 @@ public class UserServiceImplTest {
 
         serviceToTest = new UserServiceImpl(
                 mockUserRepository,
-                modelMapper,
+                new ModelMapper(),
                 passwordEncoder,
                 mockUserRoleRepository,
                 mockNeedADrinkUserService,
