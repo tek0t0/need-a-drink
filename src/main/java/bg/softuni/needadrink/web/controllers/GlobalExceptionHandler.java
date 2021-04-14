@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
             throwable = throwable.getCause();
         }
 
-        model.addAttribute("message",throwable.getMessage());
+        model.addAttribute("message",ex.getMessage());
 
         return "/error";
     }

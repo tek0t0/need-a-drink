@@ -26,7 +26,7 @@
                 <p th:text="*{birthDate}" class="text-white text-center"></p>
             </div>
             <div class="button-holder d-flex justify-content-center">
-                <form th:action="@{/users/delete/{id}(id=${id})}" method="POST">
+                <form th:action="@{/users/delete/{id}(id=${id})}" th:method="DELETE">
                     <button class="btn btn-dark btn-width">DELETE</button>
                 </form>
             </div>

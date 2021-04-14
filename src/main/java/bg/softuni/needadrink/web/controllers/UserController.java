@@ -182,7 +182,7 @@ public class UserController {
         return "user/delete-user";
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteUserConfirm(@PathVariable String id) {
         this.userService.deleteUser(id);
