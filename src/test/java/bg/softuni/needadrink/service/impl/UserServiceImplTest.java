@@ -3,6 +3,7 @@ package bg.softuni.needadrink.service.impl;
 import bg.softuni.needadrink.domain.entities.UserEntity;
 import bg.softuni.needadrink.domain.entities.UserRoleEntity;
 import bg.softuni.needadrink.domain.entities.enums.UserRoleEnum;
+import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.error.RoleNotFoundException;
 import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.UserRepository;
@@ -150,5 +151,24 @@ public class UserServiceImplTest {
     @Test
     void testFindUserByEmailThrowsException() {
         Assertions.assertThrows(UsernameNotFoundException.class, () -> serviceToTest.findUserByEmail("A"));
+    }
+
+    @Test
+    void testFindAllUsers(){
+        Mockito.when(this.mockUserRepository.findAll()).thenReturn(List.of(testUser1,testUser2));
+
+        List<UserServiceModel> allUsers = serviceToTest.findAllUsers();
+        UserServiceModel model1 = allUsers.get(0);
+        UserServiceModel model2 = allUsers.get(1);
+
+        Assertions.assertEquals(model1.getId(),testUser1.getId());
+        Assertions.assertEquals(model1.getEmail(),testUser1.getEmail());
+        Assertions.assertEquals(model1.getImgUrl(),testUser1.getImgUrl());
+        Assertions.assertEquals(model1.getFullName(),testUser1.getFullName());
+
+        Assertions.assertEquals(model2.getId(),testUser2.getId());
+        Assertions.assertEquals(model2.getEmail(),testUser2.getEmail());
+        Assertions.assertEquals(model2.getImgUrl(),testUser2.getImgUrl());
+        Assertions.assertEquals(model2.getFullName(),testUser2.getFullName());
     }
 }

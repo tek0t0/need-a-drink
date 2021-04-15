@@ -24,15 +24,15 @@ public class CocktailRestSearchController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<CocktailServiceModel>>findAll(){
+    public ResponseEntity<List<CocktailServiceModel>> findAll() {
         List<CocktailServiceModel> cocktailsList = cocktailService.getAllCocktails()
                 .stream()
-                .map(c->modelMapper.map(c, CocktailServiceModel.class))
+                .map(c -> modelMapper.map(c, CocktailServiceModel.class))
                 .collect(Collectors.toList());
 
-return ResponseEntity
-        .ok()
-        .body(cocktailsList);
+        return ResponseEntity
+                .ok()
+                .body(cocktailsList);
 
     }
 }

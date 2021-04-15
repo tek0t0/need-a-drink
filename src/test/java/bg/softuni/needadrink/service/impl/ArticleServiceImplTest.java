@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -197,16 +198,15 @@ class ArticleServiceImplTest {
                 .setContent("new_content_1")
                 .setDescription("new_description_1")
                 .setAddedOn(LocalDate.of(2020, 1, 8));
-        ArticleEntity newArticle = new ArticleEntity();
-        newArticle
-                .setTitle(articleServiceModel.getTitle())
-                .setCoverImgUrl(articleServiceModel.getCoverImgUrl())
-                .setContent(articleServiceModel.getContent())
-                .setDescription(articleServiceModel.getDescription());
-
-        when(this.mockArticleRepository.save(any(ArticleEntity.class))).thenReturn(newArticle);
 
         serviceToTest.addArticle(articleServiceModel);
+
+        ArgumentCaptor<ArticleEntity> argument = ArgumentCaptor.forClass(ArticleEntity.class);
+        Mockito.verify(mockArticleRepository).save(argument.capture());
+
+        ArticleEntity articleEntity = argument.getValue();
+
+        Assertions.assertNotNull(articleEntity);
 
 
 

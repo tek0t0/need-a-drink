@@ -1,16 +1,9 @@
 package bg.softuni.needadrink.web;
 
 import bg.softuni.needadrink.domain.entities.ArticleEntity;
-import bg.softuni.needadrink.repositiry.ArticleRepository;
-import bg.softuni.needadrink.service.ArticleService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -18,22 +11,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
-public class ArticlesControllerTest {
+public class ArticlesControllerTest extends BaseTest{
 
     private static final String ARTICLE_CONTROLLER_PREFIX = "/articles";
-    private static final String FAV_ICON_SUFIX = "?favicon=https%3A%2F%2Ficons-for-free.com%2Ficonfiles%2Fpng%2F512%2Fbeverage%2Bcocktail%2Bdrink%2Bicon-1320195452071512367.png";
+    private static final String FAV_ICON_EXTENSION = "?favicon=%2Fimages%2Ffav_icon.png";
 
-    @Autowired
-    private MockMvc mockMvc;
 
-    @Autowired
-    private ArticleService articleService;
 
-    @Autowired
-    private ArticleRepository articleRepository;
 
 
     @Test
@@ -55,14 +39,14 @@ public class ArticlesControllerTest {
                 .with(csrf()))
                 .andExpect(flash().attributeExists("articleAddBindingModel"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(ARTICLE_CONTROLLER_PREFIX + "/add" + FAV_ICON_SUFIX));
+                .andExpect(redirectedUrl(ARTICLE_CONTROLLER_PREFIX + "/add" + FAV_ICON_EXTENSION));
         Assertions.assertEquals(count, this.articleRepository.count());
     }
 
     @Test
     @WithMockUser(username = "admin@admin.bg", roles = {"ADMIN", "USER"})
     public void addArticle() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(ARTICLE_CONTROLLER_PREFIX + "/add")
+        this.mockMvc.perform(MockMvcRequestBuilders.post(ARTICLE_CONTROLLER_PREFIX + "/add")
                 .param("title", "test title").
                         param("coverImgUrl", "test.jpg").
                         param("description", "Description test").
@@ -85,7 +69,7 @@ public class ArticlesControllerTest {
                         param("content", "some test content")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(ARTICLE_CONTROLLER_PREFIX + "/add" + FAV_ICON_SUFIX));
+                .andExpect(redirectedUrl(ARTICLE_CONTROLLER_PREFIX + "/add" + FAV_ICON_EXTENSION));
         Assertions.assertEquals(count, this.articleRepository.count());
     }
 
@@ -148,7 +132,7 @@ public class ArticlesControllerTest {
                         param("content", "some test content")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/articles/details/" + articleEntity.getId() + FAV_ICON_SUFIX));
+                .andExpect(redirectedUrl("/articles/details/" + articleEntity.getId() + FAV_ICON_EXTENSION));
         Assertions.assertEquals(count, this.articleRepository.count());
     }
 
@@ -183,7 +167,9 @@ public class ArticlesControllerTest {
         this.mockMvc.perform(post(ARTICLE_CONTROLLER_PREFIX + "/delete/{id}", articleEntity.getId())
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/articles/all" + FAV_ICON_SUFIX));
+                .andExpect(redirectedUrl("/articles/all" + FAV_ICON_EXTENSION));
+        long afterDeleteCount = this.articleRepository.count();
+        Assertions.assertEquals(afterDeleteCount, count-1);
     }
 
 
