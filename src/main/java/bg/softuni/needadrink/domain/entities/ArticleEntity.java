@@ -2,6 +2,7 @@ package bg.softuni.needadrink.domain.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,7 @@ public class ArticleEntity extends BaseEntity {
     private List<CommentEntity> comments;
 
     public ArticleEntity() {
+        this.comments = new LinkedList<>();
     }
 
     @Column(name = "title", nullable = false, unique = true)

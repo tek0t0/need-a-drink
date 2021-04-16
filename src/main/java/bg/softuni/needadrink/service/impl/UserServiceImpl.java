@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -165,7 +166,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setAsAdmin(String id) {
         UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
-        userEntity.getRoles().clear();
+        userEntity.setRoles(new LinkedHashSet<>());
         userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
         userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.ADMIN).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
 
@@ -182,7 +183,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void setAsUser(String id) {
         UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
-        userEntity.getRoles().clear();
+        userEntity.setRoles(new LinkedHashSet<>());
         userEntity.getRoles().add(userRoleRepository.findByName(UserRoleEnum.USER).orElseThrow(() -> new RoleNotFoundException(Constants.ROLE_NOT_FOUND)));
 
         LogServiceModel logServiceModel = new LogServiceModel();
