@@ -1,6 +1,11 @@
 package bg.softuni.needadrink.domain.models.service;
 
+import bg.softuni.needadrink.domain.models.views.CommentViewModel;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ArticleServiceModel {
 
@@ -15,6 +20,12 @@ public class ArticleServiceModel {
     private String description;
 
     private String content;
+
+    private List<CommentViewModel> comments;
+
+    public ArticleServiceModel() {
+        this.comments = new ArrayList<>();
+    }
 
     public String getId() {
         return id;
@@ -67,6 +78,15 @@ public class ArticleServiceModel {
 
     public ArticleServiceModel setContent(String content) {
         this.content = content;
+        return this;
+    }
+
+    public List<CommentViewModel> getComments() {
+        return comments;
+    }
+
+    public ArticleServiceModel setComments(List<CommentViewModel> comments) {
+        this.comments = comments;
         return this;
     }
 }

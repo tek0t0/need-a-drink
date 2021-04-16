@@ -32,7 +32,11 @@ public class LogAspect {
         String action = joinPoint.getSignature().getName();
 
         LogServiceModel logServiceModel = new LogServiceModel();
-        logServiceModel.setUsername(auth.getName());
+        if(auth.getName() == null){
+            logServiceModel.setUsername("ADMIN");
+        } else {
+            logServiceModel.setUsername(auth.getName());
+        }
         logServiceModel.setDescription(action + "method failed.");
         this.logService.seedLogInDB(logServiceModel);
 

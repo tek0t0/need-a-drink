@@ -1,15 +1,15 @@
 package bg.softuni.needadrink.web.controllers;
 
 import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
+import bg.softuni.needadrink.domain.models.binding.CommentBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
+import bg.softuni.needadrink.domain.models.service.CommentServiceModel;
 import bg.softuni.needadrink.service.ArticleService;
+import bg.softuni.needadrink.service.UserService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.web.anotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -25,11 +26,13 @@ import java.util.List;
 public class ArticleController {
     private final ArticleService articleService;
     private final ModelMapper modelMapper;
+    private final UserService userService;
 
     @Autowired
-    public ArticleController(ArticleService articleService, ModelMapper modelMapper) {
+    public ArticleController(ArticleService articleService, ModelMapper modelMapper, UserService userService) {
         this.articleService = articleService;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @GetMapping("/all")
@@ -84,8 +87,17 @@ public class ArticleController {
     @GetMapping("/details/{id}")
     @PreAuthorize("isAuthenticated()")
     @PageTitle("Article")
-    public String articleDetails(@PathVariable String id, Model model) {
-        model.addAttribute("article", this.articleService.findArticleById(id));
+    public String articleDetails(@PathVariable String id, Model model, Principal principal) {
+        if(!model.containsAttribute("commentBindingModel")){
+            model.addAttribute("commentBindingModel", new CommentBindingModel());
+        }
+
+        ArticleServiceModel article = this.articleService.findArticleById(id);
+        model.addAttribute("article", article);
+        model.addAttribute("comments", article.getComments());
+        model.addAttribute("commentsCount", article.getComments().size());
+        model.addAttribute("currentUserImg", this.userService.findUserByEmail(principal.getName()).getImgUrl());
+        model.addAttribute("articleId", id);
         return "article/details-article";
     }
 
@@ -125,5 +137,24 @@ public class ArticleController {
     public String articleDeleteConfirm(@PathVariable String id) {
         this.articleService.deleteById(id);
         return "redirect:/articles/all";
+    }
+
+    @PostMapping("/{id}/add/comment")
+    @PreAuthorize("isAuthenticated()")
+    public String articleAddComment(@PathVariable String id,
+                                    CommentBindingModel commentBindingModel,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes,
+                                    Principal principal) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("commentBindingModel", commentBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.commentBindingModel",
+                    bindingResult);
+            return "redirect:/articles/details/" + id;
+        }
+
+        this.articleService.saveComment(id, commentBindingModel, principal.getName());
+
+        return "redirect:/articles/details/" + id;
     }
 }

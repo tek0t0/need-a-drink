@@ -47,7 +47,8 @@
                           class="form-control"
                           id="content"
                           placeholder="Content"
-                          name="content">
+                          name="content"
+                          required minlength="10">
                 </textarea>
                 <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
                        id="contentError" class="text-light form-text bg-danger rounded"></small>

@@ -7,12 +7,62 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 public class CommentEntity extends BaseEntity {
 
-    @Column(name = "added_on",nullable = false)
+
+    private String content;
+
     private LocalDateTime addedOn;
 
-    @ManyToOne
     private UserEntity author;
 
-    @ManyToOne
     private ArticleEntity article;
+
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    public String getContent() {
+        return content;
+    }
+
+    public CommentEntity setContent(String content) {
+        this.content = content;
+        return this;
+    }
+
+    @Column(name = "added_on", nullable = false)
+    public LocalDateTime getAddedOn() {
+        return addedOn;
+    }
+
+    public CommentEntity setAddedOn(LocalDateTime addedOn) {
+        this.addedOn = addedOn;
+        return this;
+    }
+
+    @ManyToOne
+    public UserEntity getAuthor() {
+        return author;
+    }
+
+    public CommentEntity setAuthor(UserEntity author) {
+        this.author = author;
+        return this;
+    }
+
+    @ManyToOne
+    public ArticleEntity getArticle() {
+        return article;
+    }
+
+    public CommentEntity setArticle(ArticleEntity article) {
+        this.article = article;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentEntity{" +
+                "content='" + content + '\'' +
+                ", addedOn=" + addedOn +
+                ", author=" + author +
+                ", article=" + article +
+                '}';
+    }
 }

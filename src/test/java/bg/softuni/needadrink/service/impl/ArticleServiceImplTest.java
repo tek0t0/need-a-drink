@@ -5,6 +5,7 @@ import bg.softuni.needadrink.domain.entities.ArticleEntity;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.error.ArticleNotFoundException;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
+import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.ValidatorUtil;
 import com.google.gson.Gson;
@@ -42,6 +43,9 @@ class ArticleServiceImplTest {
     @Mock
     ValidatorUtil validatorUtil;
 
+    @Mock
+    UserRepository mockUserRepository;
+
 
     @BeforeEach
     public void init() {
@@ -69,7 +73,8 @@ class ArticleServiceImplTest {
                 new ModelMapper(),
                 new Gson(),
                 validatorUtil,
-                mockLogService);
+                mockLogService,
+                mockUserRepository);
     }
 
     @AfterEach

@@ -1,9 +1,8 @@
 package bg.softuni.needadrink.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "articles")
@@ -18,6 +17,8 @@ public class ArticleEntity extends BaseEntity {
     private String description;
 
     private String content;
+
+    private List<CommentEntity> comments;
 
     public ArticleEntity() {
     }
@@ -69,6 +70,16 @@ public class ArticleEntity extends BaseEntity {
 
     public ArticleEntity setContent(String content) {
         this.content = content;
+        return this;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public ArticleEntity setComments(List<CommentEntity> comments) {
+        this.comments = comments;
         return this;
     }
 }

@@ -1,10 +1,15 @@
 package bg.softuni.needadrink.service.impl;
 
 import bg.softuni.needadrink.domain.entities.ArticleEntity;
+import bg.softuni.needadrink.domain.entities.CommentEntity;
 import bg.softuni.needadrink.domain.models.binding.ArticleAddBindingModel;
+import bg.softuni.needadrink.domain.models.binding.CommentBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
 import bg.softuni.needadrink.domain.models.service.LogServiceModel;
+import bg.softuni.needadrink.domain.models.views.CommentViewModel;
 import bg.softuni.needadrink.error.ArticleNotFoundException;
+import bg.softuni.needadrink.repositiry.CommentRepository;
+import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.repositiry.ArticleRepository;
@@ -15,12 +20,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,18 +41,21 @@ public class ArticleServiceImpl implements ArticleService {
     private final Gson gson;
     private final ValidatorUtil validatorUtil;
     private final LogService logService;
+    private final UserRepository userRepository;
+
 
     @Autowired
     public ArticleServiceImpl(ArticleRepository articleRepository,
                               ModelMapper modelMapper,
                               Gson gson,
                               ValidatorUtil validatorUtil,
-                              LogService logService) {
+                              LogService logService, UserRepository userRepository) {
         this.articleRepository = articleRepository;
         this.modelMapper = modelMapper;
         this.gson = gson;
         this.validatorUtil = validatorUtil;
         this.logService = logService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -99,7 +110,8 @@ public class ArticleServiceImpl implements ArticleService {
                 .setDescription(articleServiceModel.getDescription())
                 .setContent(articleServiceModel.getContent())
                 .setCoverImgUrl(articleServiceModel.getCoverImgUrl())
-                .setAddedOn(LocalDate.now());
+                .setAddedOn(LocalDate.now())
+                .setComments(new ArrayList<>());
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername("ADMIN");
@@ -113,7 +125,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleServiceModel findArticleById(String id) {
         return this.articleRepository.findById(id)
-                .map(a -> modelMapper.map(a, ArticleServiceModel.class))
+                .map(a -> {
+                    ArticleServiceModel articleServiceModel = this.modelMapper.map(a, ArticleServiceModel.class);
+                    articleServiceModel
+                            .setComments(a.getComments()
+                                    .stream()
+                                    .map(c -> {
+                                        CommentViewModel comment = modelMapper.map(c, CommentViewModel.class);
+                                        comment.setAuthor(c.getAuthor().getFullName());
+                                        comment.setAuthorImgUrl(c.getAuthor().getImgUrl());
+                                        return comment;
+                                    })
+                                    .collect(Collectors.toList()));
+                    return articleServiceModel;
+                })
                 .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
 
 
@@ -150,6 +175,18 @@ public class ArticleServiceImpl implements ArticleService {
         this.logService.seedLogInDB(logServiceModel);
 
         this.articleRepository.delete(articleEntity);
+    }
+
+    @Override
+    public void saveComment(String id, CommentBindingModel commentBindingModel, String principal) {
+        ArticleEntity articleEntity = this.articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setContent(commentBindingModel.getContent());
+        commentEntity.setAuthor(this.userRepository.findByEmail(principal).orElseThrow(() -> new UsernameNotFoundException("User not found")));
+        commentEntity.setAddedOn(LocalDateTime.now());
+        articleEntity.getComments().add(commentEntity);
+
+        this.articleRepository.save(articleEntity);
     }
 
     public ArticleEntity getArticleEntity(String id) {

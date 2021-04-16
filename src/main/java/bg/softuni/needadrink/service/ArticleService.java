@@ -1,6 +1,8 @@
 package bg.softuni.needadrink.service;
 
+import bg.softuni.needadrink.domain.models.binding.CommentBindingModel;
 import bg.softuni.needadrink.domain.models.service.ArticleServiceModel;
+import bg.softuni.needadrink.domain.models.views.CommentViewModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,4 +22,7 @@ public interface ArticleService {
     ArticleServiceModel editArticle(String id, ArticleServiceModel map);
 
     void deleteById(String id);
+
+    void saveComment(String id, CommentBindingModel commentBindingModel, String principal);
+
 }
