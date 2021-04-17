@@ -3,6 +3,7 @@ package bg.softuni.needadrink.web;
 import bg.softuni.needadrink.domain.entities.*;
 import bg.softuni.needadrink.repositiry.*;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class TestData {
     private CocktailRepository cocktailRepository;
     private IngredientRepository ingredientRepository;
     private UserRoleRepository userRoleRepository;
+    private BCryptPasswordEncoder passwordEncoder =new BCryptPasswordEncoder();
 
     public TestData(UserRepository userRepository,
                     LogRepository logRepository,
@@ -49,7 +51,7 @@ public class TestData {
         UserEntity userEntity = new UserEntity();
         userEntity
                 .setEmail("test@test.bg")
-                .setPassword("xyz")
+                .setPassword(passwordEncoder.encode("12345"))
                 .setFullName("petar petrov")
                 .setFavoriteCocktails(new ArrayList<>())
                 .setBirthDate(LocalDate.now())
