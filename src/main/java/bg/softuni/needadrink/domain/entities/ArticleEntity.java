@@ -75,7 +75,7 @@ public class ArticleEntity extends BaseEntity {
         return this;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     public List<CommentEntity> getComments() {
         return comments;
     }

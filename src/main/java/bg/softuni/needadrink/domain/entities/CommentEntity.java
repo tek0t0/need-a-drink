@@ -14,7 +14,7 @@ public class CommentEntity extends BaseEntity {
 
     private UserEntity author;
 
-    private ArticleEntity article;
+
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     public String getContent() {
@@ -46,15 +46,6 @@ public class CommentEntity extends BaseEntity {
         return this;
     }
 
-    @ManyToOne
-    public ArticleEntity getArticle() {
-        return article;
-    }
-
-    public CommentEntity setArticle(ArticleEntity article) {
-        this.article = article;
-        return this;
-    }
 
     @Override
     public String toString() {
@@ -62,7 +53,6 @@ public class CommentEntity extends BaseEntity {
                 "content='" + content + '\'' +
                 ", addedOn=" + addedOn +
                 ", author=" + author +
-                ", article=" + article +
                 '}';
     }
 }

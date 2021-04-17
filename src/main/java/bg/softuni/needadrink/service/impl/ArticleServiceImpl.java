@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,11 +89,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleServiceModel> getAllArticles() {
-        return articleRepository
-                .findAllOrderByDate()
-                .stream()
-                .map(a -> modelMapper.map(a, ArticleServiceModel.class))
-                .collect(Collectors.toList());
+        List<ArticleServiceModel> allArticles = new ArrayList<>();
+        List<ArticleEntity> allOrderByDate = this.articleRepository.findAllOrderByDate();
+        for (ArticleEntity articleEntity : allOrderByDate) {
+            ArticleServiceModel articleServiceModel = this.modelMapper.map(articleEntity,ArticleServiceModel.class);
+            allArticles.add(articleServiceModel);
+        }
+        return allArticles;
     }
 
     @Override
@@ -124,23 +127,35 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleServiceModel findArticleById(String id) {
-        return this.articleRepository.findById(id)
-                .map(a -> {
-                    ArticleServiceModel articleServiceModel = this.modelMapper.map(a, ArticleServiceModel.class);
-                    articleServiceModel
-                            .setComments(a.getComments()
-                                    .stream()
-                                    .map(c -> {
-                                        CommentViewModel comment = modelMapper.map(c, CommentViewModel.class);
-                                        comment.setAuthor(c.getAuthor().getFullName());
-                                        comment.setAuthorImgUrl(c.getAuthor().getImgUrl());
-                                        return comment;
-                                    })
-                                    .collect(Collectors.toList()));
-                    return articleServiceModel;
-                })
-                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+        ArticleEntity articleEntity = this.articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
+       ArticleServiceModel articleServiceModel = this.modelMapper.map(articleEntity,ArticleServiceModel.class);
+        List<CommentEntity> comments = articleEntity.getComments();
+        List<CommentViewModel>commentViewModels = new ArrayList<>();
+        for (CommentEntity comment : comments) {
+            CommentViewModel viewModel = this.modelMapper.map(comment, CommentViewModel.class);
+            viewModel.setAuthorImgUrl(comment.getAuthor().getImgUrl());
+            viewModel.setAuthor(comment.getAuthor().getFullName());
+            commentViewModels.add(viewModel);
+        }
 
+        articleServiceModel.setComments(commentViewModels);
+//        return this.articleRepository.findById(id)
+//                .map(a -> {
+//                    ArticleServiceModel articleServiceModel = this.modelMapper.map(a, ArticleServiceModel.class);
+//                    articleServiceModel
+//                            .setComments(a.getComments()
+//                                    .stream()
+//                                    .map(c -> {
+//                                        CommentViewModel comment = modelMapper.map(c, CommentViewModel.class);
+//                                        comment.setAuthor(c.getAuthor().getFullName());
+//                                        comment.setAuthorImgUrl(c.getAuthor().getImgUrl());
+//                                        return comment;
+//                                    })
+//                                    .collect(Collectors.toList()));
+//                    return articleServiceModel;
+//                })
+//                .orElseThrow(() -> new ArticleNotFoundException(Constants.ARTICLE_ID_NOT_FOUND));
+    return articleServiceModel;
 
     }
 
@@ -160,8 +175,8 @@ public class ArticleServiceImpl implements ArticleService {
         this.logService.seedLogInDB(logServiceModel);
 
         this.articleRepository.saveAndFlush(articleEntity);
-
-        return this.modelMapper.map(articleEntity, ArticleServiceModel.class);
+        ArticleServiceModel serviceModel = this.modelMapper.map(articleEntity, ArticleServiceModel.class);
+        return serviceModel;
     }
 
     @Override

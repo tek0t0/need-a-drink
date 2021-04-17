@@ -25,4 +25,10 @@ public class BaseTest {
     protected CocktailRepository cocktailRepository;
     @Autowired
     protected UserRoleRepository roleRepository;
+    @Autowired
+    protected CommentRepository commentRepository;
+
+
+
+
 }

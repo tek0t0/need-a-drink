@@ -1,9 +1,6 @@
 package bg.softuni.needadrink.init;
 
 
-import bg.softuni.needadrink.repositiry.ArticleRepository;
-import bg.softuni.needadrink.repositiry.CocktailRepository;
-import bg.softuni.needadrink.repositiry.IngredientRepository;
 import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.service.*;
 import org.springframework.boot.CommandLineRunner;
