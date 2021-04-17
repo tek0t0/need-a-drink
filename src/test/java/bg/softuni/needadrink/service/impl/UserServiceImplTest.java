@@ -11,6 +11,7 @@ import bg.softuni.needadrink.repositiry.CocktailRepository;
 import bg.softuni.needadrink.repositiry.UserRepository;
 import bg.softuni.needadrink.repositiry.UserRoleRepository;
 import bg.softuni.needadrink.service.CloudinaryService;
+import bg.softuni.needadrink.service.CommentService;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import org.junit.jupiter.api.AfterEach;
@@ -68,6 +69,9 @@ public class UserServiceImplTest {
     @Mock
     private LogService mockLogService;
 
+    @Mock
+    private CommentService mockCommentService;
+
 
     @Mock
     private CloudinaryService mockCloudinaryService;
@@ -108,8 +112,8 @@ public class UserServiceImplTest {
                 mockNeedADrinkUserService,
                 mockCocktailRepository,
                 mockLogService,
-                mockCloudinaryService
-        );
+                mockCloudinaryService,
+                mockCommentService);
 
     }
 

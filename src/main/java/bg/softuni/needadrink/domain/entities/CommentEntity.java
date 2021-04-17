@@ -36,7 +36,7 @@ public class CommentEntity extends BaseEntity {
         return this;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public UserEntity getAuthor() {
         return author;
     }

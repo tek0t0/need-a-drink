@@ -8,102 +8,102 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="users")
-public class UserEntity extends BaseEntity{
+@Table(name = "users")
+public class UserEntity extends BaseEntity {
 
-  private String email;
+    private String email;
 
-  private String fullName;
+    private String fullName;
 
-  private String password;
+    private String password;
 
-  private LocalDate birthDate;
+    private LocalDate birthDate;
 
-  private String imgUrl;
+    private String imgUrl;
 
-  private Set<UserRoleEntity> roles;
+    private Set<UserRoleEntity> roles;
 
-  private List<CocktailEntity> favoriteCocktailEntities;
+    private List<CocktailEntity> favoriteCocktailEntities;
 
-  public UserEntity() {
-    this.roles = new HashSet<>();
-    this.favoriteCocktailEntities = new ArrayList<>();
-  }
+    public UserEntity() {
+        this.roles = new HashSet<>();
+        this.favoriteCocktailEntities = new ArrayList<>();
+    }
 
-  @Column(name = "email", nullable = false, unique = true, updatable = false)
-  public String getEmail() {
-    return email;
-  }
+    @Column(name = "email", nullable = false, unique = true, updatable = false)
+    public String getEmail() {
+        return email;
+    }
 
-  public UserEntity setEmail(String email) {
-    this.email = email;
-    return this;
-  }
+    public UserEntity setEmail(String email) {
+        this.email = email;
+        return this;
+    }
 
-  @Column(name = "full_name", nullable = false)
-  public String getFullName() {
-    return fullName;
-  }
+    @Column(name = "full_name", nullable = false)
+    public String getFullName() {
+        return fullName;
+    }
 
-  public UserEntity setFullName(String fullName) {
-    this.fullName = fullName;
-    return this;
-  }
+    public UserEntity setFullName(String fullName) {
+        this.fullName = fullName;
+        return this;
+    }
 
-  @Column(name = "password", nullable = false)
-  public String getPassword() {
-    return password;
-  }
+    @Column(name = "password", nullable = false)
+    public String getPassword() {
+        return password;
+    }
 
-  public UserEntity setPassword(String password) {
-    this.password = password;
-    return this;
-  }
+    public UserEntity setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 
-  @Column(name = "birth_date", nullable = false)
-  public LocalDate getBirthDate() {
-    return birthDate;
-  }
+    @Column(name = "birth_date", nullable = false)
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 
-  public UserEntity setBirthDate(LocalDate birthDate) {
-    this.birthDate = birthDate;
-    return this;
-  }
+    public UserEntity setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+        return this;
+    }
 
-  @Column(name = "img_url")
-  public String getImgUrl() {
-    return imgUrl;
-  }
+    @Column(name = "img_url")
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
-  public UserEntity setImgUrl(String imgUrl) {
-    this.imgUrl = imgUrl;
-    return this;
-  }
+    public UserEntity setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+        return this;
+    }
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  public Set<UserRoleEntity> getRoles() {
-    return roles;
-  }
+    @ManyToMany(fetch = FetchType.EAGER)
+    public Set<UserRoleEntity> getRoles() {
+        return roles;
+    }
 
-  public UserEntity setRoles(Set<UserRoleEntity> roles) {
-    this.roles = roles;
-    return this;
-  }
+    public UserEntity setRoles(Set<UserRoleEntity> roles) {
+        this.roles = roles;
+        return this;
+    }
 
-  @OneToMany
-  public List<CocktailEntity> getFavoriteCocktails() {
-    return favoriteCocktailEntities;
-  }
+    @OneToMany
+    public List<CocktailEntity> getFavoriteCocktails() {
+        return favoriteCocktailEntities;
+    }
 
-  public UserEntity setFavoriteCocktails(List<CocktailEntity> myCocktailEntities) {
-    this.favoriteCocktailEntities = myCocktailEntities;
-    return this;
-  }
+    public UserEntity setFavoriteCocktails(List<CocktailEntity> myCocktailEntities) {
+        this.favoriteCocktailEntities = myCocktailEntities;
+        return this;
+    }
 
-  public UserEntity addRole(UserRoleEntity roleEntity) {
-    this.roles.add(roleEntity);
-    return this;
-  }
+    public UserEntity addRole(UserRoleEntity roleEntity) {
+        this.roles.add(roleEntity);
+        return this;
+    }
 
 
 }

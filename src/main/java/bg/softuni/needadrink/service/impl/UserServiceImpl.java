@@ -10,6 +10,7 @@ import bg.softuni.needadrink.domain.models.service.UserRegisterServiceModel;
 import bg.softuni.needadrink.domain.models.service.UserServiceModel;
 import bg.softuni.needadrink.error.CocktailNotFoundException;
 import bg.softuni.needadrink.service.CloudinaryService;
+import bg.softuni.needadrink.service.CommentService;
 import bg.softuni.needadrink.service.LogService;
 import bg.softuni.needadrink.util.Constants;
 import bg.softuni.needadrink.error.RoleNotFoundException;
@@ -26,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -45,12 +47,13 @@ public class UserServiceImpl implements UserService {
     private final CocktailRepository cocktailRepository;
     private final LogService logService;
     private final CloudinaryService cloudinaryService;
+    private final CommentService commentService;
 
 //    @Value("${admin-init.admin-pass}")
 //    private String pass;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService, CloudinaryService cloudinaryService) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserRoleRepository userRoleRepository, NeedADrinkUserService needADrinkUserService, CocktailRepository cocktailRepository, LogService logService, CloudinaryService cloudinaryService, CommentService commentService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
@@ -59,6 +62,7 @@ public class UserServiceImpl implements UserService {
         this.cocktailRepository = cocktailRepository;
         this.logService = logService;
         this.cloudinaryService = cloudinaryService;
+        this.commentService = commentService;
     }
 
     @Override
@@ -198,6 +202,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String id) {
         UserEntity userEntity = this.userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Constants.USER_ID_NOT_FOUND));
+
+        this.commentService.deleteAllCommentsByUserId(id);
 
         LogServiceModel logServiceModel = new LogServiceModel();
         logServiceModel.setUsername(userEntity.getEmail());
