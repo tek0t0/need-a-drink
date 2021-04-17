@@ -27,7 +27,6 @@ public class HomeController {
 
 
     @GetMapping("/")
-    @PreAuthorize("isAnonymous()")
     @PageTitle("Welcome")
     public String index(Principal principal) {
         if (principal != null) {

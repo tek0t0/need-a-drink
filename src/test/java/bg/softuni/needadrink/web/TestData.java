@@ -2,6 +2,7 @@ package bg.softuni.needadrink.web;
 
 import bg.softuni.needadrink.domain.entities.*;
 import bg.softuni.needadrink.repositiry.*;
+import org.springframework.boot.test.context.TestConfiguration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
+@TestConfiguration
 public class TestData {
     private String testArticleId;
     private String testCommentId;
